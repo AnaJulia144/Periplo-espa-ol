@@ -135,6 +135,9 @@ _(se irá llenando)_
 - 2026-11-16: **Vercel conectado y publicado:** https://periplo-espa-ol.vercel.app (panel en `/panel/`). Cada `git push` a `main` se publica solo. El equipo en Vercel se llama `periplo-es`. `.vercelignore` evita publicar `juegos/originales-gemini`, `Plan de estudios`, `CLAUDE.md` y `BITACORA.md`. Ojo: el repo de GitHub es **público**.
 - 2026-11-16: **UNO recibido** → guardado tal cual en `juegos/originales-gemini/uno-conjugacion.html` (solo referencia). Mecánica: salas en línea con código de 4 letras, hasta 4 jugadores + maestra como observadora; ruleta elige pronombre → jugar una carta (frase conjugada) de ese pronombre; error = ventana con explicación y pierde turno; robar del mazo; gana quien se queda sin cartas. Contenido: lista `VERBS` (verbo, 5 conjugaciones, complementos, expresiones de tiempo) = verbos de la semana 19. Depende de Gemini: `__firebase_config`, `__app_id`, `__initial_auth_token`; **necesita Firebase real** para las salas. Restos sin usar: mini-reto "Misterio" (memoria / género), comodín "?", marca de agua "RUTINA".
 
+- 2026-11-16: **El repo se queda público** (Vercel gratis solo publica solo con repo público). Regla: nunca contraseñas ni llaves de IA en el repo. Había una 2.ª carpeta local `Documents\GitHub\Periplo-espa-ol` (clon viejo de GitHub Desktop, solo el commit inicial + copia idéntica del UNO) → se mandó a la Papelera. En GitHub siempre hubo un solo repo: GitHub no acepta "ñ" y la cambió por "-".
+- 2026-11-16: **UNO nuevo construido** (`juegos/uno/index.html`): motor general de "cartas por grupo" (2 a 5 grupos), colores cálidos (añil, terracota, ocre, olivo, ciruela), sin el mini-reto "Misterio" (queda para después como opción). Nombres de jugadores, link para WhatsApp con la sala (`?v=…&sala=…`), maestra como observadora ve las manos con color. Salas en Firestore `salas/{código}`, entrada anónima. Las versiones viven en `datos/versiones.js` (primera: `uno-s19-preterito`). Firebase en `datos/firebase.js` (hoy `null`). El panel muestra las versiones en Semana → Práctica (Abrir / Copiar link).
+
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 
 - Cálido y artesanal: tonos tierra (terracota, ocre, crema), sensación de papel/hecho a mano.
@@ -174,6 +177,9 @@ _(se irá llenando)_
 - `panel/index.html`: **el hub de Anita** (React + Tailwind desde internet, sin compilar). Navegación por la dirección: `#/inicio`, `#/semana/19`, `#/semana/19/practica`, `#/juegos`, `#/alumnos`, `#/calendario`.
 - `datos/curso.js`: **fuente única** del plan y el vocabulario (lo edita Claude cuando Anita pide cambios).
 - `datos/alumnos.js`: alumnos (David), grupos (Curso nuevo), lista de juegos e ideas de juegos.
+- `datos/versiones.js`: el stock de versiones de juegos (motor + contenido).
+- `datos/firebase.js`: configuración web de Firebase (pública por diseño).
+- `juegos/uno/`: motor del UNO. `juegos/originales-gemini/`: códigos originales de Gemini (no se publican).
 - `abrir-sitio.cmd`: doble clic → abre el sitio en `http://localhost:8080/panel/` (usa `herramientas/servidor.ps1`).
 - Colores (en `:root` del panel): papel `#F4ECDF`, hoja `#FBF7F0`, tinta `#3A2A1F`, terracota `#B4532F`, ocre `#B97D22`, olivo `#5B6A36`. Letras: **Fraunces** (títulos) y **Source Sans 3** (texto).
 

@@ -65,6 +65,7 @@
   <!-- Datos: curso.js es la fuente única del plan y el vocabulario -->
   <script src="../datos/curso.js"></script>
   <script src="../datos/alumnos.js"></script>
+  <script src="../datos/versiones.js"></script>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
@@ -77,6 +78,7 @@
     const ALUMNOS = window.ALUMNOS || [];
     const GRUPOS = window.GRUPOS || [];
     const JUEGOS = window.JUEGOS || [];
+    const VERSIONES = window.VERSIONES || [];
     const IDEAS = window.IDEAS_JUEGOS || [];
 
     const NIVELES = [
@@ -401,14 +403,45 @@
       );
     }
 
+    function VersionJuego({ v }) {
+      const [copiado, setCopiado] = React.useState(false);
+      const ruta = `../juegos/${v.juego}/?v=${v.id}`;
+      const link = new URL(ruta, location.href).href;
+      const copiar = async () => {
+        try { await navigator.clipboard.writeText(link); setCopiado(true); setTimeout(() => setCopiado(false), 2000); } catch {}
+      };
+      return (
+        <div className="tarjeta p-4 flex flex-col">
+          <p className="text-xs font-bold uppercase tracking-wide text-terracota">{v.juego}</p>
+          <p className="font-semibold">{v.titulo}</p>
+          <p className="text-xs text-suave mb-4">{v.subtitulo}</p>
+          <div className="mt-auto flex gap-2">
+            <a href={ruta} target="_blank" className="flex-1 text-center rounded-lg bg-terracota text-white text-sm font-semibold py-2">Abrir</a>
+            <button onClick={copiar} className="flex-1 rounded-lg border border-linea bg-papel text-sm font-semibold py-2">{copiado ? '¡Copiado!' : 'Copiar link'}</button>
+          </div>
+        </div>
+      );
+    }
+
     function Practica({ s }) {
+      const versiones = VERSIONES.filter(v => v.semana === s.n);
       return (
         <div className="space-y-4">
-          <Vacio titulo="Todavía no hay juegos en esta semana">
-            Cuando migremos tus juegos de Gemini, aquí eliges una mecánica y se arma sola con las palabras de la semana {s.n}.
-          </Vacio>
+          {versiones.length ? (
+            <div>
+              <p className="font-titulo text-lg mb-2">Juegos listos de esta semana</p>
+              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
+                {versiones.map(v => <VersionJuego key={v.id} v={v} />)}
+              </div>
+            </div>
+          ) : (
+            <Vacio titulo="Todavía no hay juegos en esta semana">
+              Cuando migremos tus juegos de Gemini, aquí eliges una mecánica y se arma sola con las palabras de la semana {s.n}.
+            </Vacio>
+          )}
+          <p className="font-titulo text-lg pt-2">Por migrar</p>
           <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
-            {JUEGOS.map(j => (
+            {JUEGOS.filter(j => !VERSIONES.some(v => v.juego === j.id)).map(j => (
               <div key={j.id} className="tarjeta p-4 opacity-80">
                 <p className="font-semibold">{j.nombre}</p>
                 <p className="text-xs text-suave mb-3">Usa: {j.usa}</p>

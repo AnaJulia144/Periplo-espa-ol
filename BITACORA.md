@@ -13,7 +13,7 @@
 |---|----------|--------|------------|
 | 1 | Plan de estudios oficial | Base lista (sem. 1–19), falta reinventar 20 en adelante | 2026-11-16 |
 | 2 | Hub de la maestra y portal del alumno | Hub listo y publicado en Vercel | 2026-11-16 |
-| 3 | Código de los juegos (los "motores") | UNO recibido y revisado; faltan 3 decisiones | 2026-11-16 |
+| 3 | Código de los juegos (los "motores") | UNO construido; falta conectar Firebase | 2026-11-16 |
 | 4 | Versiones de los juegos (bibliotecas de contenido) | Idea definida, sin empezar | 2026-11-16 |
 | 5 | Seguimiento de David | Va en la semana 19, modo experimental | 2026-11-16 |
 
@@ -78,7 +78,11 @@
 
 **Dónde me quedé (2026-11-16):** recibido el **UNO de conjugación** (guardado en `juegos/originales-gemini/`). Revisado: funciona con salas en línea, así que **necesita Firebase**. Propuesta: motor general de "cartas por categoría" (pronombres, el/la/los/las, un/una…), con generador automático de frases para conjugación.
 
-**Siguiente paso:** Anita decide (1) crear Firebase ya, (2) si se rescata el mini-reto "Misterio", (3) look cálido vs. colores originales. Después: construir el motor del UNO.
+**Decisiones:** Firebase sí · "Misterio" fuera por ahora (después, como opción) · colores de Anita.
+
+**Hecho (2026-11-16):** motor del UNO construido en `juegos/uno/` con la versión de la semana 19. Probado con una simulación: menú de sala, juego, carta equivocada, vista de maestra.
+
+**Siguiente paso:** Anita crea Firebase y pasa la configuración → Claude la conecta → primera partida de prueba real.
 
 ---
 
@@ -117,3 +121,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (2) Esqueleto del hub en localhost, una sola carpeta del proyecto.
 - **2026-11-16** · (1) Semanas 1–19 a `datos/curso.js`, comparación con el Cervantes, traducciones al inglés de las 1,101 palabras. Se creó esta bitácora con los 5 proyectos.
 - **2026-11-16** · (2, 3) Vercel conectado y primer deploy confirmado. Recibido y revisado el UNO de conjugación.
+- **2026-11-16** · (2, 3) Una sola carpeta local (la vieja a la Papelera). Motor del UNO construido con colores cálidos y conectado al panel. Pendiente: crear Firebase.

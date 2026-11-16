@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNO · Periplo-español</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { papel:'#F4ECDF', hoja:'#FBF7F0', linea:'#E0D1BB', tinta:'#3A2A1F', suave:'#7A6555',
+                terracota:'#B4532F', ocre:'#B97D22', olivo:'#5B6A36', mesa:'#4A5A2E', mesaosc:'#3B4824' },
+      fontFamily: { titulo:['Fraunces','serif'], texto:['"Source Sans 3"','sans-serif'] },
+    } } };
+  </script>
+  <style>
+    body { margin:0; background:#F4ECDF; color:#3A2A1F; font-family:"Source Sans 3",sans-serif;
+           background-image: radial-gradient(rgba(58,42,31,.07) 1px, transparent 1px); background-size: 18px 18px; }
+    .tarjeta { background:#FBF7F0; border:1px solid #E0D1BB; border-radius:16px; box-shadow:0 1px 2px rgba(58,42,31,.06), 0 8px 24px -12px rgba(58,42,31,.18); }
+    .boton { border-radius:12px; font-weight:700; transition:transform .1s, filter .15s; }
+    .boton:active:not(:disabled) { transform:scale(.97); }
+    .boton:hover:not(:disabled) { filter:brightness(1.07); }
+    .boton:disabled { opacity:.45; cursor:not-allowed; }
+    .paño { background-color:#4A5A2E; background-image: radial-gradient(rgba(255,255,255,.06) 1.5px, transparent 1.5px); background-size:16px 16px; }
+    @keyframes latido { from { opacity:.55; transform:scale(.95); } to { opacity:1; transform:scale(1.04); } }
+    .girando { animation: latido .35s ease-in-out infinite alternate; }
+    @keyframes vuelta { to { transform: rotate(360deg); } }
+    .dado { animation: vuelta 1.2s linear infinite; }
+    .scroll::-webkit-scrollbar { height:8px; } .scroll::-webkit-scrollbar-thumb { background:#E0D1BB; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="../../datos/firebase.js"></script>
+  <script src="../../datos/versiones.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+
+  <script type="text/babel" data-type="module" data-presets="react">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const { useState, useEffect } = React;
+
+    // ---------- Conexión ----------
+    const CONFIG = window.FIREBASE_CONFIG;
+    let auth = null, db = null;
+    if (CONFIG) { const app = initializeApp(CONFIG); auth = getAuth(app); db = getFirestore(app); }
+    const refSala = (codigo) => doc(db, 'salas', codigo);
+
+    // ---------- Versión elegida (?v=...) ----------
+    const params = new URLSearchParams(location.search);
+    const VERSIONES_UNO = (window.VERSIONES || []).filter(v => v.juego === 'uno');
+    const VERSION = VERSIONES_UNO.find(v => v.id === params.get('v'));
+
+    // Colores de los grupos (por posición), en la paleta del sitio
+    const COLORES = [
+      { fondo:'#3E5C8A', texto:'#FFFFFF' },  // añil
+      { fondo:'#B4432F', texto:'#FFFFFF' },  // terracota
+      { fondo:'#D9A13B', texto:'#3A2A1F' },  // ocre
+      { fondo:'#5B7A3A', texto:'#FFFFFF' },  // olivo
+      { fondo:'#7A4A7E', texto:'#FFFFFF' },  // ciruela
+    ];
+
+    // ---------- Utilidades ----------
+    const azar = (lista) => (lista && lista.length) ? lista[Math.floor(Math.random() * lista.length)] : '';
+    const barajar = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    const leerNombre = () => { try { return localStorage.getItem('uno-nombre') || ''; } catch { return ''; } };
+    const guardarNombre = (n) => { try { localStorage.setItem('uno-nombre', n); } catch {} };
+
+    // Arma todas las cartas posibles de una versión: { t: texto, g: número de grupo }
+    function cartasDeVersion(v) {
+      if (v.cartas) {
+        return v.cartas.map(c => ({ t: c.texto, g: v.grupos.findIndex(x => x.id === c.grupo) })).filter(c => c.g >= 0);
+      }
+      const conj = v.conjugacion || { verbos: [] };
+      const cartas = [];
+      conj.verbos.forEach(vb => vb.formas.forEach((forma, g) => {
+        for (let k = 0; k < 2; k++) {
+          const no = Math.random() < (conj.negativas || 0) ? 'no ' : '';
+          const tiempo = azar(vb.tiempos), comp = azar(vb.complementos);
+          const t = vb.tiempoAlInicio ? `${tiempo} ${no}${forma} ${comp}` : `${no}${forma} ${comp} ${tiempo}`;
+          cartas.push({ t: t.replace(/\s+/g, ' ').trim(), g });
+        }
+      }));
+      return cartas;
+    }
+
+    // Mazo con la misma cantidad de cartas para cada grupo
+    function armarMazo(v, total) {
+      const todas = cartasDeVersion(v);
+      if (!todas.length) return [];
+      const n = v.grupos.length;
+      const cupo = Array.from({ length: n }, (_, i) => Math.floor(total / n) + (i < total % n ? 1 : 0));
+      const mazo = [];
+      for (const c of barajar(todas)) {
+        if (mazo.length >= total) break;
+        if (cupo[c.g] > 0) { mazo.push(c); cupo[c.g]--; }
+      }
+      while (mazo.length < total) mazo.push(azar(todas));
+      return barajar(mazo);
+    }
+
+    const siguienteTurno = (turno, jugadores) => {
+      let s = Number(turno);
+      for (let i = 0; i < 4; i++) { s = s >= 4 ? 1 : s + 1; if (jugadores[s]) return s; }
+      return Number(turno);
+    };
+
+    // ---------- Piezas visuales ----------
+    function Titulo({ sub }) {
+      return (
+        <div className="text-center">
+          <div className="flex justify-center gap-1.5 mb-4">
+            {COLORES.map((c, i) => (
+              <span key={i} className="w-7 h-10 rounded-md border-2 border-hoja shadow"
+                    style={{ background: c.fondo, transform: `rotate(${(i - 2) * 7}deg) translateY(${Math.abs(i - 2) * 3}px)` }} />
+            ))}
+          </div>
+          <h1 className="font-titulo text-4xl font-bold tracking-tight">UNO</h1>
+          {sub && <p className="text-suave mt-1">{sub}</p>}
+        </div>
+      );
+    }
+
+    function TextoCarta({ t }) {
+      const larga = Math.max(...t.split(' ').map(p => p.length));
+      const tam = (t.length > 26 || larga > 10) ? 'text-[10px] sm:text-[11px]' : t.length > 15 ? 'text-[11px] sm:text-xs' : 'text-xs sm:text-sm';
+      return <span className={`font-semibold text-tinta text-center leading-tight break-words w-full px-1 ${tam}`}>{t}</span>;
+    }
+
+    function Ficha({ grupo, grupos, grande }) {
+      const c = COLORES[grupo] || COLORES[0];
+      return (
+        <span className={`inline-block rounded-lg font-bold ${grande ? 'px-4 py-2 text-2xl' : 'px-2.5 py-1 text-sm'}`}
+              style={{ background: c.fondo, color: c.texto }}>{grupos[grupo]?.nombre}</span>
+      );
+    }
+
+    function Ventana({ children, borde = '#E0D1BB' }) {
+      return (
+        <div className="fixed inset-0 z-50 bg-tinta/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="tarjeta w-full max-w-lg p-6 sm:p-8 max-h-[92vh] overflow-y-auto" style={{ borderTop: `6px solid ${borde}` }}>{children}</div>
+        </div>
+      );
+    }
+
+    // ---------- La app ----------
+    function App() {
+      const [usuario, setUsuario] = useState(null);
+      const [codigo, setCodigo] = useState('');
+      const [sala, setSala] = useState(null);
+      const [entrada, setEntrada] = useState((params.get('sala') || '').toUpperCase());
+      const [nombre, setNombre] = useState(leerNombre());
+      const [aviso, setAviso] = useState(null);
+      const [error, setError] = useState('');
+      const [ocupado, setOcupado] = useState(false);
+      const [copiado, setCopiado] = useState(false);
+
+      useEffect(() => {
+        if (!auth) return;
+        signInAnonymously(auth).catch(e => { console.error(e); setError('No se pudo conectar. Revisa tu internet.'); });
+        return onAuthStateChanged(auth, setUsuario);
+      }, []);
+
+      useEffect(() => {
+        if (!usuario || !codigo) { setSala(null); return; }
+        return onSnapshot(refSala(codigo), (s) => {
+          if (s.exists()) setSala(s.data());
+          else { setSala(null); setCodigo(''); setError('Esa sala no existe o ya se cerró.'); }
+        }, (e) => { console.error(e); setError('No se pudo leer la sala.'); setCodigo(''); });
+      }, [usuario, codigo]);
+
+      useEffect(() => {
+        if (!sala?.aviso?.ts) return;
+        setAviso(sala.aviso);
+        const t = setTimeout(() => setAviso(null), 2500);
+        return () => clearTimeout(t);
+      }, [sala?.aviso?.ts]);
+
+      const actualizar = async (cambios) => {
+        if (!codigo) return;
+        try { await updateDoc(refSala(codigo), cambios); }
+        catch (e) { console.error(e); setError('No se guardó el movimiento. Revisa tu internet.'); }
+      };
+      const conCandado = async (fn) => { if (ocupado) return; setOcupado(true); try { await fn(); } finally { setOcupado(false); } };
+
+      // ----- Sin Firebase / sin versión -----
+      if (!CONFIG) {
+        return (
+          <Centro>
+            <Titulo sub={VERSION ? VERSION.titulo : null} />
+            <div className="mt-6 rounded-xl bg-ocre/10 border border-ocre/40 p-4 text-sm">
+              <p className="font-bold mb-1">Falta conectar Firebase</p>
+              <p className="text-suave">Las salas del UNO viven en Firebase. En cuanto Anita pegue su configuración en <code>datos/firebase.js</code>, este juego funciona.</p>
+            </div>
+          </Centro>
+        );
+      }
+      if (!VERSION && !codigo) {
+        return (
+          <Centro>
+            <Titulo sub="Elige una versión" />
+            <div className="mt-6 space-y-2">
+              {VERSIONES_UNO.map(v => (
+                <a key={v.id} href={`?v=${v.id}`} className="block rounded-xl border border-linea bg-papel/60 hover:bg-papel p-3">
+                  <p className="font-semibold">{v.titulo}</p>
+                  <p className="text-xs text-suave">Semana {v.semana} · {v.subtitulo}</p>
+                </a>
+              ))}
+            </div>
+          </Centro>
+        );
+      }
+
+      // ----- Crear / unirse -----
+      const crearSala = () => conCandado(async () => {
+        if (!usuario) return;
+        guardarNombre(nombre.trim());
+        let cod = '';
+        for (let i = 0; i < 5; i++) {
+          cod = Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)]).join('');
+          if (!(await getDoc(refSala(cod))).exists()) break;
+        }
+        try {
+          await setDoc(refSala(cod), {
+            codigo: cod, version: VERSION.id, titulo: VERSION.titulo, grupos: VERSION.grupos,
+            creador: usuario.uid, creada: Date.now(), estado: 'MENU',
+            jugadores: { 1: usuario.uid, 2: null, 3: null, 4: null }, observadores: [],
+            nombres: { [usuario.uid]: nombre.trim() },
+            mazo: [], manos: { 1: [], 2: [], 3: [], 4: [] },
+            grupoActual: null, cartaMesa: null, turno: 1, girando: false,
+            ganador: null, fallo: null, pausa: false, aviso: null,
+          });
+          setError(''); setCodigo(cod);
+        } catch (e) { console.error(e); setError('No se pudo crear la sala.'); }
+      });
+
+      const unirse = async () => {
+        if (!usuario || entrada.length < 4) return;
+        guardarNombre(nombre.trim());
+        const cod = entrada.trim().toUpperCase();
+        try {
+          const s = await getDoc(refSala(cod));
+          if (!s.exists()) { setError('No encontré esa sala. Revisa el código.'); return; }
+          await updateDoc(refSala(cod), { [`nombres.${usuario.uid}`]: nombre.trim() });
+          setError(''); setCodigo(cod);
+        } catch (e) { console.error(e); setError('No se pudo entrar a la sala.'); }
+      };
+
+      if (!codigo) {
+        return (
+          <Centro>
+            <Titulo sub={VERSION.titulo + (VERSION.subtitulo ? ' · ' + VERSION.subtitulo : '')} />
+            {error && <p className="mt-5 rounded-lg bg-terracota/10 border border-terracota/40 text-terracota text-sm font-semibold p-3">{error}</p>}
+            <label className="block mt-6 text-xs font-bold uppercase tracking-wide text-suave">Tu nombre</label>
+            <input value={nombre} onChange={e => setNombre(e.target.value)} maxLength={20} placeholder="Ej. David"
+                   className="mt-1 w-full rounded-xl border border-linea bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-terracota/40" />
+            <button onClick={crearSala} disabled={!usuario || ocupado} className="boton mt-5 w-full py-3.5 bg-terracota text-white text-lg">Crear sala nueva</button>
+            <div className="flex items-center gap-3 my-5 text-xs font-bold text-suave"><span className="flex-1 border-t border-linea" />O ENTRA A UNA<span className="flex-1 border-t border-linea" /></div>
+            <div className="flex gap-2">
+              <input value={entrada} onChange={e => setEntrada(e.target.value.toUpperCase())} maxLength={4} placeholder="CÓDIGO"
+                     className="flex-1 min-w-0 rounded-xl border border-linea bg-white px-4 py-3 text-center text-xl font-bold tracking-[0.3em] uppercase focus:outline-none focus:ring-2 focus:ring-terracota/40" />
+              <button onClick={unirse} disabled={!usuario || entrada.length < 4} className="boton px-6 bg-olivo text-white text-lg">Entrar</button>
+            </div>
+          </Centro>
+        );
+      }
+
+      if (!sala) return <Centro><p className="text-center text-suave">Conectando con la sala…</p></Centro>;
+
+      // ----- Datos de la sala -----
+      const G = sala.grupos;
+      const uid = usuario?.uid;
+      const miNum = Object.keys(sala.jugadores).find(k => sala.jugadores[k] === uid);
+      const miNumero = miNum ? Number(miNum) : null;
+      const soyObservador = (sala.observadores || []).includes(uid);
+      const miTurno = miNumero && sala.turno === miNumero;
+      const puedoDirigir = uid === sala.creador || miNumero === 1;
+      const nombreDe = (n) => (sala.nombres || {})[sala.jugadores[n]] || `Jugador ${n}`;
+      const linkSala = `${location.origin}${location.pathname}?v=${sala.version}&sala=${sala.codigo}`;
+
+      const salir = async () => {
+        const jugadores = { ...sala.jugadores };
+        Object.keys(jugadores).forEach(k => { if (jugadores[k] === uid) jugadores[k] = null; });
+        await actualizar({ jugadores, observadores: (sala.observadores || []).filter(x => x !== uid) });
+        setCodigo(''); setSala(null);
+      };
+
+      const tomarLugar = (lugar) => {
+        const jugadores = { ...sala.jugadores };
+        Object.keys(jugadores).forEach(k => { if (jugadores[k] === uid) jugadores[k] = null; });
+        let observadores = (sala.observadores || []).filter(x => x !== uid);
+        if (lugar === 'obs') observadores.push(uid); else jugadores[lugar] = uid;
+        actualizar({ jugadores, observadores });
+      };
+
+      const empezar = () => conCandado(async () => {
+        const activos = [1, 2, 3, 4].filter(n => sala.jugadores[n]);
+        if (!activos.length) return;
+        const version = VERSIONES_UNO.find(v => v.id === sala.version) || { ...VERSION, grupos: G };
+        const mazo = armarMazo(version, activos.length <= 2 ? 65 : 115);
+        const manos = { 1: [], 2: [], 3: [], 4: [] };
+        let i = 0;
+        activos.forEach(n => { manos[n] = mazo.slice(i, i + 10); i += 10; });
+        await actualizar({
+          estado: 'JUGANDO', mazo: mazo.slice(i), manos, grupoActual: null, cartaMesa: null,
+          turno: activos[0], girando: false, ganador: null, fallo: null, pausa: false,
+          aviso: { texto: `¡Empieza el juego! Turno de ${nombreDe(activos[0])}.`, tipo: 'info', ts: Date.now() },
+        });
+      });
+
+      // ----- Menú de la sala -----
+      if (sala.estado === 'MENU') {
+        const hayJugadores = [1, 2, 3, 4].some(n => sala.jugadores[n]);
+        const copiar = async () => { try { await navigator.clipboard.writeText(linkSala); setCopiado(true); setTimeout(() => setCopiado(false), 2000); } catch {} };
+        return (
+          <Centro>
+            <button onClick={salir} className="text-sm text-suave hover:text-tinta">← Salir</button>
+            <p className="text-center text-xs font-bold uppercase tracking-widest text-suave mt-2">Código de sala</p>
+            <p className="text-center font-titulo text-5xl font-bold tracking-[0.25em] my-2">{sala.codigo}</p>
+            <p className="text-center text-sm text-suave">{sala.titulo}</p>
+            <button onClick={copiar} className="boton mt-3 w-full py-2.5 border border-linea bg-papel text-sm">{copiado ? '¡Link copiado!' : 'Copiar link para WhatsApp'}</button>
+
+            <p className="mt-6 mb-2 text-sm font-bold">Elige tu lugar (máximo 4 jugadores)</p>
+            <div className="grid grid-cols-2 gap-2">
+              {[1, 2, 3, 4].map(n => {
+                const quien = sala.jugadores[n], esYo = quien === uid, ocupadoPorOtro = quien && !esYo;
+                return (
+                  <button key={n} onClick={() => tomarLugar(n)} disabled={ocupadoPorOtro}
+                          className={`boton p-3 text-left border-2 ${esYo ? 'border-terracota bg-terracota/10' : 'border-linea bg-white'}`}>
+                    <span className="block text-xs text-suave">Jugador {n}</span>
+                    <span className="block truncate">{quien ? nombreDe(n) + (esYo ? ' (tú)' : '') : 'Libre'}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <button onClick={() => tomarLugar('obs')}
+                    className={`boton mt-2 w-full p-3 border-2 ${soyObservador ? 'border-olivo bg-olivo/10' : 'border-linea bg-white'}`}>
+              Entrar como observadora (maestra){soyObservador ? ' ✓' : ''}
+            </button>
+            <button onClick={empezar} disabled={!puedoDirigir || !hayJugadores || ocupado}
+                    className="boton mt-6 w-full py-4 bg-olivo text-white text-xl">
+              {puedoDirigir ? 'Empezar el juego' : 'Esperando a quien creó la sala…'}
+            </button>
+          </Centro>
+        );
+      }
+
+      // ----- Acciones del juego -----
+      const bloqueado = sala.estado !== 'JUGANDO' || sala.fallo || sala.pausa || sala.girando || ocupado;
+
+      const girar = () => {
+        if (bloqueado || !miTurno || sala.grupoActual !== null) return;
+        conCandado(async () => {
+          const elegido = Math.floor(Math.random() * G.length);
+          await actualizar({ girando: true });
+          await new Promise(r => setTimeout(r, 900));
+          await actualizar({ girando: false, grupoActual: elegido,
+            aviso: { texto: `Busca una carta para: ${G[elegido].nombre.toUpperCase()}`, tipo: 'alerta', ts: Date.now() } });
+        });
+      };
+
+      const jugar = (i) => {
+        if (bloqueado || !miTurno || sala.grupoActual === null) return;
+        conCandado(async () => {
+          const mano = sala.manos[miNumero], carta = mano[i];
+          if (!carta) return;
+          if (carta.g === sala.grupoActual) {
+            const nueva = mano.filter((_, k) => k !== i);
+            const cambios = { [`manos.${miNumero}`]: nueva, cartaMesa: carta, grupoActual: null,
+              turno: siguienteTurno(sala.turno, sala.jugadores),
+              aviso: { texto: `¡${nombreDe(miNumero)} acertó!`, tipo: 'bien', ts: Date.now() } };
+            if (!nueva.length) { cambios.ganador = nombreDe(miNumero); cambios.estado = 'FIN'; }
+            await actualizar(cambios);
+          } else {
+            await actualizar({ fallo: { jugador: miNumero, texto: carta.t, correcto: carta.g, pedido: sala.grupoActual } });
+          }
+        });
+      };
+
+      const cerrarFallo = () => conCandado(() => actualizar({ fallo: null, grupoActual: null, turno: siguienteTurno(sala.turno, sala.jugadores) }));
+
+      const puedeRobar = !bloqueado && miTurno && sala.grupoActual !== null && sala.mazo.length > 0;
+      const robar = () => { if (puedeRobar) conCandado(() => actualizar({ mazo: sala.mazo.slice(1), [`manos.${miNumero}`]: [...sala.manos[miNumero], sala.mazo[0]] })); };
+      const tengoCarta = miNumero && sala.manos[miNumero]?.some(c => c.g === sala.grupoActual);
+      const pasar = () => conCandado(() => actualizar({ grupoActual: null, turno: siguienteTurno(sala.turno, sala.jugadores) }));
+
+      const activos = [1, 2, 3, 4].filter(n => sala.jugadores[n]);
+
+      // ----- Pantalla de juego -----
+      return (
+        <div className="min-h-screen flex flex-col select-none">
+          {/* Barra de arriba */}
+          <div className="bg-hoja border-b border-linea px-3 py-2 flex items-center gap-2 flex-wrap">
+            <span className="font-titulo font-bold text-lg mr-1">UNO</span>
+            <span className="text-xs text-suave mr-auto">Sala {sala.codigo}{soyObservador ? ' · observando' : ''}</span>
+            {activos.map(n => (
+              <span key={n} className={`text-xs rounded-full px-2.5 py-1 border ${sala.turno === n ? 'bg-ocre text-white border-ocre' : 'bg-white border-linea'}`}>
+                {nombreDe(n)} · {sala.manos[n].length}
+              </span>
+            ))}
+            <button onClick={() => actualizar({ pausa: true })} className="boton ml-1 px-3 py-1 border border-linea bg-white text-sm">Pausa</button>
+          </div>
+
+          {/* Ruleta de grupos */}
+          <div className="bg-hoja/70 border-b border-linea p-3 text-center">
+            <p className="font-titulo text-xl sm:text-2xl font-semibold mb-2">Turno de {nombreDe(sala.turno)}</p>
+            <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3">
+              {G.map((g, i) => {
+                const c = COLORES[i], activo = sala.grupoActual === i;
+                return (
+                  <div key={g.id} className={`rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[4.5rem] sm:min-w-[7rem] text-xs sm:text-base font-bold transition-all ${sala.girando ? 'girando' : ''}`}
+                       style={{ background: activo || sala.girando ? c.fondo : '#EDE2D0', color: activo || sala.girando ? c.texto : '#A8927E',
+                                transform: activo ? 'scale(1.1)' : 'none', boxShadow: activo ? '0 0 0 3px #FBF7F0, 0 0 0 5px ' + c.fondo : 'none' }}>
+                    {g.nombre}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Mesa */}
+          <div className="paño flex-1 relative flex items-center justify-center gap-4 sm:gap-10 px-2 py-6">
+            {aviso && (
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 rounded-full px-5 py-2 font-semibold text-white shadow-lg text-sm sm:text-base whitespace-nowrap"
+                   style={{ background: aviso.tipo === 'bien' ? '#5B7A3A' : aviso.tipo === 'alerta' ? '#B97D22' : '#3A2A1F' }}>{aviso.texto}</div>
+            )}
+
+            <div className="flex flex-col items-center">
+              <span className="text-hoja/70 text-xs font-bold tracking-widest mb-2">MAZO</span>
+              <button onClick={robar} disabled={!puedeRobar}
+                      className={`w-16 h-24 sm:w-24 sm:h-36 rounded-xl border-4 border-hoja/80 shadow-xl flex flex-col items-center justify-center text-hoja transition -rotate-3 ${puedeRobar ? 'hover:-translate-y-1 cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
+                      style={{ background: 'repeating-linear-gradient(45deg,#B4532F 0 8px,#9E4527 8px 16px)' }}>
+                <span className="text-xs font-bold">ROBAR</span>
+                <span className="font-titulo text-xl font-bold">{sala.mazo.length}</span>
+              </button>
+              {miTurno && sala.grupoActual !== null && !sala.mazo.length && !tengoCarta && (
+                <button onClick={pasar} className="boton mt-3 px-4 py-1.5 bg-hoja text-tinta text-sm">Pasar</button>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center">
+              <span className="text-hoja/70 text-xs font-bold tracking-widest mb-2">EN LA MESA</span>
+              <div className="w-20 h-28 sm:w-32 sm:h-48 flex items-center justify-center">
+                {sala.cartaMesa ? (
+                  <div className="w-full h-full rounded-xl shadow-2xl flex flex-col items-center justify-center p-1.5 rotate-2" style={{ background: COLORES[sala.cartaMesa.g].fondo }}>
+                    <span className="text-[10px] sm:text-sm font-bold mb-1 text-center leading-tight" style={{ color: COLORES[sala.cartaMesa.g].texto }}>{G[sala.cartaMesa.g].nombre}</span>
+                    <div className="bg-hoja rounded-lg w-full flex-1 flex items-center justify-center"><TextoCarta t={sala.cartaMesa.t} /></div>
+                  </div>
+                ) : (
+                  <div className="w-full h-full rounded-xl border-4 border-dashed border-hoja/30 flex items-center justify-center text-hoja/40 text-xs font-bold text-center">MESA<br />VACÍA</div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <span className="text-hoja/70 text-xs font-bold tracking-widest mb-2">RULETA</span>
+              <div className="w-20 h-28 sm:w-32 sm:h-48 rounded-xl border-4 border-hoja/30 flex items-center justify-center p-1.5">
+                {sala.girando ? <span className="dado text-4xl">🎲</span>
+                 : sala.grupoActual !== null ? (
+                   <div className="w-full h-full rounded-lg flex items-center justify-center text-center font-bold text-xs sm:text-lg px-1 leading-tight"
+                        style={{ background: COLORES[sala.grupoActual].fondo, color: COLORES[sala.grupoActual].texto }}>{G[sala.grupoActual].nombre}</div>
+                 ) : miTurno ? (
+                   <button onClick={girar} disabled={ocupado} className="boton w-full h-full bg-hoja/10 hover:bg-hoja/20 text-hoja flex flex-col items-center justify-center text-xs sm:text-sm">
+                     <span className="text-3xl sm:text-4xl mb-1">🎲</span>GIRAR
+                   </button>
+                 ) : <span className="text-hoja/40 text-xs font-bold text-center">ESPERANDO<br />GIRO</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Mano del jugador o vista de la maestra */}
+          {soyObservador ? (
+            <div className="bg-hoja border-t border-linea p-3 grid sm:grid-cols-2 gap-3">
+              {activos.map(n => (
+                <div key={n} className={`rounded-xl border-2 p-3 ${sala.turno === n ? 'border-ocre' : 'border-linea'}`}>
+                  <p className="font-semibold mb-2">{nombreDe(n)} <span className="text-xs text-suave">· {sala.manos[n].length} cartas</span></p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {sala.manos[n].map((c, i) => (
+                      <span key={i} className="text-[11px] rounded-md px-2 py-1 border-l-4 bg-white" style={{ borderColor: COLORES[c.g].fondo }}>{c.t}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : miNumero ? (
+            <div className={`bg-hoja border-t border-linea p-3 ${miTurno ? 'shadow-[inset_0_4px_0_#B97D22]' : ''}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-semibold">Mis cartas</span>
+                {miTurno && <span className="text-xs font-bold bg-ocre text-white rounded-full px-2 py-0.5">¡Tu turno!</span>}
+                <span className="ml-auto text-xs text-suave">{sala.manos[miNumero].length} cartas</span>
+              </div>
+              <div className="overflow-x-auto scroll pb-2">
+                <div className="flex gap-2 w-max px-1 py-1">
+                  {sala.manos[miNumero].map((c, i) => {
+                    const off = bloqueado || !miTurno || sala.grupoActual === null;
+                    return (
+                      <button key={i} onClick={() => jugar(i)} disabled={off}
+                              className={`w-16 h-24 sm:w-20 sm:h-28 shrink-0 rounded-xl bg-white border-2 border-linea shadow flex items-center justify-center transition ${off ? 'opacity-80 cursor-not-allowed' : 'hover:-translate-y-1 hover:border-terracota cursor-pointer'}`}>
+                        <TextoCarta t={c.t} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-hoja border-t border-linea p-4 text-center text-sm text-suave">El juego ya empezó. Puedes mirar desde aquí.</div>
+          )}
+
+          {/* Ventana: carta equivocada */}
+          {sala.fallo && (
+            <Ventana borde="#B4432F">
+              <h2 className="font-titulo text-2xl font-bold text-center">¡Uy, {nombreDe(sala.fallo.jugador)}!</h2>
+              <p className="text-center text-suave mt-1">Esa carta no va aquí. Pierdes el turno.</p>
+              <div className="mt-5 rounded-xl bg-papel p-4 text-center">
+                <p className="text-sm text-suave mb-2">La ruleta pedía <Ficha grupo={sala.fallo.pedido} grupos={G} /></p>
+                <p className="font-semibold text-lg">«{sala.fallo.texto}»</p>
+                <p className="text-sm text-suave mt-2">va con <Ficha grupo={sala.fallo.correcto} grupos={G} /></p>
+              </div>
+              <button onClick={cerrarFallo} disabled={miNumero !== sala.fallo.jugador || ocupado} className="boton mt-6 w-full py-3.5 bg-terracota text-white text-lg">
+                {miNumero === sala.fallo.jugador ? 'Entendido, pasar turno' : `Esperando a ${nombreDe(sala.fallo.jugador)}…`}
+              </button>
+            </Ventana>
+          )}
+
+          {/* Ventana: pausa */}
+          {sala.pausa && (
+            <Ventana>
+              <h2 className="font-titulo text-3xl font-bold text-center mb-6">Pausa</h2>
+              <div className="space-y-2">
+                <button onClick={() => actualizar({ pausa: false })} className="boton w-full py-3.5 bg-olivo text-white text-lg">Volver al juego</button>
+                {puedoDirigir && <button onClick={empezar} className="boton w-full py-3.5 bg-ocre text-white text-lg">Repartir de nuevo</button>}
+                <button onClick={() => actualizar({ estado: 'MENU', pausa: false, fallo: null })} className="boton w-full py-3.5 bg-terracota text-white text-lg">Terminar el juego</button>
+              </div>
+            </Ventana>
+          )}
+
+          {/* Ventana: fin */}
+          {sala.estado === 'FIN' && (
+            <Ventana borde="#B97D22">
+              <p className="text-center text-5xl mb-3">🏆</p>
+              <h2 className="font-titulo text-3xl font-bold text-center">¡Ganó {sala.ganador}!</h2>
+              {puedoDirigir
+                ? <button onClick={empezar} className="boton mt-6 w-full py-3.5 bg-olivo text-white text-lg">Jugar otra vez</button>
+                : <p className="text-center text-suave mt-4">Esperando a quien creó la sala…</p>}
+              <button onClick={() => actualizar({ estado: 'MENU' })} className="boton mt-2 w-full py-3 border border-linea bg-white">Volver a la sala</button>
+            </Ventana>
+          )}
+        </div>
+      );
+    }
+
+    function Centro({ children }) {
+      return <div className="min-h-screen flex items-center justify-center p-4"><div className="tarjeta w-full max-w-md p-6 sm:p-8">{children}</div></div>;
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
