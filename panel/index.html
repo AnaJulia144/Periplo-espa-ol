@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel de Anita · Periplo-español</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            titulo: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            papel: 'var(--papel)', hoja: 'var(--hoja)', lateral: 'var(--lateral)', linea: 'var(--linea)',
+            tinta: 'var(--tinta)', suave: 'var(--suave)',
+            terracota: 'var(--terracota)', 'terracota-claro': 'var(--terracota-claro)',
+            ocre: 'var(--ocre)', 'ocre-claro': 'var(--ocre-claro)',
+            olivo: 'var(--olivo)', 'olivo-claro': 'var(--olivo-claro)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Colores de Anita: cálido y artesanal */
+    :root {
+      --papel: #F4ECDF;          /* fondo, como papel crema */
+      --hoja: #FBF7F0;           /* tarjetas */
+      --lateral: #EDE2D0;        /* menú lateral */
+      --linea: #E0D1BB;          /* bordes */
+      --tinta: #3A2A1F;          /* texto principal (café oscuro) */
+      --suave: #7A6555;          /* texto secundario */
+      --terracota: #B4532F;
+      --terracota-claro: #F2DCCF;
+      --ocre: #B97D22;
+      --ocre-claro: #F5E5C4;
+      --olivo: #5B6A36;
+      --olivo-claro: #E2E6D0;
+    }
+    body {
+      background-color: var(--papel);
+      background-image: radial-gradient(rgba(58,42,31,.07) 1px, transparent 1px);
+      background-size: 18px 18px;
+      color: var(--tinta);
+    }
+    .tarjeta { background: var(--hoja); border: 1px solid var(--linea); border-radius: 14px; box-shadow: 0 1px 0 rgba(58,42,31,.04); }
+    .sello { border: 1.5px dashed currentColor; border-radius: 999px; }
+    ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-thumb { background: var(--linea); border-radius: 10px; }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <div id="app">
+    <p style="padding:2rem;font-family:sans-serif">Cargando tu panel…</p>
+  </div>
+
+  <!-- Datos: curso.js es la fuente única del plan y el vocabulario -->
+  <script src="../datos/curso.js"></script>
+  <script src="../datos/alumnos.js"></script>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect } = React;
+
+    const PLAN = window.CURSO || [];
+    const ALUMNOS = window.ALUMNOS || [];
+    const GRUPOS = window.GRUPOS || [];
+    const JUEGOS = window.JUEGOS || [];
+    const IDEAS = window.IDEAS_JUEGOS || [];
+
+    const NIVELES = [
+      { id: 'A1', nombre: 'A1', rango: 'Semanas 1–17' },
+      { id: 'A2', nombre: 'A2', rango: 'Semanas 18–28' },
+      { id: 'Avanzado', nombre: 'Siguientes', rango: 'Semanas 29–56' },
+    ];
+
+    // ---------- Vocabulario ----------
+    // Cada palabra puede traer su traducción después de " = "
+    function separar(p) {
+      const i = p.indexOf(' = ');
+      return i < 0 ? { es: p, en: '' } : { es: p.slice(0, i), en: p.slice(i + 3) };
+    }
+    const totalPalabras = s => (s.palabras || []).reduce((t, g) => t + g.lista.length, 0);
+
+    // ---------- Navegación por la dirección (#/semana/19/contenido) ----------
+    function leerRuta() {
+      const partes = (location.hash.replace(/^#\/?/, '') || 'inicio').split('/');
+      return { seccion: partes[0], semana: partes[1] ? Number(partes[1]) : null, pestana: partes[2] || 'contenido' };
+    }
+    function ir(ruta) { location.hash = '#/' + ruta; }
+
+    // ---------- Íconos sencillos ----------
+    const Icono = ({ d, className = 'w-5 h-5' }) => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>{d}</svg>
+    );
+    const I = {
+      inicio: <><path d="M3 11l9-7 9 7" /><path d="M5 10v10h14V10" /></>,
+      plan: <><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z" /><path d="M8 7h6M8 11h6" /></>,
+      juegos: <><rect x="3" y="3" width="8" height="8" rx="2" /><rect x="13" y="3" width="8" height="8" rx="2" /><rect x="3" y="13" width="8" height="8" rx="2" /><circle cx="17" cy="17" r="4" /></>,
+      alumnos: <><circle cx="12" cy="8" r="4" /><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6" /></>,
+      calendario: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></>,
+      flecha: <path d="M9 6l6 6-6 6" />,
+      menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+      basura: <><path d="M4 7h16M10 11v6M14 11v6" /><path d="M6 7l1 13h10l1-13M9 7V4h6v3" /></>,
+      candado: <><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></>,
+    };
+
+    // ---------- Piezas pequeñas ----------
+    const Etiqueta = ({ children, color = 'ocre' }) => (
+      <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-${color}-claro text-${color}`}>{children}</span>
+    );
+
+    const Vacio = ({ titulo, children }) => (
+      <div className="tarjeta p-8 text-center border-dashed">
+        <p className="font-titulo text-xl mb-2">{titulo}</p>
+        <div className="text-suave max-w-md mx-auto">{children}</div>
+      </div>
+    );
+
+    const Proximamente = () => (
+      <span className="inline-flex items-center gap-1 text-xs text-suave"><Icono d={I.candado} className="w-3.5 h-3.5" /> Próximamente</span>
+    );
+
+    // =================================================================
+    //  MENÚ LATERAL
+    // =================================================================
+    function MenuLateral({ ruta, abierto, cerrar }) {
+      const david = ALUMNOS.find(a => a.id === 'david');
+      const nivelInicial = (PLAN.find(s => s.n === (ruta.semana || david?.semanaActual)) || {}).nivel || 'A1';
+      const [abiertos, setAbiertos] = useState({ [nivelInicial]: true });
+
+      useEffect(() => {
+        const s = PLAN.find(x => x.n === ruta.semana);
+        if (s) setAbiertos(a => ({ ...a, [s.nivel]: true }));
+      }, [ruta.semana]);
+
+      const Item = ({ id, icono, children }) => {
+        const activo = ruta.seccion === id;
+        return (
+          <a href={'#/' + id} onClick={cerrar}
+             className={`flex items-center gap-3 px-3 py-2 rounded-lg font-medium transition ${activo ? 'bg-hoja text-terracota shadow-sm' : 'text-tinta hover:bg-hoja/60'}`}>
+            <Icono d={icono} /> {children}
+          </a>
+        );
+      };
+
+      return (
+        <aside className={`fixed inset-y-0 left-0 z-30 w-72 bg-lateral border-r border-linea flex flex-col transition-transform md:translate-x-0 ${abierto ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className="px-5 pt-6 pb-4">
+            <a href="#/inicio" onClick={cerrar} className="block">
+              <p className="font-titulo text-2xl font-semibold leading-tight">Periplo<span className="text-terracota">-español</span></p>
+              <p className="text-sm text-suave">Panel de Anita</p>
+            </a>
+          </div>
+
+          <nav className="flex-1 overflow-y-auto px-3 pb-6 space-y-1">
+            <Item id="inicio" icono={I.inicio}>Inicio</Item>
+
+            <div className="pt-2">
+              <p className="flex items-center gap-3 px-3 py-2 font-medium"><Icono d={I.plan} /> Plan de estudios</p>
+              {NIVELES.map(nv => {
+                const semanas = PLAN.filter(s => s.nivel === nv.id);
+                const abiertoNv = !!abiertos[nv.id];
+                return (
+                  <div key={nv.id} className="ml-3">
+                    <button onClick={() => setAbiertos(a => ({ ...a, [nv.id]: !abiertoNv }))}
+                            className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-hoja/60 text-left">
+                      <Icono d={I.flecha} className={`w-4 h-4 transition ${abiertoNv ? 'rotate-90' : ''}`} />
+                      <span className="font-semibold">{nv.nombre}</span>
+                      <span className="text-xs text-suave">{nv.rango}</span>
+                    </button>
+                    {abiertoNv && (
+                      <ul className="ml-5 border-l border-linea">
+                        {semanas.map(s => {
+                          const activo = ruta.seccion === 'semana' && ruta.semana === s.n;
+                          const n = totalPalabras(s);
+                          const esDavid = david && david.semanaActual === s.n;
+                          const borrador = s.estado === 'borrador';
+                          return (
+                            <li key={s.n}>
+                              <a href={`#/semana/${s.n}`} onClick={cerrar} title={s.titulo + (borrador ? ' (borrador)' : '')}
+                                 className={`flex items-center gap-2 pl-3 pr-2 py-1.5 -ml-px border-l-2 text-sm ${activo ? 'border-terracota bg-hoja text-terracota font-semibold' : 'border-transparent hover:bg-hoja/60'} ${borrador && !activo ? 'text-suave italic' : ''}`}>
+                                <span className="w-7 shrink-0 text-suave tabular-nums">S{s.n}</span>
+                                <span className="truncate flex-1">{s.titulo}</span>
+                                {esDavid && <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-olivo">David</span>}
+                                {n > 0 && <span className="shrink-0 w-2 h-2 rounded-full bg-ocre" title={`${n} palabras`} />}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="pt-2 space-y-1">
+              <Item id="juegos" icono={I.juegos}>Juegos</Item>
+              <Item id="alumnos" icono={I.alumnos}>Alumnos</Item>
+              <Item id="calendario" icono={I.calendario}>Calendario</Item>
+            </div>
+          </nav>
+        </aside>
+      );
+    }
+
+    // =================================================================
+    //  INICIO
+    // =================================================================
+    function Inicio() {
+      const david = ALUMNOS.find(a => a.id === 'david');
+      const semDavid = PLAN.find(s => s.n === david?.semanaActual);
+      const listas = PLAN.filter(s => s.estado !== 'borrador').length;
+      const palabras = PLAN.reduce((t, s) => t + totalPalabras(s), 0);
+
+      return (
+        <div className="space-y-6">
+          <header>
+            <p className="text-suave">Bienvenida de vuelta</p>
+            <h1 className="font-titulo text-4xl font-semibold">¡Hola, Anita!</h1>
+          </header>
+
+          {semDavid && (
+            <div className="tarjeta p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+              <div className="sello text-olivo w-16 h-16 shrink-0 flex flex-col items-center justify-center rotate-[-6deg]">
+                <span className="text-[10px] font-bold uppercase">Semana</span>
+                <span className="font-titulo text-2xl leading-none">{semDavid.n}</span>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm text-suave">David va en</p>
+                <p className="font-titulo text-2xl">{semDavid.titulo}</p>
+                <p className="text-sm text-suave mt-1">{david.nota}</p>
+              </div>
+              <button onClick={() => ir(`semana/${semDavid.n}`)}
+                      className="px-4 py-2 rounded-lg bg-terracota text-white font-semibold hover:opacity-90">
+                Abrir semana {semDavid.n}
+              </button>
+            </div>
+          )}
+
+          <div className="grid sm:grid-cols-3 gap-4">
+            <div className="tarjeta p-5"><p className="text-sm text-suave">Semanas revisadas</p><p className="font-titulo text-3xl">{listas} <span className="text-lg text-suave">/ {PLAN.length}</span></p></div>
+            <div className="tarjeta p-5"><p className="text-sm text-suave">Palabras en tu curso</p><p className="font-titulo text-3xl">{palabras.toLocaleString('es-MX')}</p></div>
+            <div className="tarjeta p-5"><p className="text-sm text-suave">Juegos listos</p><p className="font-titulo text-3xl">0 <span className="text-lg text-suave">/ {JUEGOS.length}</span></p></div>
+          </div>
+
+          <div className="tarjeta p-5 bg-ocre-claro/60 border-ocre/30">
+            <p className="font-semibold mb-1">¿Quieres cambiar algo del curso?</p>
+            <p className="text-sm text-suave">
+              Tu plan y tu vocabulario viven en un solo archivo (<code>datos/curso.js</code>). Dile a Claude qué cambiar
+              y se actualiza en todo el sitio: este panel y todos los juegos.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // =================================================================
+    //  SEMANA (con pestañas verticales)
+    // =================================================================
+    const PESTANAS = [
+      { id: 'contenido', nombre: 'Contenido', ayuda: 'Lo que lee antes de la semana' },
+      { id: 'practica', nombre: 'Práctica', ayuda: 'Juegos de la semana' },
+      { id: 'evaluacion', nombre: 'Evaluación', ayuda: 'Al final de la semana' },
+      { id: 'publicar', nombre: 'Publicar', ayuda: 'Quién la ve y cuándo' },
+    ];
+
+    function Semana({ ruta }) {
+      const s = PLAN.find(x => x.n === ruta.semana);
+      if (!s) return <Vacio titulo="No encontré esa semana">Elige una semana en el menú de la izquierda.</Vacio>;
+      const nivel = NIVELES.find(n => n.id === s.nivel);
+      const david = ALUMNOS.find(a => a.id === 'david');
+      const pestana = PESTANAS.some(p => p.id === ruta.pestana) ? ruta.pestana : 'contenido';
+
+      return (
+        <div className="space-y-5">
+          <header>
+            <p className="text-sm text-suave">Plan de estudios › {nivel.nombre} › Semana {s.n}</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="font-titulo text-3xl font-semibold first-letter:uppercase">{s.titulo}</h1>
+              {david?.semanaActual === s.n && <Etiqueta color="olivo">David está aquí</Etiqueta>}
+              {s.estado === 'borrador' && <Etiqueta color="terracota">Borrador</Etiqueta>}
+            </div>
+            {s.tema && <p className="text-suave">Tema: {s.tema}</p>}
+          </header>
+
+          <div className="flex flex-col lg:flex-row gap-5">
+            {/* Pestañas verticales */}
+            <div className="lg:w-52 shrink-0 flex lg:flex-col gap-1 overflow-x-auto">
+              {PESTANAS.map(p => {
+                const activa = p.id === pestana;
+                return (
+                  <a key={p.id} href={`#/semana/${s.n}/${p.id}`}
+                     className={`px-4 py-2.5 rounded-lg border-l-4 whitespace-nowrap ${activa ? 'bg-hoja border-terracota shadow-sm' : 'border-transparent hover:bg-hoja/60'}`}>
+                    <span className={`block font-semibold ${activa ? 'text-terracota' : ''}`}>{p.nombre}</span>
+                    <span className="hidden lg:block text-xs text-suave">{p.ayuda}</span>
+                  </a>
+                );
+              })}
+            </div>
+
+            <div className="flex-1 min-w-0">
+              {pestana === 'contenido' && <Contenido s={s} />}
+              {pestana === 'practica' && <Practica s={s} />}
+              {pestana === 'evaluacion' && (
+                <Vacio titulo="Evaluación de la semana">
+                  Aquí irán las actividades del final de la semana que dicen si el alumno avanza a la siguiente.
+                  Las armamos cuando tengamos los primeros juegos.
+                </Vacio>
+              )}
+              {pestana === 'publicar' && <Publicar s={s} />}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const Lista = ({ titulo, items }) => (
+      <div>
+        <p className="text-xs font-bold uppercase tracking-wide text-suave mb-1">{titulo}</p>
+        {items.length ? (
+          <ul className="space-y-1">{items.map((t, i) => <li key={i} className="first-letter:uppercase">{t}</li>)}</ul>
+        ) : <p className="text-suave italic text-sm">Por definir</p>}
+      </div>
+    );
+
+    function Contenido({ s }) {
+      const extras = [
+        ['Preguntas que podrá responder', s.preguntas],
+        ['Cultura', s.cultura],
+        ['Ideas de actividades', s.actividades],
+        ['Notas para ti', s.notas],
+      ].filter(([, items]) => items && items.length);
+
+      return (
+        <div className="space-y-5">
+          <div className="grid md:grid-cols-2 gap-4">
+            {['parte1', 'parte2'].map((p, i) => (
+              <div key={p} className="tarjeta p-5 space-y-4">
+                <p className="font-titulo text-lg">Parte {i + 1}</p>
+                <Lista titulo="Gramática" items={s[p].gramatica} />
+                <Lista titulo="Vocabulario" items={s[p].vocabulario} />
+              </div>
+            ))}
+          </div>
+
+          {extras.length > 0 && (
+            <div className="grid md:grid-cols-2 gap-4">
+              {extras.map(([t, items]) => <div key={t} className="tarjeta p-5"><Lista titulo={t} items={items} /></div>)}
+            </div>
+          )}
+
+          <Vocabulario s={s} />
+        </div>
+      );
+    }
+
+    function Vocabulario({ s }) {
+      const grupos = s.palabras || [];
+      const total = totalPalabras(s);
+      return (
+        <div className="tarjeta p-5">
+          <div className="mb-4">
+            <p className="font-titulo text-lg">Palabras de la semana</p>
+            <p className="text-sm text-suave">
+              {total ? `${total} palabras en ${grupos.length} ${grupos.length === 1 ? 'lista' : 'listas'}. Alimentan todos los juegos de la semana.`
+                     : 'Esta semana todavía no tiene palabras.'}
+            </p>
+          </div>
+          <div className="space-y-5">
+            {grupos.map(g => (
+              <div key={g.grupo}>
+                <p className="text-xs font-bold uppercase tracking-wide text-suave mb-2">{g.grupo} · {g.lista.length}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {g.lista.map((p, i) => {
+                    const { es, en } = separar(p);
+                    return (
+                      <span key={i} className="px-2.5 py-1 rounded-md bg-papel border border-linea text-sm" title={en || ''}>
+                        {es}{en && <span className="text-suave"> · {en}</span>}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-suave mt-5">Para agregar, quitar o corregir palabras, díselo a Claude: se cambian en <code>datos/curso.js</code> y se actualizan en todo el sitio.</p>
+        </div>
+      );
+    }
+
+    function Practica({ s }) {
+      return (
+        <div className="space-y-4">
+          <Vacio titulo="Todavía no hay juegos en esta semana">
+            Cuando migremos tus juegos de Gemini, aquí eliges una mecánica y se arma sola con las palabras de la semana {s.n}.
+          </Vacio>
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
+            {JUEGOS.map(j => (
+              <div key={j.id} className="tarjeta p-4 opacity-80">
+                <p className="font-semibold">{j.nombre}</p>
+                <p className="text-xs text-suave mb-3">Usa: {j.usa}</p>
+                <Proximamente />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function Publicar({ s }) {
+      const filas = [
+        ...ALUMNOS.map(a => ({ id: a.id, nombre: a.portal })),
+        ...GRUPOS.map(g => ({ id: g.id, nombre: g.nombre })),
+      ];
+      return (
+        <div className="tarjeta p-5 space-y-4">
+          <div>
+            <p className="font-titulo text-lg">¿Quién ve la semana {s.n} y desde cuándo?</p>
+            <p className="text-sm text-suave">Esto funcionará cuando conectemos Firebase y construyamos los portales.</p>
+          </div>
+          {filas.map(f => (
+            <div key={f.id} className="flex flex-wrap items-center gap-4 p-3 rounded-lg border border-linea bg-papel opacity-70">
+              <span className="font-semibold flex-1">{f.nombre}</span>
+              <label className="text-sm text-suave flex items-center gap-2">Desde <input type="date" disabled className="px-2 py-1 rounded border border-linea bg-hoja" /></label>
+              <Proximamente />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // =================================================================
+    //  JUEGOS, ALUMNOS, CALENDARIO
+    // =================================================================
+    function Juegos() {
+      return (
+        <div className="space-y-6">
+          <header>
+            <h1 className="font-titulo text-3xl font-semibold">Juegos</h1>
+            <p className="text-suave">Cada juego es una mecánica que se construye una vez y sirve para todas las semanas.</p>
+          </header>
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {JUEGOS.map(j => (
+              <div key={j.id} className="tarjeta p-5">
+                <p className="font-titulo text-xl">{j.nombre}</p>
+                <p className="text-sm text-suave mb-3">Usa: {j.usa}</p>
+                <Etiqueta color="terracota">{j.estado}</Etiqueta>
+              </div>
+            ))}
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-suave mb-2">Ideas para después (de tu lista)</p>
+            <div className="flex flex-wrap gap-2">{IDEAS.map(n => <Etiqueta key={n}>{n}</Etiqueta>)}</div>
+          </div>
+        </div>
+      );
+    }
+
+    function Alumnos() {
+      return (
+        <div className="space-y-6">
+          <header><h1 className="font-titulo text-3xl font-semibold">Alumnos</h1></header>
+          <div className="grid md:grid-cols-2 gap-4">
+            {ALUMNOS.map(a => (
+              <div key={a.id} className="tarjeta p-5 space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="font-titulo text-2xl">{a.nombre}</p>
+                  <Etiqueta color="olivo">Semana {a.semanaActual}</Etiqueta>
+                </div>
+                <p className="text-sm text-suave">{a.nota}</p>
+                <p className="text-sm">Código de entrada: <span className="text-suave">{a.codigo || 'por definir'}</span></p>
+                <a href={`#/semana/${a.semanaActual}`} className="inline-block text-sm font-semibold text-terracota hover:underline">Ir a su semana →</a>
+              </div>
+            ))}
+            {GRUPOS.map(g => (
+              <div key={g.id} className="tarjeta p-5 space-y-2 border-dashed">
+                <p className="font-titulo text-2xl">{g.nombre}</p>
+                <p className="text-sm text-suave">{g.nota}</p>
+                <Proximamente />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    const Calendario = () => (
+      <div className="space-y-6">
+        <header><h1 className="font-titulo text-3xl font-semibold">Calendario</h1></header>
+        <Vacio titulo="Aquí verás qué se publica y cuándo">
+          Cuando programes una semana en la pestaña Publicar, aparecerá en este calendario.
+        </Vacio>
+      </div>
+    );
+
+    // =================================================================
+    //  APP
+    // =================================================================
+    function App() {
+      const [ruta, setRuta] = useState(leerRuta());
+      const [menu, setMenu] = useState(false);
+
+      useEffect(() => {
+        const alCambiar = () => { setRuta(leerRuta()); window.scrollTo(0, 0); };
+        window.addEventListener('hashchange', alCambiar);
+        return () => window.removeEventListener('hashchange', alCambiar);
+      }, []);
+
+
+      let pagina;
+      if (ruta.seccion === 'semana') pagina = <Semana ruta={ruta} />;
+      else if (ruta.seccion === 'juegos') pagina = <Juegos />;
+      else if (ruta.seccion === 'alumnos') pagina = <Alumnos />;
+      else if (ruta.seccion === 'calendario') pagina = <Calendario />;
+      else pagina = <Inicio />;
+
+      return (
+        <div className="min-h-screen">
+          <MenuLateral ruta={ruta} abierto={menu} cerrar={() => setMenu(false)} />
+          {menu && <div className="fixed inset-0 z-20 bg-tinta/30 md:hidden" onClick={() => setMenu(false)} />}
+
+          <div className="md:pl-72">
+            <div className="md:hidden sticky top-0 z-10 flex items-center gap-3 px-4 py-3 bg-lateral border-b border-linea">
+              <button onClick={() => setMenu(true)} aria-label="Abrir menú"><Icono d={I.menu} /></button>
+              <span className="font-titulo font-semibold">Periplo<span className="text-terracota">-español</span></span>
+            </div>
+            <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8">{pagina}</main>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+  </script>
+</body>
+</html>
