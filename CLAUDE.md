@@ -96,7 +96,8 @@ El repo de Israel es privado. Si necesito ver cómo resolvió algo, pedírselo a
 
 - Antes de **decisiones grandes** (diseño, estructura, cómo entran los alumnos): preguntar y dar **2 o 3 opciones con mi recomendación**.
 - Después de cada cambio: explicar cómo verlo en el navegador.
-- Cuando Anita diga **"súbelo"** o **"pásalo a producción"**: `git pull` → commit con mensaje claro **en español** → `git push`.
+- **Subir a GitHub: Anita autorizó (2026-11-16) hacer commit + push cada vez que sea necesario**, sin esperar a que lo pida. Siempre: `git pull` → commit con mensaje claro **en español** → `git push`. (Si el push falla por "Cannot prompt", repetir con `$env:GCM_INTERACTIVE='always'; $env:GIT_TERMINAL_PROMPT='1'`.)
+- **Mostrar, no mandar a abrir archivos:** Anita no es programadora. Cuando pida ver vocabulario, una semana o la tabla de proyectos, **dibujarla en el chat como tabla**, sin mandarla a abrir archivos y sin cortar lo que estemos haciendo.
 - Ir anotando en este archivo lo que decidamos y lo que le gusta.
 - **Bitácora (`BITACORA.md`):** al empezar cada sesión, leerla. Al terminar, actualizar el proyecto en el que trabajamos ("dónde me quedé" y "siguiente paso") y agregar una línea al *Registro de sesiones*. Los 5 proyectos: (1) plan de estudios oficial, (2) hub + portal, (3) código de los juegos, (4) versiones de los juegos, (5) seguimiento de David.
 

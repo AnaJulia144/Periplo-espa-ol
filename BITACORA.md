@@ -64,7 +64,7 @@
 
 **Pendientes:**
 - [ ] Portal de David (código + nombre).
-- [ ] Publicar en Vercel (o GitHub Pages mientras).
+- [ ] Publicar en Vercel (o GitHub Pages mientras). **Problema con la cuenta de Vercel:** se empezó con Google y quedó a medias; luego "iniciar con GitHub" da error (2026-11-16). Vercel no respondió el formulario. Plan: terminar la cuenta entrando con Google y conectar GitHub desde adentro; probar en ventana privada. Mientras, GitHub Pages.
 - [ ] Crear Firebase (guiado paso a paso).
 
 ---
