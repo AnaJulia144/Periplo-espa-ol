@@ -12,8 +12,8 @@
 | # | Proyecto | Estado | Última vez |
 |---|----------|--------|------------|
 | 1 | Plan de estudios oficial | Base lista (sem. 1–19), falta reinventar 20 en adelante | 2026-11-16 |
-| 2 | Hub de la maestra y portal del alumno | Esqueleto del hub listo en localhost | 2026-11-16 |
-| 3 | Código de los juegos (los "motores") | Sin empezar: esperando el código de Gemini | — |
+| 2 | Hub de la maestra y portal del alumno | Hub listo y publicado en Vercel | 2026-11-16 |
+| 3 | Código de los juegos (los "motores") | UNO recibido y revisado; faltan 3 decisiones | 2026-11-16 |
 | 4 | Versiones de los juegos (bibliotecas de contenido) | Idea definida, sin empezar | 2026-11-16 |
 | 5 | Seguimiento de David | Va en la semana 19, modo experimental | 2026-11-16 |
 
@@ -64,7 +64,8 @@
 
 **Pendientes:**
 - [ ] Portal de David (código + nombre).
-- [ ] Publicar en Vercel (o GitHub Pages mientras). **Problema con la cuenta de Vercel:** se empezó con Google y quedó a medias; luego "iniciar con GitHub" da error (2026-11-16). Vercel no respondió el formulario. Plan: terminar la cuenta entrando con Google y conectar GitHub desde adentro; probar en ventana privada. Mientras, GitHub Pages.
+- [x] **Publicado en Vercel (2026-11-16):** https://periplo-espa-ol.vercel.app — se actualiza solo con cada subida a GitHub.
+- [ ] Decidir si el repo de GitHub pasa a privado (hoy es público).
 - [ ] Crear Firebase (guiado paso a paso).
 
 ---
@@ -75,9 +76,9 @@
 
 **Los 5 juegos:** UNO · Match · Serpientes y escaleras · Completar oraciones · Flashcards.
 
-**Dónde me quedé:** Anita ofreció pasar el código de sus juegos de Gemini.
+**Dónde me quedé (2026-11-16):** recibido el **UNO de conjugación** (guardado en `juegos/originales-gemini/`). Revisado: funciona con salas en línea, así que **necesita Firebase**. Propuesta: motor general de "cartas por categoría" (pronombres, el/la/los/las, un/una…), con generador automático de frases para conjugación.
 
-**Siguiente paso:** Anita pega el código del primer juego (sugerencia: UNO) → Claude lo revisa y propone cómo separarlo en *motor* + *editor*.
+**Siguiente paso:** Anita decide (1) crear Firebase ya, (2) si se rescata el mini-reto "Misterio", (3) look cálido vs. colores originales. Después: construir el motor del UNO.
 
 ---
 
@@ -115,3 +116,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-15** · (1, 2) Arranque: entrevista, estilo, nombre, cómo entra David.
 - **2026-11-16** · (2) Esqueleto del hub en localhost, una sola carpeta del proyecto.
 - **2026-11-16** · (1) Semanas 1–19 a `datos/curso.js`, comparación con el Cervantes, traducciones al inglés de las 1,101 palabras. Se creó esta bitácora con los 5 proyectos.
+- **2026-11-16** · (2, 3) Vercel conectado y primer deploy confirmado. Recibido y revisado el UNO de conjugación.

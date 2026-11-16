@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conjugación Uno</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #0f172a; /* slate-900 */
+        }
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.8); border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 1); }
+        .animate-spin-slow { animation: spin 8s linear infinite; }
+        .animate-fast-pulse { animation: fastPulse 0.4s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate; }
+        @keyframes fastPulse { 
+            0% { opacity: 0.5; transform: scale(0.95); filter: grayscale(0.5); } 
+            100% { opacity: 1; transform: scale(1.05); filter: grayscale(0); box-shadow: 0 0 15px rgba(255,255,255,0.5); } 
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+        import React, { useState, useEffect } from 'https://esm.sh/react@18.2.0';
+        import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
+        import { 
+            User, Play, RotateCcw, AlertTriangle, CheckCircle, Zap, BookOpen, 
+            Lock, Pause, Users, ArrowRight, Home, Dices, Eye 
+        } from 'https://esm.sh/lucide-react@0.292.0';
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Configuration injected by the environment
+        const firebaseConfig = typeof __firebase_config !== 'undefined' && __firebase_config ? JSON.parse(__firebase_config) : { apiKey: "demo", projectId: "demo" };
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const PRONOUN_KEYS = ['yo', 'tú', 'él/ella/ud', 'nosotros/nosotras', 'ellos/ellas/uds'];
+
+        const PRONOUN_LABELS = {
+          'yo': 'Yo',
+          'tú': 'Tú',
+          'él/ella/ud': 'Él/Ella/Ud',
+          'nosotros/nosotras': 'Nosotros/as',
+          'ellos/ellas/uds': 'Ellos/Ellas/Uds'
+        };
+
+        const PRONOUN_COLORS_STATIC = {
+          'yo': 'bg-blue-500 border-blue-600',
+          'tú': 'bg-red-500 border-red-600',
+          'él/ella/ud': 'bg-yellow-400 border-yellow-500', 
+          'nosotros/nosotras': 'bg-green-500 border-green-600',
+          'ellos/ellas/uds': 'bg-purple-500 border-purple-600'
+        };
+
+        const PRONOUN_TEXT_COLORS = {
+          'yo': 'text-white',
+          'tú': 'text-white',
+          'él/ella/ud': 'text-gray-900', 
+          'nosotros/nosotras': 'text-white',
+          'ellos/ellas/uds': 'text-white'
+        };
+
+        const VERBS = [
+          { base: "mudarse", conj: ["me mudé", "te mudaste", "se mudó", "nos mudamos", "se mudaron"], comps: ["a otra casa", "de ciudad"], times: ["hace dos años", "en invierno", "durante el verano"] },
+          { base: "graduarse", conj: ["me gradué", "te graduaste", "se graduó", "nos graduamos", "se graduaron"], comps: ["de la preparatoria", "de la universidad"], times: ["hace 3 años", "en 1998", "del 2015 al 2019", "en mayo"] },
+          { base: "casarse", conj: ["me casé", "te casaste", "se casó", "nos casamos", "se casaron"], comps: ["en la playa"], times: ["hace dos años", "en 1998", "durante la primavera"] },
+          { base: "estudiar", conj: ["estudié", "estudiaste", "estudió", "estudiamos", "estudiaron"], comps: ["para el examen", "español"], times: ["de lunes a viernes", "desde el martes hasta el jueves", "por la noche", "durante 5 horas"] },
+          { base: "trabajar", conj: ["trabajé", "trabajaste", "trabajó", "trabajamos", "trabajaron"], comps: ["hasta muy tarde", "en la oficina"], times: ["de 8 a 5", "desde 2018 hasta 2020", "por 10 años", "del 5 al 10 de mayo"] },
+          { base: "viajar", conj: ["viajé", "viajaste", "viajó", "viajamos", "viajaron"], comps: ["a Europa", "por negocios"], times: ["de enero a marzo", "por 3 semanas", "durante las vacaciones", "del 10 al 20 de julio"] },
+          { base: "ganar", conj: ["gané", "ganaste", "ganó", "ganamos", "ganaron"], comps: ["el partido", "el premio"], times: ["hace una semana", "en 2022", "durante el torneo"] },
+          { base: "celebrar", conj: ["celebré", "celebraste", "celebró", "celebramos", "celebraron"], comps: ["el cumpleaños", "la fiesta"], times: ["durante toda la noche", "de 9 a 12", "por horas"] },
+          { base: "regresar", conj: ["regresé", "regresaste", "regresó", "regresamos", "regresaron"], comps: ["a casa", "muy tarde"], times: ["hace dos horas", "en la madrugada", "por la tarde"] },
+          { base: "visitar", conj: ["visité", "visitaste", "visitó", "visitamos", "visitaron"], comps: ["el museo", "a sus abuelos"], times: ["durante el fin de semana", "de viernes a domingo", "por dos días"] },
+          { base: "tomar / beber", conj: ["tomé / bebí", "tomaste / bebiste", "tomó / bebió", "tomamos / bebimos", "tomaron / bebieron"], comps: ["un café", "mucha agua"], times: ["en la mañana", "durante la comida", "por la tarde"] },
+          { base: "aprender", conj: ["aprendí", "aprendiste", "aprendió", "aprendimos", "aprendieron"], comps: ["a bailar", "algo nuevo"], times: ["por 2 años", "desde 2010 hasta 2012", "durante la secundaria"] },
+          { base: "comer", conj: ["comí", "comiste", "comió", "comimos", "comieron"], comps: ["tacos", "pescado", "pollo con arroz"], times: ["de 2 a 3", "durante el viaje", "hace dos días"] },
+          { base: "recibir", conj: ["recibí", "recibiste", "recibió", "recibimos", "recibieron"], comps: ["un regalo", "una carta"], times: ["hace unos días", "en mi cumpleaños", "por la mañana"] },
+          { base: "decidir", conj: ["decidí", "decidiste", "decidió", "decidimos", "decidieron"], comps: ["viajar", "estudiar más"], times: ["en ese momento", "hace mucho tiempo", "durante la reunión"] },
+          { base: "vivir", conj: ["viví", "viviste", "vivió", "vivimos", "vivieron"], comps: ["en España", "en el centro"], times: ["desde 2000 hasta 2010", "de 1990 a 1995", "del 2015 al 2020", "por 5 años"] }
+        ];
+
+        const VOCABULARY = [];
+        const PRONOUNS_NO_Q = ['yo', 'tú', 'él/ella/ud', 'nosotros/nosotras', 'ellos/ellas/uds'];
+
+        VERBS.forEach(verbObj => {
+          PRONOUNS_NO_Q.forEach((pronoun, index) => {
+            // Creamos 2 variaciones para cada pronombre+verbo para asegurar que hay suficientes cartas para todos los jugadores
+            for (let i = 0; i < 2; i++) {
+              let isNegative = Math.random() > 0.8; // 20% de probabilidad de ser negativa
+              let timeExpr = verbObj.times[Math.floor(Math.random() * verbObj.times.length)];
+              let conj = verbObj.conj[index];
+              let comp = verbObj.comps[Math.floor(Math.random() * verbObj.comps.length)];
+              
+              let phrase = '';
+              // Si el verbo es decidir, colocamos la expresión de tiempo al inicio para mayor naturalidad
+              if (verbObj.base === "decidir") {
+                phrase = `${timeExpr} ${conj} ${isNegative ? 'no ' : ''}${comp}`;
+              } else {
+                phrase = `${isNegative ? 'no ' : ''}${conj} ${comp} ${timeExpr}`;
+              }
+              
+              VOCABULARY.push({
+                word: phrase,
+                pronoun: pronoun,
+                base: verbObj.base
+              });
+            }
+          });
+        });
+
+        const shuffleArray = (array) => {
+          const newArray = [...array];
+          for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+          }
+          return newArray;
+        };
+
+        const getGrammarExplanation = (word, correctPronoun, wrongPronoun) => {
+          const labelCorrect = PRONOUN_LABELS[correctPronoun].toUpperCase();
+          const labelWrong = PRONOUN_LABELS[wrongPronoun].toUpperCase();
+
+          return `La oración "${word}" pertenece al pronombre "${labelCorrect}".\n\n¡Por lo tanto, no pertenece al pronombre ${labelWrong}!`;
+        };
+
+        const buildDeck = (totalCards) => {
+          let quotas = {};
+          const baseLimit = Math.floor(totalCards / 5);
+          let extra = totalCards % 5;
+          
+          PRONOUNS_NO_Q.forEach((key) => {
+            quotas[key] = baseLimit + (extra > 0 ? 1 : 0);
+            extra--;
+          });
+
+          let fullDeck = [];
+          let shuffledVocab = shuffleArray([...VOCABULARY]);
+
+          for (let card of shuffledVocab) {
+              if (fullDeck.length >= totalCards) break;
+              if (quotas[card.pronoun] > 0) {
+                  fullDeck.push(card);
+                  quotas[card.pronoun]--;
+              }
+          }
+
+          while (fullDeck.length < totalCards) {
+              fullDeck.push(VOCABULARY[Math.floor(Math.random() * VOCABULARY.length)]);
+          }
+
+          return shuffleArray(fullDeck);
+        };
+
+        const getNextTurn = (currentTurn, playersObj) => {
+          let next = parseInt(currentTurn);
+          for(let i=0; i<4; i++) {
+             next = next + 1;
+             if (next > 4) next = 1;
+             if (playersObj[next]) return next;
+          }
+          return parseInt(currentTurn);
+        };
+
+        function App() {
+          const [user, setUser] = useState(null);
+          const [roomId, setRoomId] = useState('');
+          const [roomData, setRoomData] = useState(null);
+          const [joinInput, setJoinInput] = useState('');
+          
+          const [localFeedback, setLocalFeedback] = useState({ text: '', type: '', visible: false });
+          const [localError, setLocalError] = useState('');
+          const [isActionPending, setIsActionPending] = useState(false);
+
+          useEffect(() => {
+            const initAuth = async () => {
+              try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                  await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                  await signInAnonymously(auth);
+                }
+              } catch (error) {
+                console.error("Auth Error:", error);
+              }
+            };
+            initAuth();
+            const unsubscribe = onAuthStateChanged(auth, setUser);
+            return () => unsubscribe();
+          }, []);
+
+          useEffect(() => {
+            if (!user || !roomId) {
+              setRoomData(null);
+              return;
+            }
+            const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', roomId);
+            const unsubscribe = onSnapshot(roomRef, (snapshot) => {
+              if (snapshot.exists()) {
+                setRoomData(snapshot.data());
+              } else {
+                setRoomData(null);
+                setLocalError("La sala fue cerrada o no existe.");
+                setRoomId('');
+              }
+            }, (err) => console.error("Error leyendo sala:", err));
+            return () => unsubscribe();
+          }, [user, roomId]);
+
+          useEffect(() => {
+            if (roomData?.feedbackMessage?.ts) {
+              setLocalFeedback({ ...roomData.feedbackMessage, visible: true });
+              const t = setTimeout(() => setLocalFeedback(prev => ({ ...prev, visible: false })), 2500);
+              return () => clearTimeout(t);
+            }
+          }, [roomData?.feedbackMessage?.ts]);
+
+          const updateGame = async (updates) => {
+            if (!roomId || !user) return;
+            try {
+              const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', roomId);
+              await updateDoc(roomRef, updates);
+            } catch (e) {
+              console.error("Error actualizando juego:", e);
+            }
+          };
+
+          const handleCreateRoom = async () => {
+            if (!user) return;
+            try {
+              const code = Math.random().toString(36).substring(2, 6).toUpperCase().padEnd(4, 'X');
+              const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', code);
+              await setDoc(roomRef, {
+                roomId: code,
+                gameState: 'MENU',
+                players: { 1: user.uid, 2: null, 3: null, 4: null },
+                observers: [],
+                deck: [], 
+                hands: { 1: [], 2: [], 3: [], 4: [] },
+                currentPronoun: null, tableCard: null, 
+                turn: 1, 
+                isRandomizing: false,
+                winner: null, penaltyData: null,
+                miniGameData: null,
+                isPaused: false,
+                feedbackMessage: null
+              });
+              setRoomId(code);
+              setLocalError('');
+            } catch (e) {
+              console.error("Error al crear sala:", e);
+              setLocalError("Hubo un error al crear la sala.");
+            }
+          };
+
+          const handleJoinRoom = () => {
+            if (!user || !joinInput) return;
+            setLocalError('');
+            setRoomId(joinInput.trim().toUpperCase());
+          };
+
+          const handleLeaveRoom = async () => {
+            if (roomData && user && roomId) {
+              const newPlayers = { ...roomData.players };
+              let newObservers = [...(roomData.observers || [])];
+              let changed = false;
+              
+              Object.keys(newPlayers).forEach(k => {
+                if (newPlayers[k] === user.uid) { newPlayers[k] = null; changed = true; }
+              });
+              if (newObservers.includes(user.uid)) {
+                newObservers = newObservers.filter(id => id !== user.uid);
+                changed = true;
+              }
+              if (changed) {
+                try {
+                  const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', roomId);
+                  await updateDoc(roomRef, { players: newPlayers, observers: newObservers });
+                } catch(e) {}
+              }
+            }
+            setRoomId('');
+            setRoomData(null);
+            setJoinInput('');
+            setLocalError('');
+          };
+
+          const handleTakeRole = async (roleId) => {
+            if (!roomData || !user) return;
+            let updates = { players: { ...roomData.players }, observers: [...(roomData.observers || [])] };
+            
+            Object.keys(updates.players).forEach(k => { if(updates.players[k] === user.uid) updates.players[k] = null; });
+            updates.observers = updates.observers.filter(id => id !== user.uid);
+
+            if (roleId === 'obs') {
+               updates.observers.push(user.uid);
+            } else {
+               updates.players[roleId] = user.uid;
+            }
+            await updateGame(updates);
+          };
+
+          const handleEndGame = async () => {
+            if (!roomData) return;
+            await updateGame({ gameState: 'MENU', isPaused: false, feedbackMessage: null });
+          };
+
+          const startGame = async () => {
+            if (!roomData) return;
+            
+            const activePlayersCount = Object.values(roomData.players).filter(v => v).length;
+            const deckSize = activePlayersCount <= 2 ? 65 : 115;
+            const gameDeck = buildDeck(deckSize);
+            
+            let currentDeckIndex = 0;
+            let newHands = { 1: [], 2: [], 3: [], 4: [] };
+            
+            [1, 2, 3, 4].forEach(pNum => {
+               if (roomData.players[pNum]) {
+                  newHands[pNum] = gameDeck.slice(currentDeckIndex, currentDeckIndex + 10);
+                  currentDeckIndex += 10;
+               }
+            });
+
+            const remainingDeck = gameDeck.slice(currentDeckIndex);
+            const firstTurn = [1, 2, 3, 4].find(n => roomData.players[n]) || 1;
+
+            await updateGame({
+              gameState: 'PLAYING',
+              deck: remainingDeck,
+              hands: newHands,
+              currentPronoun: null,
+              tableCard: null,
+              turn: firstTurn,
+              isRandomizing: false,
+              winner: null,
+              penaltyData: null,
+              miniGameData: null,
+              isPaused: false,
+              feedbackMessage: { text: `¡El juego comienza! Turno del Jugador ${firstTurn}.`, type: 'info', ts: Date.now() }
+            });
+          };
+
+          const myPlayerNum = roomData ? Object.keys(roomData.players).find(k => roomData.players[k] === user?.uid) : null;
+          const isObserver = roomData?.observers?.includes(user?.uid);
+          const isMyTurn = myPlayerNum && roomData?.turn === parseInt(myPlayerNum);
+
+          const handleRandomize = async () => {
+            if (roomData.gameState !== 'PLAYING' || roomData.penaltyData || roomData.miniGameData || !isMyTurn || roomData.isPaused || roomData.isRandomizing || isActionPending) return;
+            
+            setIsActionPending(true);
+            try {
+              const normalPronouns = PRONOUN_KEYS;
+              const picked = normalPronouns[Math.floor(Math.random() * normalPronouns.length)];
+
+              await updateGame({ isRandomizing: true, currentPronoun: null });
+              
+              setTimeout(async () => {
+                let updates = { 
+                  isRandomizing: false, 
+                  currentPronoun: picked,
+                  feedbackMessage: { text: `¡Busca una carta para: ${PRONOUN_LABELS[picked].toUpperCase()}!`, type: 'alert', ts: Date.now() }
+                };
+                
+                await updateGame(updates);
+                setIsActionPending(false);
+              }, 800);
+            } catch (error) {
+              setIsActionPending(false);
+            }
+          };
+
+          const handleMiniGameResult = async (isCorrect) => {
+            if (!isMyTurn || !roomData.miniGameData || isActionPending) return;
+            setIsActionPending(true);
+
+            let updates = {
+              'miniGameData.status': 'result',
+              'miniGameData.isCorrect': isCorrect
+            };
+
+            if (isCorrect) {
+               const hand = roomData.hands[myPlayerNum];
+               if (hand && hand.length > 0) {
+                  const randomIndex = Math.floor(Math.random() * hand.length);
+                  const newHand = [...hand];
+                  newHand.splice(randomIndex, 1);
+                  updates[`hands.${myPlayerNum}`] = newHand;
+                  if (newHand.length === 0) {
+                      updates.winner = `Jugador ${myPlayerNum}`;
+                      updates.gameState = 'GAME_OVER';
+                  }
+               }
+            } else {
+               if (roomData.deck.length > 0) {
+                  const drawnCard = roomData.deck[0];
+                  updates.deck = roomData.deck.slice(1);
+                  updates[`hands.${myPlayerNum}`] = [...(roomData.hands[myPlayerNum] || []), drawnCard];
+               }
+            }
+
+            await updateGame(updates);
+            setIsActionPending(false);
+          };
+
+          const closeMiniGame = async () => {
+             if (!isMyTurn || isActionPending) return;
+             setIsActionPending(true);
+             await updateGame({
+                miniGameData: null,
+                currentPronoun: null,
+                turn: getNextTurn(roomData.turn, roomData.players)
+             });
+             setIsActionPending(false);
+          }
+
+          const handlePlayCard = async (playerNum, cardIndex) => {
+            if (roomData.gameState !== 'PLAYING' || !roomData.currentPronoun || roomData.penaltyData || roomData.miniGameData || roomData.isPaused || roomData.isRandomizing || isActionPending) return;
+            if (roomData.turn !== playerNum || parseInt(myPlayerNum) !== playerNum) return;
+
+            setIsActionPending(true);
+            try {
+              const hand = roomData.hands[playerNum];
+              const playedCard = hand[cardIndex];
+              if (!playedCard) return;
+
+              const isCorrect = playedCard.pronoun === roomData.currentPronoun;
+              let updates = {};
+
+              if (isCorrect) {
+                const newHand = [...hand];
+                newHand.splice(cardIndex, 1);
+                
+                updates[`hands.${playerNum}`] = newHand;
+                updates.tableCard = { ...playedCard, pronoun: roomData.currentPronoun };
+                updates.currentPronoun = null;
+                updates.turn = getNextTurn(roomData.turn, roomData.players);
+                updates.feedbackMessage = { text: `¡Jugador ${playerNum} acertó!`, type: 'success', ts: Date.now() };
+
+                if (newHand.length === 0) {
+                  updates.winner = `Jugador ${playerNum}`;
+                  updates.gameState = 'GAME_OVER';
+                }
+                await updateGame(updates);
+              } else {
+                updates.penaltyData = {
+                  player: playerNum,
+                  playedWord: playedCard.word,
+                  correctPronoun: playedCard.pronoun,
+                  wrongPronoun: roomData.currentPronoun,
+                  explanation: getGrammarExplanation(playedCard.word, playedCard.pronoun, roomData.currentPronoun)
+                };
+                await updateGame(updates);
+              }
+            } finally {
+              setIsActionPending(false);
+            }
+          };
+
+          const closePenaltyModal = async () => {
+            setIsActionPending(true);
+            try {
+              await updateGame({ 
+                penaltyData: null,
+                turn: getNextTurn(roomData.turn, roomData.players),
+                currentPronoun: null 
+              });
+            } finally {
+              setIsActionPending(false);
+            }
+          };
+
+          const handleDeckClick = async () => {
+            if (roomData.gameState !== 'PLAYING' || roomData.penaltyData || roomData.miniGameData || roomData.isPaused || roomData.isRandomizing || isActionPending) return;
+            if (!isMyTurn || !roomData.currentPronoun || roomData.currentPronoun === '?') return;
+            if (roomData.deck.length === 0) return;
+
+            setIsActionPending(true);
+            try {
+              const hand = roomData.hands[myPlayerNum];
+              const drawnCard = roomData.deck[0];
+              const newDeck = roomData.deck.slice(1);
+              
+              await updateGame({
+                deck: newDeck,
+                [`hands.${myPlayerNum}`]: [...hand, drawnCard]
+              });
+            } finally {
+              setIsActionPending(false);
+            }
+          };
+
+          const handlePassTurn = async () => {
+            if (roomData.gameState !== 'PLAYING' || !isMyTurn || !roomData.currentPronoun || isActionPending) return;
+            
+            setIsActionPending(true);
+            try {
+              await updateGame({
+                currentPronoun: null,
+                turn: getNextTurn(roomData.turn, roomData.players)
+              });
+            } finally {
+              setIsActionPending(false);
+            }
+          };
+
+          const renderCardText = (word) => {
+            const length = word.length;
+            const sizeClass = length > 22 ? 'text-[9px] sm:text-[10px] leading-tight' : length > 14 ? 'text-[11px] leading-tight sm:text-xs' : 'text-xs sm:text-sm';
+            return (
+              <span className={`font-bold text-slate-800 px-1 text-center break-words w-full ${sizeClass}`}>
+                {word}
+              </span>
+            );
+          };
+
+          const renderFaceUpCard = (card, idx, pNum, disabled) => (
+            <button
+              key={idx}
+              onClick={() => handlePlayCard(pNum, idx)}
+              disabled={disabled}
+              className={`
+                w-16 h-24 md:w-20 md:h-28 bg-white rounded-xl shadow-md border-2 border-slate-200 
+                flex items-center justify-center transform transition-all duration-200 relative shrink-0
+                ${!disabled ? 'hover:scale-105 hover:shadow-xl hover:border-blue-400 hover:z-10 cursor-pointer' : 'opacity-80 cursor-not-allowed'}
+              `}
+            >
+              <div className="absolute inset-1 border border-slate-100 rounded-lg pointer-events-none"></div>
+              {renderCardText(card.word)}
+            </button>
+          );
+
+          if (!roomId) {
+            return (
+              <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 font-sans text-slate-100">
+                <div className="bg-slate-800 p-8 md:p-12 rounded-2xl shadow-2xl border border-slate-700 max-w-lg w-full text-center">
+                  <div className="flex justify-center gap-2 mb-6">
+                    <span className="bg-blue-500 w-8 h-12 md:w-10 md:h-14 rounded shadow-lg transform -rotate-12 border border-white"></span>
+                    <span className="bg-red-500 w-8 h-12 md:w-10 md:h-14 rounded shadow-lg transform -rotate-6 border border-white"></span>
+                    <span className="bg-yellow-400 w-8 h-12 md:w-10 md:h-14 rounded shadow-lg transform rotate-0 border border-white z-10 scale-110"></span>
+                    <span className="bg-green-500 w-8 h-12 md:w-10 md:h-14 rounded shadow-lg transform rotate-6 border border-white"></span>
+                    <span className="bg-purple-500 w-8 h-12 md:w-10 md:h-14 rounded shadow-lg transform rotate-12 border border-white"></span>
+                  </div>
+                  <h1 className="text-3xl md:text-4xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-500 tracking-tight leading-tight">
+                    CONJUGACIÓN UNO
+                  </h1>
+                  <p className="text-slate-400 mb-8 font-medium">Pretérito Indefinido - Verbos Regulares</p>
+
+                  {localError && <div className="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded-lg mb-6 text-sm font-bold">{localError}</div>}
+
+                  <div className="space-y-6">
+                    <button 
+                      onClick={handleCreateRoom}
+                      className="w-full py-4 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white rounded-xl font-bold text-lg shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2"
+                    >
+                      <Users size={24} /> Crear Nueva Sala
+                    </button>
+                    <div className="relative flex items-center py-2">
+                      <div className="flex-grow border-t border-slate-600"></div>
+                      <span className="flex-shrink-0 mx-4 text-slate-500 text-sm font-bold">O ÚNETE A UNA</span>
+                      <div className="flex-grow border-t border-slate-600"></div>
+                    </div>
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        value={joinInput} 
+                        onChange={(e) => setJoinInput(e.target.value.toUpperCase())} 
+                        placeholder="CÓDIGO DE SALA"
+                        maxLength={4}
+                        className="flex-1 bg-slate-900 border border-slate-600 rounded-xl px-4 py-3 text-center text-xl font-black text-white uppercase tracking-widest focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      />
+                      <button 
+                        onClick={handleJoinRoom}
+                        disabled={joinInput.length < 4}
+                        className="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white px-6 rounded-xl font-bold transition flex items-center justify-center"
+                      >
+                        <ArrowRight size={24} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (!roomData) return (
+            <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center gap-4">
+              <RotateCcw size={40} className="animate-spin text-blue-500" />
+              <p>Conectando con la sala...</p>
+              {localError && <p className="text-red-400 font-bold">{localError}</p>}
+              <button onClick={handleLeaveRoom} className="mt-4 px-4 py-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition">Volver al inicio</button>
+            </div>
+          );
+
+          if (roomData.gameState === 'MENU') {
+            const activePlayersCount = Object.values(roomData.players).filter(v => v).length;
+            const canStart = activePlayersCount >= 1 && roomData.players[1] === user?.uid;
+
+            return (
+              <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 font-sans text-slate-100 relative">
+                <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 max-w-lg w-full relative overflow-hidden mt-8">
+                  <button onClick={handleLeaveRoom} className="absolute top-4 left-4 text-slate-400 hover:text-white flex items-center gap-1 text-xs font-bold transition bg-slate-900/50 px-3 py-1.5 rounded-full">
+                    <ArrowRight className="rotate-180" size={14} /> Salir
+                  </button>
+                  <div className="text-center mb-6 mt-4">
+                    <h2 className="text-sm font-bold text-slate-400 tracking-widest uppercase mb-1">Código de Sala</h2>
+                    <div className="text-5xl font-black text-white tracking-[0.2em] bg-slate-900 py-3 rounded-xl border border-slate-700 mx-auto w-max px-8 shadow-inner">
+                      {roomId}
+                    </div>
+                  </div>
+
+                  <h3 className="font-bold text-slate-200 mb-4 text-center border-b border-slate-600 pb-2">Selecciona tu Rol (Máx 4 Jugadores)</h3>
+                  
+                  <div className="grid grid-cols-2 gap-3 mb-6">
+                    {[1, 2, 3, 4].map(pNum => {
+                      const occupant = roomData.players[pNum];
+                      const isMe = occupant === user?.uid;
+                      const isOccupied = occupant && !isMe;
+                      
+                      return (
+                        <button key={pNum} onClick={() => handleTakeRole(pNum)} disabled={isOccupied} className={`p-3 rounded-xl border-2 flex items-center gap-2 transition-all ${isMe ? 'bg-blue-500/20 border-blue-500 text-blue-200' : isOccupied ? 'bg-slate-900/50 border-slate-700 opacity-60 text-slate-500' : 'bg-slate-700 hover:bg-slate-600 border-slate-600'}`}>
+                          <User size={18} className={isMe ? 'text-blue-400' : ''}/>
+                          <span className="font-bold text-sm">Jugador {pNum}</span>
+                          {isMe && <CheckCircle size={14} className="ml-auto text-blue-400"/>}
+                        </button>
+                      )
+                    })}
+                  </div>
+
+                  <button onClick={() => handleTakeRole('obs')} className={`w-full p-3 rounded-xl border-2 flex items-center justify-center gap-2 transition-all mb-6 ${isObserver ? 'bg-purple-500/20 border-purple-500 text-purple-200' : 'bg-slate-700 hover:bg-slate-600 border-slate-600'}`}>
+                    <Eye size={18} className={isObserver ? 'text-purple-400' : ''}/>
+                    <span className="font-bold text-sm">Entrar como Observador (Maestro)</span>
+                    {isObserver && <CheckCircle size={14} className="text-purple-400"/>}
+                  </button>
+
+                  <button 
+                    onClick={startGame}
+                    disabled={!canStart}
+                    className={`w-full py-4 rounded-xl font-bold text-xl shadow-lg transform transition flex items-center justify-center gap-2 ${canStart ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white active:scale-95' : 'bg-slate-700 text-slate-500 cursor-not-allowed'}`}
+                  >
+                    <Play size={24} fill="currentColor" /> {roomData.players[1] !== user?.uid ? 'Esperando al Jugador 1...' : 'INICIAR JUEGO'}
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          const activeOpponents = [1, 2, 3, 4].filter(p => roomData.players[p] && p !== parseInt(myPlayerNum));
+          const hasMatchingCard = myPlayerNum && roomData.hands[myPlayerNum]?.some(c => c.pronoun === roomData.currentPronoun);
+          const canDraw = isMyTurn && roomData.currentPronoun && roomData.deck.length > 0 && roomData.currentPronoun !== '?';
+
+          if (isObserver) {
+            return (
+              <div className="min-h-screen bg-slate-900 flex flex-col font-sans overflow-hidden select-none relative">
+                <div className="bg-slate-800 border-b border-slate-700 p-3 flex justify-between items-center z-10">
+                  <div className="text-xs font-bold text-purple-400 flex items-center gap-2"><Eye size={14}/> Observador | Sala: {roomId}</div>
+                  <button onClick={() => updateGame({ isPaused: true })} className="bg-slate-700 hover:bg-slate-600 text-white p-2 rounded-full"><Pause size={16} /></button>
+                </div>
+                
+                {roomData.isPaused && (
+                  <div className="absolute inset-0 z-[60] bg-slate-900/80 backdrop-blur-md flex flex-col items-center justify-center p-4">
+                    <div className="bg-slate-800 p-8 rounded-3xl shadow-2xl border border-slate-600 text-center flex flex-col items-center w-full max-w-sm">
+                      <h2 className="text-2xl font-black text-white mb-6">JUEGO PAUSADO</h2>
+                      <button onClick={() => updateGame({ isPaused: false })} className="w-full py-3 mb-3 bg-blue-500 text-white rounded-xl font-bold">Volver</button>
+                      <button onClick={handleEndGame} className="w-full py-3 bg-red-500 text-white rounded-xl font-bold">Finalizar Juego</button>
+                    </div>
+                  </div>
+                )}
+
+                {roomData.miniGameData && (
+                  <div className="absolute inset-0 z-50 bg-slate-900/95 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+                     <div className="bg-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl border-4 border-purple-500 max-w-2xl w-full text-center">
+                        <h2 className="text-3xl font-black text-purple-400 mb-6 uppercase">Jugador {roomData.miniGameData.player} en Reto</h2>
+                        <p className="text-xl text-white mb-6 whitespace-pre-line bg-slate-900 p-4 rounded-xl border border-slate-700 shadow-inner w-full">
+                          {roomData.miniGameData.data.question}
+                        </p>
+                        <p className="text-yellow-400 font-bold mb-4 bg-slate-900 p-4 rounded-xl border border-slate-700">Respuesta esperada: {roomData.miniGameData.data.correctAnswer?.toString()}</p>
+                        <p className="mt-6 text-slate-400 italic">Observando progreso del Jugador {roomData.miniGameData.player}...</p>
+                     </div>
+                  </div>
+                )}
+
+                <div className="bg-green-800 p-4 border-b-8 border-green-900 flex flex-col items-center justify-center shrink-0 h-48 relative">
+                   <div className="text-center font-black text-xl text-yellow-400 mb-2 drop-shadow-md">Turno: Jugador {roomData.turn}</div>
+                   <div className="flex gap-4 items-center">
+                     <div className="w-16 h-24 bg-slate-800 rounded-xl border-2 border-slate-700 flex flex-col items-center justify-center">
+                        <span className="text-xs text-slate-400">MAZO</span><span className="text-white font-bold">{roomData.deck.length}</span>
+                     </div>
+                     <div className={`w-20 h-28 rounded-xl shadow-xl flex items-center justify-center border-4 ${roomData.currentPronoun ? PRONOUN_COLORS_STATIC[roomData.currentPronoun] + ' ring-2 ring-white' : 'border-dashed border-green-700/50'}`}>
+                        {roomData.tableCard ? (
+                          <div className="flex flex-col items-center bg-white w-full h-full rounded-lg justify-center p-1">
+                             <span className={`text-[10px] md:text-xs font-black uppercase text-center text-slate-800`}>{PRONOUN_LABELS[roomData.tableCard.pronoun]}</span>
+                             {renderCardText(roomData.tableCard.word)}
+                          </div>
+                        ) : roomData.currentPronoun ? (
+                          <span className={`text-[11px] font-black uppercase text-center p-1 ${PRONOUN_TEXT_COLORS[roomData.currentPronoun]}`}>{PRONOUN_LABELS[roomData.currentPronoun]}</span>
+                        ) : <span className="text-[10px] text-green-700/50 font-bold">ESPERANDO</span>}
+                     </div>
+                   </div>
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                   {[1, 2, 3, 4].filter(p => roomData.players[p]).map(pNum => (
+                     <div key={pNum} className={`bg-slate-800 p-4 rounded-xl border-2 ${roomData.turn === pNum ? 'border-yellow-500' : 'border-slate-700'}`}>
+                       <h3 className="text-white font-bold mb-3 flex items-center justify-between">
+                         Jugador {pNum} <span className="text-xs bg-slate-700 px-2 py-1 rounded-full">{roomData.hands[pNum].length} cartas</span>
+                       </h3>
+                       <div className="flex flex-wrap gap-2">
+                         {roomData.hands[pNum].map((c, i) => (
+                            <div key={i} className="w-14 h-20 bg-white rounded flex items-center justify-center p-1 border shadow">
+                               <span className="text-[10px] font-bold text-slate-800 text-center leading-tight break-words">{c.word}</span>
+                            </div>
+                         ))}
+                       </div>
+                     </div>
+                   ))}
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="min-h-screen bg-slate-900 flex flex-col font-sans overflow-hidden select-none relative">
+              
+              <button onClick={() => updateGame({ isPaused: true })} className="absolute top-4 right-4 z-20 bg-slate-700/80 hover:bg-slate-600 text-white p-2 rounded-full shadow-lg backdrop-blur-sm transition-all">
+                <Pause size={18} />
+              </button>
+
+              {roomData.isPaused && (
+                <div className="absolute inset-0 z-[60] bg-slate-900/80 backdrop-blur-md flex flex-col items-center justify-center p-4">
+                  <div className="bg-slate-800 p-8 md:p-10 rounded-3xl shadow-2xl border border-slate-600 text-center flex flex-col items-center max-w-sm w-full mx-auto">
+                    <Pause size={64} className="text-white mb-6 opacity-80" />
+                    <h2 className="text-4xl font-black text-white tracking-widest mb-8">PAUSADO</h2>
+                    <div className="flex flex-col gap-4 w-full">
+                      <button onClick={() => updateGame({ isPaused: false })} className="w-full py-4 bg-blue-500 hover:bg-blue-400 text-white rounded-xl font-bold text-xl shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2">
+                        <Play size={20} fill="currentColor" /> VOLVER AL JUEGO
+                      </button>
+                      {roomData.players[1] === user?.uid && (
+                        <button onClick={startGame} className="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-xl font-bold text-xl shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2">
+                          <RotateCcw size={20} /> REINICIAR EL JUEGO
+                        </button>
+                      )}
+                      <button onClick={handleEndGame} className="w-full py-4 bg-red-500 hover:bg-red-400 text-white rounded-xl font-bold text-xl shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2">
+                        <Home size={20} /> FINALIZAR JUEGO
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* MiniGame Modal */}
+              {roomData.miniGameData && (
+                <div className="absolute inset-0 z-50 bg-slate-900/95 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+                  <div className="bg-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl border-4 border-indigo-500 max-w-2xl w-full text-center max-h-[95vh] overflow-y-auto">
+                      <h2 className="text-3xl font-black text-indigo-400 mb-6 uppercase flex items-center justify-center gap-3">
+                          <Zap size={32} className="text-yellow-400" /> Misterio / Mystery
+                      </h2>
+                      
+                      {roomData.miniGameData.status === 'playing' && (
+                          <div className="flex flex-col items-center w-full">
+                              <p className="text-xl text-white mb-6 whitespace-pre-line bg-slate-900 p-4 rounded-xl border border-slate-700 shadow-inner w-full">
+                                  {roomData.miniGameData.data.question}
+                              </p>
+                              
+                              {roomData.miniGameData.type === 'memory' && roomData.miniGameData.step === 0 && (
+                                  <div className="flex flex-col items-center w-full">
+                                      <div className="flex flex-wrap gap-3 justify-center mb-6">
+                                          {roomData.miniGameData.data.words.map((w, i) => <span key={i} className="px-5 py-3 bg-indigo-600/30 border border-indigo-500 text-white font-bold rounded-xl text-xl shadow-lg">{w}</span>)}
+                                      </div>
+                                      {isMyTurn && <button onClick={() => updateGame({'miniGameData.step': 1})} className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xl w-full max-w-xs shadow-lg transform transition active:scale-95">Continuar</button>}
+                                  </div>
+                              )}
+
+                              {roomData.miniGameData.type === 'memory' && roomData.miniGameData.step === 1 && (
+                                  <div className="flex flex-col items-center w-full">
+                                      <p className="text-yellow-400 font-bold mb-4 text-lg">Which word is missing? Say it out loud!</p>
+                                      <div className="flex flex-wrap gap-3 justify-center mb-6">
+                                          {roomData.miniGameData.data.shownWords.map((w, i) => <span key={i} className="px-5 py-3 bg-slate-700 text-white rounded-xl text-xl opacity-80">{w}</span>)}
+                                      </div>
+                                  </div>
+                              )}
+
+                              {roomData.miniGameData.type === 'gender' && roomData.miniGameData.step === 0 && (
+                                  <div className="flex flex-col items-center w-full mt-4">
+                                      <p className="text-yellow-400 font-bold mb-4 text-lg">Select the correct gender:</p>
+                                      <div className="flex flex-col gap-4 w-full max-w-sm">
+                                          {['Masculino', 'Femenino', 'Ambos'].map(opt => (
+                                              <button
+                                                  key={opt}
+                                                  onClick={() => handleMiniGameResult(opt === roomData.miniGameData.data.correctAnswer)}
+                                                  disabled={!isMyTurn}
+                                                  className={`py-4 rounded-xl font-bold text-xl shadow-lg transform transition ${isMyTurn ? 'bg-indigo-600 hover:bg-indigo-500 text-white active:scale-95' : 'bg-slate-700 text-slate-500 cursor-not-allowed'}`}
+                                              >
+                                                  {opt}
+                                              </button>
+                                          ))}
+                                      </div>
+                                  </div>
+                              )}
+
+                              {isMyTurn && roomData.miniGameData.type !== 'gender' && (roomData.miniGameData.type !== 'memory' || roomData.miniGameData.step === 1) && (
+                                  <div className="mt-6 p-5 bg-slate-900/80 rounded-2xl border border-slate-700 text-left w-full shadow-lg">
+                                      <p className="text-indigo-300 text-sm mb-4 font-bold flex items-center gap-2"><BookOpen size={16}/> Teacher Evaluation (Click after the teacher evaluates you):</p>
+                                      <div className="flex gap-4">
+                                          <button onClick={() => handleMiniGameResult(true)} className="flex-1 bg-green-600 hover:bg-green-500 text-white font-bold py-4 rounded-xl text-xl shadow-lg transform transition active:scale-95">Correcto</button>
+                                          <button onClick={() => handleMiniGameResult(false)} className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-4 rounded-xl text-xl shadow-lg transform transition active:scale-95">Incorrecto</button>
+                                      </div>
+                                  </div>
+                              )}
+
+                              {!isMyTurn && <p className="mt-8 text-slate-400 italic text-lg animate-pulse">Esperando al Jugador {roomData.miniGameData.player}...</p>}
+                          </div>
+                      )}
+
+                      {roomData.miniGameData.status === 'result' && (
+                          <div className="flex flex-col items-center w-full">
+                              <h3 className={`text-5xl font-black mb-6 ${roomData.miniGameData.isCorrect ? 'text-green-500' : 'text-red-500'}`}>
+                                  {roomData.miniGameData.isCorrect ? '¡CORRECTO!' : '¡INCORRECTO!'}
+                              </h3>
+                              
+                              {!roomData.miniGameData.isCorrect && (
+                                  <div className="bg-slate-900 border border-slate-700 p-6 rounded-2xl mb-8 text-left w-full shadow-inner">
+                                      <p className="text-blue-400 font-bold mb-3 text-lg flex items-center gap-2"><BookOpen size={20}/> Explicación:</p>
+                                      <p className="text-white text-xl leading-relaxed">{roomData.miniGameData.data.explanation}</p>
+                                  </div>
+                              )}
+
+                              <div className={`p-4 rounded-xl mb-8 font-bold text-xl border-2 ${roomData.miniGameData.isCorrect ? 'bg-green-900/30 text-green-300 border-green-500/50' : 'bg-red-900/30 text-red-300 border-red-500/50'}`}>
+                                  {roomData.miniGameData.isCorrect ? '✨ Has descartado 1 carta al azar.' : '⚠️ Has tomado 1 carta del mazo.'}
+                              </div>
+
+                              {isMyTurn && (
+                                  <button onClick={closeMiniGame} className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-xl text-xl w-full max-w-sm shadow-xl transform transition active:scale-95">Continuar y Terminar Turno</button>
+                              )}
+                              {!isMyTurn && <p className="mt-6 text-slate-400 italic text-lg">Esperando al Jugador {roomData.miniGameData.player}...</p>}
+                          </div>
+                      )}
+                  </div>
+                </div>
+              )}
+
+              {/* Penalty Modal */}
+              {roomData.penaltyData && (
+                <div className="absolute inset-0 z-40 bg-slate-900/95 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+                  <div className="bg-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl border-4 border-red-500 max-w-2xl w-full flex flex-col max-h-[95vh] relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-2 bg-red-500 shrink-0"></div>
+                    <div className="shrink-0 text-center">
+                      <div className="bg-red-500/20 text-red-400 w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner"><BookOpen size={36} /></div>
+                      <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase">¡Oops, Jugador {roomData.penaltyData.player}!</h2>
+                    </div>
+                    <div className="overflow-y-auto custom-scrollbar pr-2 pb-4 flex-1">
+                      <div className="bg-red-500/20 border border-red-500 p-4 rounded-xl mb-6 flex items-center gap-3">
+                        <AlertTriangle className="text-red-400 shrink-0" size={32} />
+                        <p className="text-red-200 font-bold text-lg text-left">Respuesta incorrecta. ¡Pierdes tu turno!</p>
+                      </div>
+                      <div className="bg-slate-900 p-4 md:p-6 rounded-2xl mb-6 shadow-inner border border-slate-700 text-center">
+                        <p className="text-xl text-slate-300 mb-4">La carta en juego era para <strong>{PRONOUN_LABELS[roomData.penaltyData.wrongPronoun].toUpperCase()}</strong>, pero tú elegiste:</p>
+                        <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-3xl md:text-4xl font-black">
+                          <span className={`${PRONOUN_TEXT_COLORS[roomData.penaltyData.correctPronoun]} ${PRONOUN_COLORS_STATIC[roomData.penaltyData.correctPronoun]} px-4 py-2 rounded-xl shadow-lg uppercase text-center`}>
+                            {PRONOUN_LABELS[roomData.penaltyData.correctPronoun]}
+                          </span>
+                          <span className="text-white bg-slate-700 px-6 py-2 rounded-xl border-2 border-slate-600 text-center break-words max-w-full">
+                            {roomData.penaltyData.playedWord}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-left bg-blue-900/30 border border-blue-500/30 p-5 rounded-xl">
+                        <h3 className="text-blue-400 font-bold mb-2 flex items-center gap-2"><BookOpen size={18} /> Regla Gramatical:</h3>
+                        <p className="text-slate-200 leading-relaxed whitespace-pre-line text-lg">{roomData.penaltyData.explanation}</p>
+                      </div>
+                    </div>
+                    <div className="shrink-0 pt-4 mt-2 border-t border-slate-700/50">
+                      <button onClick={closePenaltyModal} disabled={parseInt(myPlayerNum) !== roomData.penaltyData.player} className="px-6 py-4 bg-red-500 hover:bg-red-400 disabled:bg-slate-700 disabled:text-slate-500 text-white rounded-xl font-bold text-xl md:text-2xl shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2 mx-auto w-full">
+                        {parseInt(myPlayerNum) === roomData.penaltyData.player ? "Aceptar y Pasar Turno" : "Esperando al jugador..."}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Status Bar */}
+              <div className="bg-slate-800 border-b border-slate-700 p-2 shadow-md z-10 flex flex-wrap justify-center items-center gap-2 md:gap-6 min-h-[4rem]">
+                <div className="absolute top-2 left-4 text-xs font-bold text-slate-500 hidden md:flex items-center gap-2">Sala: {roomId}</div>
+                
+                {activeOpponents.length === 0 && <span className="text-slate-500 text-sm font-bold">Esperando oponentes...</span>}
+                
+                {activeOpponents.map(oppNum => (
+                   <div key={oppNum} className={`flex items-center gap-2 p-2 rounded-lg transition-all ${roomData.turn === oppNum ? 'bg-yellow-500/20 border border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.2)]' : 'opacity-70'}`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs ${roomData.turn === oppNum ? 'bg-yellow-500' : 'bg-slate-600'}`}>J{oppNum}</div>
+                      <div className="flex bg-slate-900 rounded p-1 gap-1 items-center border border-slate-700">
+                         <div className="w-4 h-6 bg-slate-700 rounded-sm"></div>
+                         <span className="text-white font-bold text-sm ml-1 px-1">x{roomData.hands[oppNum].length}</span>
+                      </div>
+                   </div>
+                ))}
+              </div>
+
+              <div className="bg-slate-800 border-b border-slate-700 p-3 md:p-6 shadow-md z-10 flex flex-col items-center relative overflow-hidden">
+                <div className="text-center font-black text-lg md:text-3xl text-yellow-400 tracking-wider mb-2 md:mb-4 drop-shadow-lg uppercase">
+                   ¡Turno del Jugador {roomData.turn}!
+                </div>
+                <div className="flex flex-wrap md:flex-nowrap justify-center gap-1 md:gap-4 bg-slate-900 p-2 md:p-4 rounded-2xl md:rounded-3xl shadow-inner border border-slate-700 max-w-full">
+                   {PRONOUN_KEYS.map((pronoun) => {
+                     const isHighlight = roomData.currentPronoun === pronoun;
+                     const baseColor = PRONOUN_COLORS_STATIC[pronoun];
+                     const label = PRONOUN_LABELS[pronoun];
+                     return (
+                       <div key={pronoun} className={`w-[4.5rem] h-14 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-lg md:rounded-xl font-black text-[9px] md:text-sm lg:text-lg uppercase flex items-center justify-center transition-all duration-75 border-b-4 text-center leading-tight px-1
+                         ${isHighlight ? baseColor + ' scale-110 shadow-2xl ring-2 md:ring-4 ring-white text-white z-10' : 
+                           roomData.isRandomizing ? baseColor + ' animate-fast-pulse text-white' : 
+                           'bg-slate-800 border-slate-700 text-slate-500 opacity-40 grayscale'}
+                       `}>
+                         {pronoun === '?' ? <Zap className="w-6 h-6 md:w-10 md:h-10 text-white" /> : label}
+                       </div>
+                     )
+                   })}
+                </div>
+              </div>
+
+              {/* Game Area */}
+              <div className="flex-1 bg-green-800 relative flex flex-col items-center justify-center shadow-inner overflow-hidden border-y-8 border-green-900 py-4 md:py-8">
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #fff 10%, transparent 11%)', backgroundSize: '20px 20px' }}></div>
+                <div className="absolute w-64 h-64 md:w-[500px] md:h-[500px] border-4 border-green-700/50 rounded-full flex items-center justify-center pointer-events-none">
+                   <div className="text-green-700/30 font-black text-4xl md:text-8xl rotate-12 select-none">RUTINA</div>
+                </div>
+
+                <div className={`absolute top-4 transition-all duration-300 transform z-30 ${localFeedback.visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-4 opacity-0 scale-95'}`}>
+                  {localFeedback.visible && (
+                    <div className={`px-6 py-2 rounded-full font-bold text-white shadow-xl flex items-center gap-2 text-sm md:text-lg ${localFeedback.type === 'success' ? 'bg-green-500' : localFeedback.type === 'alert' ? 'bg-blue-500 animate-pulse' : 'bg-slate-800'}`}>
+                      {localFeedback.type === 'success' && <CheckCircle size={20} />}
+                      {localFeedback.type === 'alert' && roomData.currentPronoun === '?' && <Zap size={20} className="text-yellow-400" />}
+                      {localFeedback.text}
+                    </div>
+                  )}
+                </div>
+
+                <div className="relative z-10 flex items-center justify-center gap-2 md:gap-10 w-full px-2">
+                  
+                  <div className="flex flex-col items-center">
+                    <span className="text-white/60 font-bold text-[9px] md:text-sm mb-1 md:mb-3 tracking-widest">ROBAR</span>
+                    <button 
+                      onClick={handleDeckClick}
+                      disabled={!canDraw}
+                      className={`relative w-16 h-24 md:w-28 md:h-40 bg-slate-800 rounded-xl border-4 shadow-xl flex flex-col items-center justify-center text-slate-500 rotate-[-5deg] transition-all
+                        ${!canDraw || roomData.deck.length === 0 ? 'opacity-30 border-slate-700 cursor-not-allowed' : 'border-slate-700'}
+                        ${canDraw ? 'cursor-pointer hover:bg-slate-700 hover:-translate-y-2' : ''}
+                      `}
+                    >
+                       <span className="font-bold text-[10px] md:text-sm">MAZO</span>
+                       <span className="text-white font-black mt-1 md:text-xl">{roomData.deck.length}</span>
+                    </button>
+
+                    {isMyTurn && roomData.currentPronoun && roomData.currentPronoun !== '?' && roomData.deck.length === 0 && !hasMatchingCard && (
+                       <button onClick={handlePassTurn} className="mt-4 px-3 py-1.5 md:px-6 md:py-3 bg-red-500 text-white font-bold rounded-full shadow-lg hover:bg-red-400 animate-bounce text-[10px] md:text-sm uppercase tracking-widest">
+                         Pasar
+                       </button>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                     <span className="text-white/60 font-bold text-[9px] md:text-sm mb-1 md:mb-3 tracking-widest">EN MESA</span>
+                     <div className="relative w-20 h-28 md:w-36 md:h-52 flex items-center justify-center">
+                        {roomData.tableCard ? (
+                          <div className={`w-full h-full rounded-xl md:rounded-2xl shadow-2xl flex flex-col items-center justify-center border-4 md:border-8 transition-all duration-500 transform rotate-2 scale-105
+                            ${PRONOUN_COLORS_STATIC[roomData.tableCard.pronoun]} bg-white
+                          `}>
+                            <div className="text-[9px] md:text-[14px] font-black mb-1 md:mb-2 uppercase text-white/90 drop-shadow-sm px-1 text-center leading-tight">{PRONOUN_LABELS[roomData.tableCard.pronoun]}</div>
+                            <div className="bg-white px-1 py-3 md:py-6 w-11/12 rounded-lg md:rounded-xl flex items-center justify-center shadow-inner">
+                              {renderCardText(roomData.tableCard.word)}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-full h-full rounded-xl md:rounded-2xl border-4 border-dashed border-green-700/50 flex flex-col items-center justify-center text-green-700/50 p-1 md:p-2 text-center">
+                            <span className="font-bold text-[10px] md:text-sm">MESA<br />VACÍA</span>
+                          </div>
+                        )}
+                     </div>
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                     <span className="text-white/60 font-bold text-[9px] md:text-sm mb-1 md:mb-3 tracking-widest">PRONOMBRE</span>
+                     <div className="relative w-20 h-28 md:w-36 md:h-52 flex flex-col items-center justify-center bg-slate-900/40 rounded-xl md:rounded-2xl border-4 border-slate-800 shadow-inner p-1 md:p-2">
+                        {roomData.isRandomizing ? (
+                            <Dices size={48} className="text-white animate-spin-slow opacity-80" />
+                        ) : roomData.currentPronoun ? (
+                            <div className={`w-full h-full rounded-lg md:rounded-xl shadow-lg flex items-center justify-center border-2 md:border-4 border-white/20 animate-pulse ${PRONOUN_COLORS_STATIC[roomData.currentPronoun]}`}>
+                              {roomData.currentPronoun === '?' ? (
+                                <Zap size={48} className="text-white drop-shadow-lg" />
+                              ) : (
+                                <span className={`text-[11px] md:text-2xl font-black uppercase tracking-widest text-center px-1 leading-tight ${PRONOUN_TEXT_COLORS[roomData.currentPronoun]}`}>{PRONOUN_LABELS[roomData.currentPronoun]}</span>
+                              )}
+                            </div>
+                        ) : isMyTurn ? (
+                            <button onClick={handleRandomize} disabled={isActionPending} className="w-full h-full flex flex-col items-center justify-center hover:bg-green-500/20 text-green-400 rounded-lg md:rounded-xl transition border-2 md:border-4 border-green-500/50 shadow-[0_0_15px_rgba(34,197,94,0.3)] bg-green-900/30 group active:scale-95 disabled:opacity-50">
+                              <Dices className="mb-1 md:mb-2 group-hover:animate-bounce w-8 h-8 md:w-12 md:h-12" />
+                              <span className="font-black text-[9px] md:text-sm text-center leading-tight">CLICK<br />PARA GIRAR</span>
+                            </button>
+                        ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 opacity-50">
+                              <Dices className="mb-1 md:mb-2 w-8 h-8 md:w-12 md:h-12" />
+                              <span className="font-bold text-[9px] md:text-sm text-center leading-tight">ESPERANDO<br />GIRO</span>
+                            </div>
+                        )}
+                     </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* Hand Area */}
+              <div className={`bg-slate-800 min-h-[14rem] md:min-h-[18rem] border-t border-slate-700 shadow-[0_-10px_20px_rgba(0,0,0,0.3)] relative p-3 flex flex-col ${isMyTurn && !roomData.miniGameData ? 'ring-inset ring-4 ring-yellow-500' : ''}`}>
+                <div className="flex justify-between items-center bg-slate-900/50 rounded-lg p-2 mb-3 shrink-0">
+                  <div className="flex items-center gap-2">
+                    <div className={`p-1.5 rounded-full text-white ${isMyTurn ? 'bg-yellow-500 animate-pulse' : 'bg-blue-500'}`}><User size={16} /></div>
+                    <span className="font-bold text-white">Mi Mano (Jugador {myPlayerNum})</span>
+                    {isMyTurn && <span className="bg-yellow-500 text-slate-900 text-xs font-bold px-2 py-0.5 rounded-full ml-2 uppercase">¡Tu Turno!</span>}
+                  </div>
+                  <span className="bg-slate-700 text-white text-xs px-3 py-1 rounded-full font-mono">{roomData.hands[myPlayerNum]?.length || 0} cartas</span>
+                </div>
+                
+                <div className="flex-1 overflow-x-auto overflow-y-hidden custom-scrollbar pb-2">
+                  <div className="flex gap-2 w-max px-2 h-full items-center">
+                    {roomData.hands[myPlayerNum]?.length === 0 && <p className="text-slate-500 italic px-4">No tienes cartas.</p>}
+                    
+                    {roomData.hands[myPlayerNum]?.map((card, idx) => {
+                      const isDisabled = !isMyTurn || !roomData.currentPronoun || roomData.currentPronoun === '?' || roomData.miniGameData || isActionPending;
+                      return renderFaceUpCard(card, idx, parseInt(myPlayerNum), isDisabled);
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {roomData.gameState === 'GAME_OVER' && (
+                <div className="absolute inset-0 z-50 bg-slate-900/90 backdrop-blur-sm flex flex-col items-center justify-center">
+                  <div className="bg-slate-800 p-10 rounded-3xl shadow-2xl border-4 border-yellow-400 text-center max-w-lg w-11/12 transform hover:scale-105 transition-transform">
+                    <div className="text-yellow-400 mb-4 flex justify-center"><RotateCcw size={64} className="animate-spin-slow" /></div>
+                    <h2 className="text-5xl font-black text-white mb-2 tracking-tight uppercase">¡Juego Terminado!</h2>
+                    <p className="text-2xl text-slate-300 mb-8 font-medium">El ganador es: <br/><span className="text-4xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 font-black mt-2 inline-block">{roomData.winner}</span></p>
+                    {roomData.players[1] === user?.uid ? (
+                      <button onClick={startGame} className="px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-full font-black text-xl shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2 mx-auto w-full">
+                        <RotateCcw size={24} /> VOLVER A JUGAR
+                      </button>
+                    ) : <p className="text-slate-400">Esperando al Jugador 1...</p>}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        }
+
+        const rootElement = document.getElementById('root');
+        const root = createRoot(rootElement);
+        root.render(<App />);
+    </script>
+</body>
+</html>

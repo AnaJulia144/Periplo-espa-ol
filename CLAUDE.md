@@ -132,6 +132,9 @@ _(se irá llenando)_
 - 2026-11-16: **Traducciones al inglés de las semanas 1–19 hechas** (1,101 palabras). **Regla:** toda palabra nueva entra con traducción. Los números se escriben con letra (`veintiuno = 21`). Las frases de la semana 17 ahora tienen traducción completa (antes eran pistas sueltas). En las reacciones, la nota en español entre paréntesis se queda del lado español.
 - 2026-11-16: **Qué guarda el hub:** sobre todo las **versiones de los juegos**. Un juego se programa una vez (motor); cada versión = motor + biblioteca de palabras/preguntas/oraciones guardada en Firebase. Las versiones se publican en el portal o se comparte su link por WhatsApp. (Antes Anita copiaba el juego completo a otro chat de Gemini para cambiarle el vocabulario.)
 
+- 2026-11-16: **Vercel conectado y publicado:** https://periplo-espa-ol.vercel.app (panel en `/panel/`). Cada `git push` a `main` se publica solo. El equipo en Vercel se llama `periplo-es`. `.vercelignore` evita publicar `juegos/originales-gemini`, `Plan de estudios`, `CLAUDE.md` y `BITACORA.md`. Ojo: el repo de GitHub es **público**.
+- 2026-11-16: **UNO recibido** → guardado tal cual en `juegos/originales-gemini/uno-conjugacion.html` (solo referencia). Mecánica: salas en línea con código de 4 letras, hasta 4 jugadores + maestra como observadora; ruleta elige pronombre → jugar una carta (frase conjugada) de ese pronombre; error = ventana con explicación y pierde turno; robar del mazo; gana quien se queda sin cartas. Contenido: lista `VERBS` (verbo, 5 conjugaciones, complementos, expresiones de tiempo) = verbos de la semana 19. Depende de Gemini: `__firebase_config`, `__app_id`, `__initial_auth_token`; **necesita Firebase real** para las salas. Restos sin usar: mini-reto "Misterio" (memoria / género), comodín "?", marca de agua "RUTINA".
+
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 
 - Cálido y artesanal: tonos tierra (terracota, ocre, crema), sensación de papel/hecho a mano.
