@@ -84,7 +84,9 @@
 
 **Firebase conectado (2026-11-16):** el UNO ya crea salas en línea, probado de verdad y publicado en Vercel.
 
-**Siguiente paso:** Anita juega una partida de prueba (dos dispositivos) y cuenta qué cambiar. Después: elegir el segundo juego.
+**Primera partida real (2026-11-16, Anita + Israel en iPhone):** se congeló en el iPhone, el turno propio no se notaba y la ventana de error tardó en cerrarse del otro lado. Arreglado: aviso «¡Es tu turno!», conexión segura en iPhone, refresco cada 8 s y al volver a la pestaña, y recargar ya no saca de la sala.
+
+**Siguiente paso:** otra partida para confirmar los arreglos (sobre todo en iPhone). Después: elegir el segundo juego.
 
 ---
 
@@ -125,3 +127,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (2, 3) Vercel conectado y primer deploy confirmado. Recibido y revisado el UNO de conjugación.
 - **2026-11-16** · (2, 3) Una sola carpeta local (la vieja a la Papelera). Motor del UNO construido con colores cálidos y conectado al panel. Pendiente: crear Firebase.
 - **2026-11-16** · (3) Firebase creado y conectado; el UNO funciona en línea y está publicado.
+- **2026-11-16** · (3) Primera partida con Israel → 3 arreglos al UNO (turno visible, iPhone, recargar).
