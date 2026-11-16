@@ -42,14 +42,20 @@
   <script type="text/babel" data-type="module" data-presets="react">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { initializeFirestore, doc, setDoc, getDoc, getDocFromServer, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     const { useState, useEffect } = React;
 
     // ---------- Conexión ----------
     const CONFIG = window.FIREBASE_CONFIG;
     let auth = null, db = null;
-    if (CONFIG) { const app = initializeApp(CONFIG); auth = getAuth(app); db = getFirestore(app); }
+    // En iPhone/iPad la conexión "en vivo" a veces se queda dormida: ahí usamos una más segura
+    const esIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (CONFIG) {
+      const app = initializeApp(CONFIG);
+      auth = getAuth(app);
+      db = initializeFirestore(app, esIOS ? { experimentalForceLongPolling: true } : {});
+    }
     const refSala = (codigo) => doc(db, 'salas', codigo);
 
     // ---------- Versión elegida (?v=...) ----------
@@ -71,6 +77,10 @@
     const barajar = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
     const leerNombre = () => { try { return localStorage.getItem('uno-nombre') || ''; } catch { return ''; } };
     const guardarNombre = (n) => { try { localStorage.setItem('uno-nombre', n); } catch {} };
+    // Recordar la sala para volver a ella si se recarga la página
+    const leerSala = () => { try { return localStorage.getItem('uno-sala') || ''; } catch { return ''; } };
+    const guardarSala = (c) => { try { localStorage.setItem('uno-sala', c); } catch {} };
+    const salaInicial = () => { const p = (params.get('sala') || '').toUpperCase(); return p && p === leerSala() ? p : ''; };
 
     // Arma todas las cartas posibles de una versión: { t: texto, g: número de grupo }
     function cartasDeVersion(v) {
@@ -152,7 +162,7 @@
     // ---------- La app ----------
     function App() {
       const [usuario, setUsuario] = useState(null);
-      const [codigo, setCodigo] = useState('');
+      const [codigo, setCodigo] = useState(salaInicial);
       const [sala, setSala] = useState(null);
       const [entrada, setEntrada] = useState((params.get('sala') || '').toUpperCase());
       const [nombre, setNombre] = useState(leerNombre());
@@ -171,9 +181,35 @@
         if (!usuario || !codigo) { setSala(null); return; }
         return onSnapshot(refSala(codigo), (s) => {
           if (s.exists()) setSala(s.data());
-          else { setSala(null); setCodigo(''); setError('Esa sala no existe o ya se cerró.'); }
+          else { setSala(null); setCodigo(''); guardarSala(''); setError('Esa sala no existe o ya se cerró.'); }
         }, (e) => { console.error(e); setError('No se pudo leer la sala.'); setCodigo(''); });
       }, [usuario, codigo]);
+
+      // Red de seguridad: si la conexión en vivo se atora (pasa en celulares),
+      // cada 8 segundos y al volver a la pestaña se pide el estado fresco.
+      useEffect(() => {
+        if (!usuario || !codigo) return;
+        const refrescar = async () => {
+          if (document.visibilityState !== 'visible') return;
+          try { const s = await getDocFromServer(refSala(codigo)); if (s.exists()) setSala(s.data()); } catch {}
+        };
+        const reloj = setInterval(refrescar, 8000);
+        document.addEventListener('visibilitychange', refrescar);
+        window.addEventListener('focus', refrescar);
+        window.addEventListener('online', refrescar);
+        return () => {
+          clearInterval(reloj);
+          document.removeEventListener('visibilitychange', refrescar);
+          window.removeEventListener('focus', refrescar);
+          window.removeEventListener('online', refrescar);
+        };
+      }, [usuario, codigo]);
+
+      // La dirección de la página guarda la sala, para que recargar no te saque
+      useEffect(() => {
+        if (!codigo || !sala?.version) return;
+        history.replaceState(null, '', `?v=${sala.version}&sala=${codigo}`);
+      }, [codigo, sala?.version]);
 
       useEffect(() => {
         if (!sala?.aviso?.ts) return;
@@ -236,7 +272,7 @@
             grupoActual: null, cartaMesa: null, turno: 1, girando: false,
             ganador: null, fallo: null, pausa: false, aviso: null,
           });
-          setError(''); setCodigo(cod);
+          setError(''); guardarSala(cod); setCodigo(cod);
         } catch (e) { console.error(e); setError('No se pudo crear la sala.'); }
       });
 
@@ -248,7 +284,7 @@
           const s = await getDoc(refSala(cod));
           if (!s.exists()) { setError('No encontré esa sala. Revisa el código.'); return; }
           await updateDoc(refSala(cod), { [`nombres.${usuario.uid}`]: nombre.trim() });
-          setError(''); setCodigo(cod);
+          setError(''); guardarSala(cod); setCodigo(cod);
         } catch (e) { console.error(e); setError('No se pudo entrar a la sala.'); }
       };
 
@@ -288,7 +324,8 @@
         const jugadores = { ...sala.jugadores };
         Object.keys(jugadores).forEach(k => { if (jugadores[k] === uid) jugadores[k] = null; });
         await actualizar({ jugadores, observadores: (sala.observadores || []).filter(x => x !== uid) });
-        setCodigo(''); setSala(null);
+        guardarSala(''); setCodigo(''); setSala(null);
+        history.replaceState(null, '', `?v=${sala.version}`);
       };
 
       const tomarLugar = (lugar) => {
@@ -391,6 +428,7 @@
       const pasar = () => conCandado(() => actualizar({ grupoActual: null, turno: siguienteTurno(sala.turno, sala.jugadores) }));
 
       const activos = [1, 2, 3, 4].filter(n => sala.jugadores[n]);
+      document.title = miTurno ? '¡Tu turno! · UNO' : 'UNO · Periplo-español';
 
       // ----- Pantalla de juego -----
       return (
@@ -407,9 +445,21 @@
             <button onClick={() => actualizar({ pausa: true })} className="boton ml-1 px-3 py-1 border border-linea bg-white text-sm">Pausa</button>
           </div>
 
-          {/* Ruleta de grupos */}
-          <div className="bg-hoja/70 border-b border-linea p-3 text-center">
-            <p className="font-titulo text-xl sm:text-2xl font-semibold mb-2">Turno de {nombreDe(sala.turno)}</p>
+          {/* Ruleta de grupos + de quién es el turno */}
+          <div className={`border-b p-3 text-center transition-colors ${miTurno ? 'bg-ocre/15 border-ocre' : 'bg-hoja/70 border-linea'}`}>
+            {miTurno ? (
+              <div className="mb-2">
+                <p className="font-titulo text-2xl sm:text-3xl font-bold text-terracota">¡Es tu turno!</p>
+                <p className="text-sm text-tinta">
+                  {sala.grupoActual === null ? 'Gira la ruleta 🎲' : `Elige una carta para «${G[sala.grupoActual].nombre}» o roba del mazo`}
+                </p>
+              </div>
+            ) : (
+              <div className="mb-2">
+                <p className="font-titulo text-xl sm:text-2xl font-semibold">Turno de {nombreDe(sala.turno)}</p>
+                {miNumero && <p className="text-sm text-suave">Espera tu turno</p>}
+              </div>
+            )}
             <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3">
               {G.map((g, i) => {
                 const c = COLORES[i], activo = sala.grupoActual === i;
