@@ -13,7 +13,7 @@
 |---|----------|--------|------------|
 | 1 | Plan de estudios oficial | Base lista (sem. 1–19), falta reinventar 20 en adelante | 2026-11-16 |
 | 2 | Hub de la maestra y portal del alumno | Hub listo y publicado en Vercel | 2026-11-16 |
-| 3 | Código de los juegos (los "motores") | UNO construido; falta conectar Firebase | 2026-11-16 |
+| 3 | Código de los juegos (los "motores") | UNO funcionando en línea; falta probarlo en clase | 2026-11-16 |
 | 4 | Versiones de los juegos (bibliotecas de contenido) | Idea definida, sin empezar | 2026-11-16 |
 | 5 | Seguimiento de David | Va en la semana 19, modo experimental | 2026-11-16 |
 
@@ -82,7 +82,9 @@
 
 **Hecho (2026-11-16):** motor del UNO construido en `juegos/uno/` con la versión de la semana 19. Probado con una simulación: menú de sala, juego, carta equivocada, vista de maestra.
 
-**Siguiente paso:** Anita crea Firebase y pasa la configuración → Claude la conecta → primera partida de prueba real.
+**Firebase conectado (2026-11-16):** el UNO ya crea salas en línea, probado de verdad y publicado en Vercel.
+
+**Siguiente paso:** Anita juega una partida de prueba (dos dispositivos) y cuenta qué cambiar. Después: elegir el segundo juego.
 
 ---
 
@@ -122,3 +124,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (1) Semanas 1–19 a `datos/curso.js`, comparación con el Cervantes, traducciones al inglés de las 1,101 palabras. Se creó esta bitácora con los 5 proyectos.
 - **2026-11-16** · (2, 3) Vercel conectado y primer deploy confirmado. Recibido y revisado el UNO de conjugación.
 - **2026-11-16** · (2, 3) Una sola carpeta local (la vieja a la Papelera). Motor del UNO construido con colores cálidos y conectado al panel. Pendiente: crear Firebase.
+- **2026-11-16** · (3) Firebase creado y conectado; el UNO funciona en línea y está publicado.

@@ -138,6 +138,8 @@ _(se irá llenando)_
 - 2026-11-16: **El repo se queda público** (Vercel gratis solo publica solo con repo público). Regla: nunca contraseñas ni llaves de IA en el repo. Había una 2.ª carpeta local `Documents\GitHub\Periplo-espa-ol` (clon viejo de GitHub Desktop, solo el commit inicial + copia idéntica del UNO) → se mandó a la Papelera. En GitHub siempre hubo un solo repo: GitHub no acepta "ñ" y la cambió por "-".
 - 2026-11-16: **UNO nuevo construido** (`juegos/uno/index.html`): motor general de "cartas por grupo" (2 a 5 grupos), colores cálidos (añil, terracota, ocre, olivo, ciruela), sin el mini-reto "Misterio" (queda para después como opción). Nombres de jugadores, link para WhatsApp con la sala (`?v=…&sala=…`), maestra como observadora ve las manos con color. Salas en Firestore `salas/{código}`, entrada anónima. Las versiones viven en `datos/versiones.js` (primera: `uno-s19-preterito`). Firebase en `datos/firebase.js` (hoy `null`). El panel muestra las versiones en Semana → Práctica (Abrir / Copiar link).
 
+- 2026-11-16: **Firebase creado y conectado** (proyecto `periplo-espanol`, Firestore en nam5, entrada Anónima activada). Reglas: solo `salas/{sala}` con `request.auth != null`. Probado de verdad (sala creada, juego y ruleta). Las salas se quedan guardadas: más adelante, limpieza automática de salas viejas. Para probar el juego sin clics a mano: copia con clics automáticos + Edge con `--remote-debugging-port` (script en el scratchpad); `--screenshot` corta a los 3 s y no alcanza a conectar.
+
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 
 - Cálido y artesanal: tonos tierra (terracota, ocre, crema), sensación de papel/hecho a mano.
@@ -197,5 +199,6 @@ _(se irá llenando)_
 - [ ] Decidir con Anita si se mueven antes: gustar, cortesía (me gustaría / ¿podría?), poder + inf., clima, imperativo.
 - [ ] Reinventar semanas 20–56 con Anita.
 - [ ] Proponer el portal de David (código + nombre).
-- [ ] Crear Firebase (guiado paso a paso) cuando haga falta.
+- [x] Crear Firebase (2026-11-16).
+- [ ] Primera partida real del UNO con David / Anita.
 - [ ] Migrar los 5 juegos, uno por uno.
