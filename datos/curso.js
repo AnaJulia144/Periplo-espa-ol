@@ -7,7 +7,7 @@
 //
 //  Cómo está escrito cada semana:
 //    n            número de semana
-//    nivel        A1 (1–18), A2 (19–32), B1 (33–45), B2 (46–56) — comparado con el Instituto Cervantes
+//    nivel        A1 (1–18), A2 (19–33), B1 (34–45), B2 (46–56) — comparado con el Instituto Cervantes
 //    estado       "listo" (ya revisada) o "borrador"
 //    titulo       el tema principal
 //    parte1/2     gramática y temas de vocabulario de cada parte
@@ -477,7 +477,7 @@ window.CURSO = [
       { grupo: "Verbos irregulares", lista: [
         "entender = to understand", "perder = to lose", "merendar = to have an afternoon snack", "mentir = to lie", "encontrar = to find", "volar = to fly", "almorzar = to have lunch", "resolver = to solve", "contar = to tell / to count", "probar = to try / to taste",
         "jugar = to play", "pedir = to ask for / to order", "seguir = to follow / to continue", "servir = to serve", "repetir = to repeat", "elegir = to choose", "salir = to go out / to leave", "hacer = to do / to make", "traer = to bring", "traducir = to translate", "parecer = to seem",
-        "conocer = to know (people, places) / to meet", "conducir = to drive", "producir = to produce", "venir = to come", "decir = to say / to tell", "ver = to see / to watch", "saber = to know (facts)", "dar = to give", "ir = to go",
+        "conocer = to know (people, places) / to meet", "conducir = to drive", "producir = to produce", "venir = to come", "decir = to say / to tell", "ver = to see / to watch", "saber = to know (facts)", "dar = to give", "ir = to go", "poder = can / to be able to",
       ]},
       { grupo: "Complementos (mismo orden que los verbos)", lista: [
         "la gramática del español = Spanish grammar", "en los juegos = in games", "un café con pan = a coffee with sweet bread", "a mis amigos = to my friends", "la dirección = the address",
@@ -485,7 +485,7 @@ window.CURSO = [
         "comida a domicilio = food delivery", "las instrucciones = the instructions", "la comida = the food / lunch", "los ejercicios = the exercises", "el mismo restaurante = the same restaurant",
         "los viernes = on Fridays", "ejercicio = exercise", "lonche al trabajo = a packed lunch to work", "documentos = documents", "difícil = difficult", "gente nueva = new people", "despacio = slowly",
         "artículos = items / products", "temprano a las reuniones = early to meetings", "la verdad = the truth", "películas = movies", "las respuestas de los ejercicios = the answers to the exercises",
-        "clases = classes", "al gimnasio = to the gym",
+        "clases = classes", "al gimnasio = to the gym", "pagar con tarjeta = to pay by card",
       ]},
     ],
   },
@@ -837,6 +837,16 @@ window.CURSO = [
   // ------------------------------------------------------------------
   {
     n: 31, nivel: "A2", estado: "borrador",
+    titulo: "Imperativo Afirmativo Regular e Irregular",
+    parte1: { gramatica: ["Imperativo Afirmativo Regular e Irregular"], vocabulario: ["Recetas y recomendaciones de bienestar", "verbos y complementos como sal, azúcar, nuez"] },
+    parte2: { gramatica: ["pronombres enclíticos"], vocabulario: ["Dar indicaciones de dirección (Superviviencia en la calle)"] },
+    preguntas: ["Categoría de Vocabulario: Expresiones de liderazgo, trabajo en equipo y toma de decisiones corporativas (ej. ¡Resolvamos este problema!, ¡Vayamos a la junta!)."], cultura: [], notas: [],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 32, nivel: "A2", estado: "borrador",
     titulo: "Pronombres Posesivos con artículo:",
     parte1: { gramatica: ["Pronombres Posesivos con artículo:"], vocabulario: ["ropa"] },
     parte2: { gramatica: ["Posesivos Tónicos posnominales de énfasis"], vocabulario: ["accesorios"] },
@@ -846,7 +856,7 @@ window.CURSO = [
   },
   // ------------------------------------------------------------------
   {
-    n: 32, nivel: "A2", estado: "borrador",
+    n: 33, nivel: "A2", estado: "borrador",
     titulo: "El \"Se\" impersonal para entender reglas y letreros",
     parte1: { gramatica: ["El \"Se\" impersonal para entender reglas y letreros"], vocabulario: [] },
     parte2: { gramatica: ["hace vs esta"], vocabulario: ["Tipos de clima, geografía y meteorología para la planificación de vacaciones", "hace frío, esta frío"] },
@@ -856,17 +866,17 @@ window.CURSO = [
   },
   // ------------------------------------------------------------------
   {
-    n: 33, nivel: "B1", estado: "borrador",
-    titulo: "Semana libre (por decidir)",
-    parte1: { gramatica: [], vocabulario: [] },
-    parte2: { gramatica: [], vocabulario: [] },
-    preguntas: [], cultura: [], notas: ["Antes tenía «infinitivo + ser + adjetivo» (jugar fútbol es divertido) y la pregunta «¿qué prefieres?»: se pasó a la semana 18, junto con gustar."],
+    n: 34, nivel: "B1", estado: "borrador",
+    titulo: "Cortesía: me gustaría y ¿podría…?",
+    parte1: { gramatica: ["Me gustaría + infinitivo / sustantivo (la tabla de gustar con -ía: me gustaría, te gustaría, le gustaría…)"], vocabulario: ["Peticiones en restaurantes, hoteles y tiendas («Me gustaría reservar una mesa»)"] },
+    parte2: { gramatica: ["¿Podría…? / ¿Podrías…? + infinitivo para pedir con cortesía («¿Podría traerme la cuenta?»)"], vocabulario: ["Fórmulas de cortesía (por favor, disculpe, muy amable, con permiso)"] },
+    preguntas: ["¿Qué te gustaría hacer en tu próximo viaje?", "¿Podría repetir, por favor?"], cultura: [], notas: ["Viene de la semana 45 (antes «el condicional como fórmula de cortesía»). Es la semana que quedó libre al pasar gustar a la 18."],
     actividades: [],
     palabras: [],
   },
   // ------------------------------------------------------------------
   {
-    n: 34, nivel: "B1", estado: "borrador",
+    n: 35, nivel: "B1", estado: "borrador",
     titulo: "Objeto indirecto con verbos de acción",
     parte1: { gramatica: ["Pronombres de objeto indirecto con verbos de acción (le doy, te mando, les escribo)"], vocabulario: [] },
     parte2: { gramatica: [], vocabulario: [] },
@@ -876,17 +886,17 @@ window.CURSO = [
   },
   // ------------------------------------------------------------------
   {
-    n: 35, nivel: "B1", estado: "borrador",
-    titulo: "apariencia fisica II",
-    parte1: { gramatica: [], vocabulario: ["apariencia fisica II"] },
-    parte2: { gramatica: [], vocabulario: [] },
-    preguntas: [], cultura: [], notas: [],
+    n: 36, nivel: "B1", estado: "borrador",
+    titulo: "Apariencia física II: parecer, parecerse a y llevar",
+    parte1: { gramatica: ["Parecer / parecerse a (se parece a su mamá, parece cansado)"], vocabulario: ["Apariencia física II"] },
+    parte2: { gramatica: ["Llevar + ropa o accesorios (lleva lentes, lleva un vestido rojo)"], vocabulario: ["Accesorios y rasgos (lentes, barba, bigote, tatuaje, aretes…)"] },
+    preguntas: ["¿A quién te pareces?", "¿Qué lleva puesto?"], cultura: [], notas: [],
     actividades: [],
     palabras: [],
   },
   // ------------------------------------------------------------------
   {
-    n: 36, nivel: "B1", estado: "borrador",
+    n: 37, nivel: "B1", estado: "borrador",
     titulo: "adverbios de modo",
     parte1: { gramatica: ["adverbios de modo"], vocabulario: ["animales", "adverbios de modo"] },
     parte2: { gramatica: ["adverbios de modo comparativo y superlativo"], vocabulario: ["acciones comunes de rendimiento y estilo"] },
@@ -896,7 +906,7 @@ window.CURSO = [
   },
   // ------------------------------------------------------------------
   {
-    n: 37, nivel: "B1", estado: "borrador",
+    n: 38, nivel: "B1", estado: "borrador",
     titulo: "conectores",
     parte1: { gramatica: ["conectores"], vocabulario: ["pero, sin embargo, y, ya, aunque, incluso, por , para"] },
     parte2: { gramatica: ["tilde, aguda, grave, esdrujula, sobresdrujula"], vocabulario: ["palabras homófonoas con tilde diacrítica"] },
@@ -906,7 +916,7 @@ window.CURSO = [
   },
   // ------------------------------------------------------------------
   {
-    n: 38, nivel: "B1", estado: "borrador",
+    n: 39, nivel: "B1", estado: "borrador",
     titulo: "El Pretérito Pluscuamperfecto de Indicativo:",
     parte1: { gramatica: ["El Pretérito Pluscuamperfecto de Indicativo:", "formación regular e irregular con el auxiliar Haber en imperfecto"], vocabulario: ["Excusas, malentendidos y aclaraciones de situaciones en el pasado"] },
     parte2: { gramatica: ["La posición invariable de los pronombres con tiempos compuestos"], vocabulario: ["Conectores de anterioridad temporal (ya, antes de, en ese momento"] },
@@ -916,21 +926,11 @@ window.CURSO = [
   },
   // ------------------------------------------------------------------
   {
-    n: 39, nivel: "B1", estado: "borrador",
+    n: 40, nivel: "B1", estado: "borrador",
     titulo: "Relativos «donde» y «lo que»",
     parte1: { gramatica: ["Relativos «donde» y «lo que» (el lugar donde…, lo que necesito…)"], vocabulario: ["Fórmulas conversacionales para definir y aclarar palabras"] },
     parte2: { gramatica: [], vocabulario: ["lo que quiero decir, lo que pasa"] },
     preguntas: [], cultura: [], notas: ["El relativo «que» se pasó al A2 (semana del imperfecto)."],
-    actividades: [],
-    palabras: [],
-  },
-  // ------------------------------------------------------------------
-  {
-    n: 40, nivel: "B1", estado: "borrador",
-    titulo: "Imperativo Afirmativo Regular e Irregular",
-    parte1: { gramatica: ["Imperativo Afirmativo Regular e Irregular"], vocabulario: ["Recetas y recomendaciones de bienestar", "verbos y complementos como sal, azúcar, nuez"] },
-    parte2: { gramatica: ["pronombres enclíticos"], vocabulario: ["Dar indicaciones de dirección (Superviviencia en la calle)"] },
-    preguntas: ["Categoría de Vocabulario: Expresiones de liderazgo, trabajo en equipo y toma de decisiones corporativas (ej. ¡Resolvamos este problema!, ¡Vayamos a la junta!)."], cultura: [], notas: [],
     actividades: [],
     palabras: [],
   },
@@ -977,10 +977,10 @@ window.CURSO = [
   // ------------------------------------------------------------------
   {
     n: 45, nivel: "B1", estado: "borrador",
-    titulo: "El uso del Condicional Simple como fórmula de cortesía",
-    parte1: { gramatica: ["El uso del Condicional Simple como fórmula de cortesía", "extrema para suavizar peticiones o deseos en establecimientos", "(\"¿Podría traerme la cuenta, por favor?\", \"Me gustaría reservar una mesa\")"], vocabulario: ["Fórmulas y frases hechas para dar consejos financieros,", "de salud, profesionales o amorosos."] },
+    titulo: "Consejos con el condicional",
+    parte1: { gramatica: [], vocabulario: ["Fórmulas y frases hechas para dar consejos financieros,", "de salud, profesionales o amorosos."] },
     parte2: { gramatica: ["Estructuras fijas para dar consejos o", "sugerencias de forma empática usando el condicional"], vocabulario: ["Vocabulario avanzado de atención al cliente,", "modales formales en hoteles, restaurantes o citas de negocios"] },
-    preguntas: [], cultura: [], notas: [],
+    preguntas: [], cultura: [], notas: ["«Me gustaría» y «¿podría…?» se pasaron a la semana 34 (cortesía). La parte 1 quedó libre."],
     actividades: [],
     palabras: [],
   },

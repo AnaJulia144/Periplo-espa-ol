@@ -11,7 +11,7 @@
 
 | # | Proyecto | Estado | Última vez |
 |---|----------|--------|------------|
-| 1 | Plan de estudios oficial | Reacomodado con el Cervantes (A1 1–18 · A2 19–32 · B1 33–45 · B2 46–56); falta reinventar 21 en adelante | 2026-11-16 |
+| 1 | Plan de estudios oficial | Reacomodado con el Cervantes (A1 1–18 · A2 19–33 · B1 34–45 · B2 46–56); falta reinventar 21 en adelante | 2026-11-16 |
 | 2 | Hub de la maestra y portal del alumno | Hub listo y publicado en Vercel | 2026-11-16 |
 | 3 | Código de los juegos (los "motores") | UNO funcionando en línea; falta probarlo en clase | 2026-11-16 |
 | 4 | Versiones de los juegos (bibliotecas de contenido) | Idea definida, sin empezar | 2026-11-16 |
@@ -29,7 +29,7 @@
 - Todo el vocabulario de las semanas 1–19 ya tiene **traducción al inglés** (1,101 palabras). Los números ahora van escritos con letra (`veintiuno = 21`).
 - Semanas 20–56 están como **borrador**.
 
-**Siguiente paso:** armar con Anita la semana 18 (gustar) con su fórmula de 6 pasos y ~30 palabras; agregar *poder* (y querer, pensar, dormir) a la sem. 12; decidir dónde va *me gustaría*, qué va en la semana 33 (libre) y la 2.ª gramática de la 34.
+**Siguiente paso:** armar con Anita la semana 18 (gustar) con su fórmula de 6 pasos y ~30 palabras; decidir la 2.ª gramática de la 35 (objeto indirecto) y la 1.ª de la 45 (consejos con el condicional).
 
 **Temas para debatir (los que el Cervantes pone antes que tu plan):**
 - *gustar / encantar* (hoy en la semana 30)
@@ -130,3 +130,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (3) Primera partida con Israel → 3 arreglos al UNO (turno visible, iPhone, recargar).
 - **2026-11-16** · (1) Debate con el Cervantes: se queda el orden de los pasados; semana nueva de *gustar* entre la 17 y la 18 (por aplicar); Anita explicó su fórmula de 6 pasos para la gramática.
 - **2026-11-16** · (1) Curso reacomodado: semana 18 nueva (gustar), niveles A1–B2, movimientos al A2, ordinales (sem. 5) y «algo más / nada más» (sem. 6). David pasa a la semana 20.
+- **2026-11-16** · (1) 2.º ajuste: imperativo al A2 (31), cortesía en la 34, parecer/llevar en la 36, *poder* en la 12.
