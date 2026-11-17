@@ -140,6 +140,9 @@ _(se irá llenando)_
 
 - 2026-11-16: **Firebase creado y conectado** (proyecto `periplo-espanol`, Firestore en nam5, entrada Anónima activada). Reglas: solo `salas/{sala}` con `request.auth != null`. Probado de verdad (sala creada, juego y ruleta). Las salas se quedan guardadas: más adelante, limpieza automática de salas viejas. Para probar el juego sin clics a mano: copia con clics automáticos + Edge con `--remote-debugging-port` (script en el scratchpad); `--screenshot` corta a los 3 s y no alcanza a conectar.
 
+- 2026-11-16: **Ajuste al plan comparado con el Cervantes (opción B corregida).** El orden de los pasados se queda (indefinido sem. 19 = inicio de A2, a tiempo; indefinido antes que el perfecto por ser español latino). Nada de "frases hechas" con gramática no enseñada: Anita enseña cada verbo con todos sus pronombres. Cambios acordados: interrogativos por semana; *poder* (y querer, pensar, dormir) en los irregulares de la sem. 12; **semana nueva de *gustar / encantar* entre la 17 y la 18** (el curso crece una semana; *me / te / nos* ya se vieron en la 17); *me gustaría* justo después de *gustar* (misma tabla + -ía); comparativos e imperativo de direcciones en el A2; 29–45 = B1, 46–56 = B2. **Aún no aplicado en `datos/curso.js`** (renumerar mueve a David de la 19 a la 20).
+- 2026-11-16: **Fórmula de Anita para explicar gramática:** 1) título, 2) función + un par de ejemplos (con el vocabulario de la semana ya revisado), 3) afirmación, 4) negación, 5) pregunta cerrada, 6) pregunta con interrogativos. No aplica a todo (p. ej. preposiciones). **Interrogativos:** sin apartado propio; se "desbloquean" semana a semana según la gramática.
+
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 
 - Cálido y artesanal: tonos tierra (terracota, ocre, crema), sensación de papel/hecho a mano.

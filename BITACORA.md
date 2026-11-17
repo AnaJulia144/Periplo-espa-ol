@@ -29,7 +29,7 @@
 - Todo el vocabulario de las semanas 1–19 ya tiene **traducción al inglés** (1,101 palabras). Los números ahora van escritos con letra (`veintiuno = 21`).
 - Semanas 20–56 están como **borrador**.
 
-**Siguiente paso:** sesión dedicada a debatir la comparación con el Cervantes (Anita tiene muchas preguntas e ideas).
+**Siguiente paso:** aplicar la opción B corregida en `datos/curso.js` (ver CLAUDE.md §8): armar con Anita la semana nueva de *gustar* (17 → nueva → 18) y renumerar; agregar *poder* a la sem. 12.
 
 **Temas para debatir (los que el Cervantes pone antes que tu plan):**
 - *gustar / encantar* (hoy en la semana 30)
@@ -128,3 +128,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (2, 3) Una sola carpeta local (la vieja a la Papelera). Motor del UNO construido con colores cálidos y conectado al panel. Pendiente: crear Firebase.
 - **2026-11-16** · (3) Firebase creado y conectado; el UNO funciona en línea y está publicado.
 - **2026-11-16** · (3) Primera partida con Israel → 3 arreglos al UNO (turno visible, iPhone, recargar).
+- **2026-11-16** · (1) Debate con el Cervantes: se queda el orden de los pasados; semana nueva de *gustar* entre la 17 y la 18 (por aplicar); Anita explicó su fórmula de 6 pasos para la gramática.
