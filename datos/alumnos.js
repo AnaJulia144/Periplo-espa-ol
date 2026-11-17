@@ -4,7 +4,7 @@ window.ALUMNOS = [
     id: "david",
     nombre: "David",
     portal: "Portal de David",
-    semanaActual: 19,
+    semanaActual: 20,
     codigo: null, // se define cuando construyamos su portal (entra con código + nombre)
     nota: "Modo experimental: con David se prueban actividades antes del curso nuevo.",
   },

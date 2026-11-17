@@ -23,7 +23,7 @@ window.VERSIONES = [
   {
     id: "uno-s19-preterito",
     juego: "uno",
-    semana: 19,
+    semana: 20,
     titulo: "Pretérito indefinido",
     subtitulo: "Verbos regulares · La vida de una persona",
     grupos: [
