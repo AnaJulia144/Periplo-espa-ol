@@ -797,9 +797,9 @@ window.CURSO = [
   // ------------------------------------------------------------------
   {
     n: 27, nivel: "A2", estado: "borrador",
-    titulo: "(la descripción del escenario, la hora y el clima: ¿Cómo era la situación?)",
-    parte1: { gramatica: ["(la descripción del escenario, la hora y el clima: ¿Cómo era la situación?)"], vocabulario: ["contraste definitivo entre Pretérito Indefinido (las acciones y el avance de la historia:", "¿Qué pasó?) frente al Pretérito Imperfecto", "Accidentes cotidianos y emergencias", "(caerse, torcerse el tobillo, quemarse, cortarse).", "me duele"] },
-    parte2: { gramatica: [], vocabulario: ["Conectores avanzados de narración pasada", "(mientras, al mismo tiempo, de pronto, por suerte, por desgracia).", "partes del cuerpo humano", "el/la médico/a, las radiografías, las pastillas, la receta)."] },
+    titulo: "Pretérito indefinido vs. imperfecto",
+    parte1: { gramatica: ["Contraste indefinido vs. imperfecto: ¿qué pasó? (indefinido) vs. ¿cómo era la situación? (imperfecto)"], vocabulario: ["Accidentes y emergencias (caerse, torcerse el tobillo, quemarse, cortarse)", "Me duele"] },
+    parte2: { gramatica: ["Conectores avanzados de narración (mientras, al mismo tiempo, de pronto, por suerte, por desgracia)"], vocabulario: ["Partes del cuerpo", "En el médico (el médico, las radiografías, las pastillas, la receta)"] },
     preguntas: [], cultura: [], notas: [],
     actividades: [],
     palabras: [],
