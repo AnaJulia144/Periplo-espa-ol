@@ -29,7 +29,7 @@
 - Todo el vocabulario de las semanas 1–19 ya tiene **traducción al inglés** (1,101 palabras). Los números ahora van escritos con letra (`veintiuno = 21`).
 - Semanas 20–56 están como **borrador**.
 
-**Siguiente paso:** armar con Anita la semana 18 (gustar) con su fórmula de 6 pasos y ~30 palabras; decidir la 2.ª gramática de la 35 (objeto indirecto) y la 1.ª de la 45 (consejos con el condicional).
+**Siguiente paso:** armar con Anita la semana 18 (gustar) con su fórmula de 6 pasos y ~30 palabras.
 
 **Temas para debatir (los que el Cervantes pone antes que tu plan):**
 - *gustar / encantar* (hoy en la semana 30)
@@ -131,3 +131,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (1) Debate con el Cervantes: se queda el orden de los pasados; semana nueva de *gustar* entre la 17 y la 18 (por aplicar); Anita explicó su fórmula de 6 pasos para la gramática.
 - **2026-11-16** · (1) Curso reacomodado: semana 18 nueva (gustar), niveles A1–B2, movimientos al A2, ordinales (sem. 5) y «algo más / nada más» (sem. 6). David pasa a la semana 20.
 - **2026-11-16** · (1) 2.º ajuste: imperativo al A2 (31), cortesía en la 34, parecer/llevar en la 36, *poder* en la 12.
+- **2026-11-16** · (1) Semana 35 completa (objeto indirecto repetido) y semana 45 completa (deberías / podrías / tendrías que).
