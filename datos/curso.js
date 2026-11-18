@@ -21,6 +21,9 @@
 //                   preguntaCerrada, preguntaInterrogativa, interrogativos: [], revisada },
 //                   parte2: {...} }.  Si una gramática no usa la fórmula (p. ej.
 //                 preposiciones): { formula: false, pasos: [{ titulo, texto }] }
+//    sugerencias  3 ideas de título para cada parte (pestaña "Plan").
+//                 El subtítulo es el nombre de la gramática + el vocabulario.
+//    titulos      (opcional) el título que Anita elige: { parte1: "…", parte2: "…" }
 //    palabras     listas de vocabulario. Cada palabra puede llevar su
 //                 traducción después de " = "  (ej. "boda = wedding")
 // =====================================================================
@@ -30,6 +33,7 @@ window.CURSO = [
   {
     n: 1, nivel: "A1", estado: "listo",
     titulo: "Presentarse: el alfabeto, ser y pronombres",
+    sugerencias: { parte1: ["Hola, soy…", "¿De dónde eres?", "Soy de Canadá"], parte2: ["Soy estudiante", "Ella es doctora", "Soy viajero, ¿y tú?"] },
     parte1: {
       gramatica: ["El alfabeto", "Verbo ser / ser de", "Pronombres personales"],
       vocabulario: ["Palabras generales de supervivencia", "Frases de saludo, pregunta, respuesta y despedida", "Países y nacionalidades"],
@@ -83,6 +87,7 @@ window.CURSO = [
   {
     n: 2, nivel: "A1", estado: "listo",
     titulo: "Artículo definido singular y género",
+    sugerencias: { parte1: ["El pasaporte y la maleta", "¿Es el boleto?", "El agua, el mapa, la llave"], parte2: ["La maleta roja", "Grande, pequeña, nueva", "Un mundo de colores"] },
     parte1: {
       gramatica: ["Artículo definido singular y género (parte 2)"],
       vocabulario: ["Pertenencias personales", "Explicar «el agua»"],
@@ -121,6 +126,7 @@ window.CURSO = [
   {
     n: 3, nivel: "A1", estado: "listo",
     titulo: "Artículo definido plural y concordancia",
+    sugerencias: { parte1: ["Los papeles y las plumas", "Las cosas de la oficina", "Los lápices y las carpetas"], parte2: ["Las maletas son grandes", "Rojo, roja, rojos, rojas", "Todo combina"] },
     parte1: {
       gramatica: ["Artículo definido plural"],
       vocabulario: ["Objetos de oficina"],
@@ -156,6 +162,7 @@ window.CURSO = [
   {
     n: 4, nivel: "A1", estado: "listo",
     titulo: "Usos de tener: posesión y edad",
+    sugerencias: { parte1: ["Tengo dos maletas", "¿Tienes pasaporte?", "Del uno al veinte"], parte2: ["Tengo treinta años", "¿Cuántos años tienes?", "Mi correo es…"] },
     parte1: {
       gramatica: ["Usos de tener (posesión)"],
       vocabulario: ["Números del 1 al 20", "Cosas que la gente normalmente posee", "Explicar «treinta y un personas»"],
@@ -197,6 +204,7 @@ window.CURSO = [
   {
     n: 5, nivel: "A1", estado: "listo",
     titulo: "Artículo indefinido + hay",
+    sugerencias: { parte1: ["En la recepción", "En la cocina, en el baño", "La casa por dentro"], parte2: ["¿Qué hay en el cuarto?", "Hay una cama y un escritorio", "Hay un elevador"] },
     parte1: {
       gramatica: ["Preposición en + el / la"],
       vocabulario: ["Cuartos"],
@@ -238,6 +246,7 @@ window.CURSO = [
   {
     n: 6, nivel: "A1", estado: "listo",
     titulo: "Demostrativos y precios",
+    sugerencias: { parte1: ["Este, ese y aquel", "¿Esta o esa?", "Recuerdos del mercado"], parte2: ["¿Cuánto cuesta?", "¿Cuánto es?", "¿Algo más? Nada más, gracias"] },
     parte1: {
       gramatica: ["Demostrativos"],
       vocabulario: ["Este, ese, aquel / estos, esos, aquellos", "Artesanías, recuerdos y gastos del viajero"],
@@ -274,6 +283,7 @@ window.CURSO = [
   {
     n: 7, nivel: "A1", estado: "listo",
     titulo: "Querer + infinitivo e ir a + infinitivo",
+    sugerencias: { parte1: ["Quiero viajar", "¿Qué quieres hacer?", "Quiero un café"], parte2: ["Voy a viajar en julio", "¿Qué vas a hacer el lunes?", "El próximo fin de semana"] },
     parte1: {
       gramatica: ["Querer + infinitivo"],
       vocabulario: ["Verbos más usados por viajeros", "Complementos", "Explicar «ir a la / al»"],
@@ -314,6 +324,7 @@ window.CURSO = [
   {
     n: 8, nivel: "A1", estado: "listo",
     titulo: "Estar y preposiciones de lugar",
+    sugerencias: { parte1: ["¿Dónde está el baño?", "Estoy en el aeropuerto", "¿Estar o hay?"], parte2: ["Cerca del hotel", "Al lado del banco", "Por aquí, por allá"] },
     parte1: {
       gramatica: ["Estar (ubicación)"],
       vocabulario: ["Lugares", "Explicar estar vs. hay"],
@@ -352,6 +363,7 @@ window.CURSO = [
   {
     n: 9, nivel: "A1", estado: "listo",
     titulo: "Adjetivos posesivos y descripción física",
+    sugerencias: { parte1: ["Mi familia", "Su esposa y sus hijos", "Nuestra familia"], parte2: ["¿Cómo es?", "Es alto y moreno", "Un poco alto, muy joven"] },
     parte1: {
       gramatica: ["Adjetivos posesivos singular y plural"],
       vocabulario: ["La familia"],
@@ -384,6 +396,7 @@ window.CURSO = [
   {
     n: 10, nivel: "A1", estado: "listo",
     titulo: "Verbos regulares -AR, -ER, -IR y frecuencia",
+    sugerencias: { parte1: ["Trabajo, como, vivo", "Hablo español", "Un día normal"], parte2: ["Siempre, a veces, nunca", "¿Con qué frecuencia?", "Los lunes trabajo"] },
     parte1: {
       gramatica: ["Verbos regulares -AR, -ER, -IR (presente)", "También: palabras de futuro y «para»"],
       vocabulario: ["Acciones comunes", "Sustantivos comunes"],
@@ -425,6 +438,7 @@ window.CURSO = [
   {
     n: 11, nivel: "A1", estado: "listo",
     titulo: "La hora y expresiones de tiempo",
+    sugerencias: { parte1: ["La boda es el sábado", "Mañana empieza la reunión", "El evento termina temprano"], parte2: ["¿Qué hora es?", "A las ocho en punto", "Desde las nueve hasta las cinco"] },
     parte1: {
       gramatica: ["Verbos regulares en presente -AR, -ER, -IR", "El presente con sentido de futuro"],
       vocabulario: ["Acciones comunes", "Iniciar, terminar, abrir", "Eventos"],
@@ -464,6 +478,7 @@ window.CURSO = [
   {
     n: 12, nivel: "A1", estado: "listo",
     titulo: "Verbos irregulares en presente",
+    sugerencias: { parte1: ["Almuerzo a la una", "Vuelo a otra ciudad", "Mi día en el trabajo"], parte2: ["Puedo pagar con tarjeta", "Prefiero comer temprano", "Pienso viajar en mayo"] },
     parte1: {
       gramatica: ["Verbos irregulares (presente)", "También: palabras de futuro"],
       vocabulario: ["Acciones de la rutina cotidiana", "Acciones del día en el trabajo", "Mientras"],
@@ -499,6 +514,7 @@ window.CURSO = [
   {
     n: 13, nivel: "A1", estado: "listo",
     titulo: "Adjetivos de personalidad y ser vs. estar",
+    sugerencias: { parte1: ["¿Cómo eres?", "Paciente o impaciente", "Amable, pero desorganizado"], parte2: ["¿Ser o estar?", "¿Cómo estás hoy?", "Soy tranquilo, pero estoy nervioso"] },
     parte1: {
       gramatica: ["Prefijos en adjetivos (in-, im-, des-)"],
       vocabulario: ["Adjetivos de personalidad", "Conjunción «pero»"],
@@ -545,6 +561,7 @@ window.CURSO = [
   {
     n: 14, nivel: "A1", estado: "listo",
     titulo: "Tener + sensaciones y deberías + infinitivo",
+    sugerencias: { parte1: ["Tengo hambre", "¿Tienes frío?", "Tengo sueño"], parte2: ["Deberías descansar", "Un consejo", "¿Qué debería hacer?"] },
     parte1: {
       gramatica: ["Tener + emociones y sensaciones (tener hambre, sed, frío…)"],
       vocabulario: ["Emociones y cosas no contables", "Marcadores de reacción («¡qué bien!»)", "Mucho, mucha"],
@@ -588,6 +605,7 @@ window.CURSO = [
   {
     n: 15, nivel: "A1", estado: "listo",
     titulo: "Sustantivos contables y no contables",
+    sugerencias: { parte1: ["Dos tacos, por favor", "Un kilo de tomates", "¿Cuántas tortillas?"], parte2: ["Un poco de agua", "Mucho café, poca azúcar", "¿Cuánta leche?"] },
     parte1: {
       gramatica: ["Sustantivos contables"],
       vocabulario: ["Comida contable", "Unidades y cantidades"],
@@ -617,6 +635,7 @@ window.CURSO = [
   {
     n: 16, nivel: "A1", estado: "listo",
     titulo: "Verbos reflexivos y la rutina",
+    sugerencias: { parte1: ["Me levanto temprano", "Mi rutina", "Antes de desayunar, me baño"], parte2: ["Lavar o lavarse", "Me llamo… / Llamo a…", "Duermo o me duermo"] },
     parte1: {
       gramatica: ["Verbos reflexivos", "Antes de / después de + infinitivo"],
       vocabulario: ["Verbos de rutina"],
@@ -650,6 +669,7 @@ window.CURSO = [
   {
     n: 17, nivel: "A1", estado: "listo",
     titulo: "Tener que / deber y pronombres de objeto directo",
+    sugerencias: { parte1: ["Tengo que enviar el reporte", "¿Qué tienes que hacer hoy?", "Debo llegar temprano"], parte2: ["¿El reporte? Lo tengo", "Lo, la, los, las", "Te llamo mañana"] },
     parte1: {
       gramatica: ["Tener que / deber + infinitivo"],
       vocabulario: ["Verbos administrativos y de oficina", "«Entonces tengo que…»"],
@@ -684,6 +704,7 @@ window.CURSO = [
   {
     n: 18, nivel: "A1", estado: "borrador",
     titulo: "Gustar y encantar",
+    sugerencias: { parte1: ["Me gusta viajar", "¿Qué te gusta hacer?", "A mí también"], parte2: ["Viajar es divertido", "Leer es relajante", "Cocinar es fácil"] },
     parte1: { gramatica: ["Gustar y encantar: me gusta / me gustan con me, te, le, nos, les (a mí, a ti, a Juan…)"], vocabulario: ["Pasatiempos y actividades de ocio", "Música, cine y espectáculos", "A mí también / a mí tampoco"] },
     parte2: { gramatica: ["Infinitivo + ser + adjetivo (viajar es divertido)"], vocabulario: ["Adjetivos para opinar (divertido, aburrido, relajante, caro…)"] },
     preguntas: ["¿Qué te gusta hacer en tu tiempo libre?", "¿Qué prefieres?"], cultura: [],
@@ -695,6 +716,7 @@ window.CURSO = [
   {
     n: 19, nivel: "A2", estado: "listo",
     titulo: "Presente progresivo",
+    sugerencias: { parte1: ["¿Qué estás haciendo?", "Estoy limpiando la casa", "Ahora mismo"], parte2: ["Me estoy bañando", "Estoy vistiéndome", "Ya me estoy preparando"] },
     parte1: {
       gramatica: ["Presente progresivo (estar + gerundio)"],
       vocabulario: ["Deberes del hogar"],
@@ -713,6 +735,7 @@ window.CURSO = [
   {
     n: 20, nivel: "A2", estado: "listo",
     titulo: "Pretérito indefinido: verbos regulares",
+    sugerencias: { parte1: ["Nací en…", "Me mudé a México", "Mi historia"], parte2: ["Ayer trabajé mucho", "El año pasado viajé", "Hace dos años"] },
     tema: "La vida de una persona",
     parte1: {
       gramatica: ["Pretérito indefinido (pasado simple)", "Conjugación de verbos regulares -AR, -ER, -IR"],
@@ -744,6 +767,7 @@ window.CURSO = [
   {
     n: 21, nivel: "A2", estado: "borrador",
     titulo: "Pretérito Indefinido de verbos completamente irregulares de alta frecuencia",
+    sugerencias: { parte1: ["Fui a la playa", "¿Qué hiciste el fin de semana?", "Tuve un problema"], parte2: ["Al principio… y finalmente", "Entonces, de repente…", "Mi peor viaje"] },
     parte1: { gramatica: ["Pretérito Indefinido de verbos completamente irregulares de alta frecuencia", "(Ser, Ir, Hacer, Tener, Estar)."], vocabulario: ["Anécdotas de viajes, accidentes cotidianos y problemas del pasado", "(perder las llaves, romper algo, llegar tarde)."] },
     parte2: { gramatica: ["Conectores de narración en pasado (al principio, entonces, de repente, después, finalmente…)"], vocabulario: [] },
     preguntas: [], cultura: [], notas: [],
@@ -754,6 +778,7 @@ window.CURSO = [
   {
     n: 22, nivel: "A2", estado: "borrador",
     titulo: "La posición de los pronombres de Objeto Directo con verbos en pasado simple",
+    sugerencias: { parte1: ["La compré y la usé", "¿El boleto? Ya lo compré", "Lo logré"], parte2: ["¿Hiciste la tarea? Sí, la hice", "¿Lo trajiste?", "Lo tuve, lo hice"] },
     parte1: { gramatica: ["La posición de los pronombres de Objeto Directo con verbos en pasado simple"], vocabulario: ["Pretérito Indefinido), reforzando que siempre van antes del verbo conjugado (\"Ayer compré la camisa y la usé\").", "Grandes logros y metas cumplidas en el pasado", "Verbos y frases comunes para describir hitos alcanzados", "terminar la carrera, comprar una casa, ganar un premio, resolver un problema"] },
     parte2: { gramatica: ["El uso de los pronombres de Objeto Directo con los verbos irregulares que acaban de aprender en la semana anterior"], vocabulario: ["(\"¿Hiciste la tarea? Sí, la hice\", \"¿Tuviste el reporte? Sí, lo tuve\").", "Acciones de consumo y compras pasadas", "Sustantivos ideales de objetos cotidianos que sirven como el blanco perfecto para ser sustituidos por los pronombr", "(el carro, las llaves, la cena, los boletos/billetes)."] },
     preguntas: [], cultura: [], notas: [],
@@ -764,6 +789,7 @@ window.CURSO = [
   {
     n: 23, nivel: "A2", estado: "borrador",
     titulo: "haber mas participio regular",
+    sugerencias: { parte1: ["¿Alguna vez has…?", "Hoy he trabajado mucho", "Ya / todavía no"], parte2: ["He visto, he hecho, he escrito", "Mis logros", "He vuelto"] },
     parte1: { gramatica: ["haber mas participio regular", "Pretérito Perfecto Compuesto:"], vocabulario: ["Marcadores temporales de experiencias sin tiempo específico o recientes", "(hoy, este año, esta semana, alguna vez, nunca, ya, todavía no)"] },
     parte2: { gramatica: ["Hitos profesionales y logros personales", "participios irregulares de alta frecuencia"], vocabulario: ["(ganar un premio, cambiar de carrera, viajar al extranjero, aprender una habilidad)"] },
     preguntas: [], cultura: [], notas: [],
@@ -774,6 +800,7 @@ window.CURSO = [
   {
     n: 24, nivel: "A2", estado: "borrador",
     titulo: "Sustantivos de objetos del hogar y oficina propensos a cambiar de estado:",
+    sugerencias: { parte1: ["La puerta está abierta", "Está roto", "¿Está cerrado?"], parte2: ["Estoy cansado", "Casado, divorciado, aburrido", "Todo está ordenado"] },
     parte1: { gramatica: ["Sustantivos de objetos del hogar y oficina propensos a cambiar de estado:", "El Participio como Adjetivo Calificativo"], vocabulario: ["(la carta, el vaso, los platos, la comida, los cables, la luz)."] },
     parte2: { gramatica: ["Adjetivos de estado físico, civil y emocional derivados de participios", "Sustantivos de objetos del hogar y oficina propensos a cambiar de estado:"], vocabulario: ["(casado, divorciado, aburrido, cansado, roto, hecho, ordenado, limpio, sucio)."] },
     preguntas: [], cultura: [], notas: [],
@@ -784,6 +811,7 @@ window.CURSO = [
   {
     n: 25, nivel: "A2", estado: "borrador",
     titulo: "preterito indefinido vs preterito perfecto",
+    sugerencias: { parte1: ["Hoy he ido, ayer fui", "Este año he… / El año pasado…", "¿Ya o ayer?"], parte2: ["¡Fue genial!", "¿Qué tal estuvo?", "Lo he visto"] },
     parte1: { gramatica: ["preterito indefinido vs preterito perfecto", "me he levantado"], vocabulario: ["Actividades culturales, eventos sociales y entretenimiento"] },
     parte2: { gramatica: ["posición invariable de los pronombres con tiempos compuestos"], vocabulario: ["Expresiones para valorar experiencias o eventos", "fue un desastre, fue genial, estuvo increible"] },
     preguntas: [], cultura: [], notas: [],
@@ -794,6 +822,7 @@ window.CURSO = [
   {
     n: 26, nivel: "A2", estado: "borrador",
     titulo: "y sus únicos tres verbos irregulares (Ser → era, Ir → iba, Ver → veía).",
+    sugerencias: { parte1: ["Cuando era niño…", "Antes vivía en…", "Era, iba, veía"], parte2: ["El hotel que reservé", "La casa que tenía", "Había una vez"] },
     parte1: { gramatica: ["y sus únicos tres verbos irregulares (Ser → era, Ir → iba, Ver → veía).", "Conjugación regular para describir el pasado (-aba / -ía: cantaba, comía)"], vocabulario: ["Pretérito Imperfecto"] },
     parte2: { gramatica: ["Pronombre relativo «que» (el hotel que reservé, la casa que tenía)"], vocabulario: ["Había", "Marcadores temporales de hábito en el pasado", "(antes, de niño/a, en aquella época, todos los días, a menudo)."] },
     preguntas: [], cultura: [], notas: [],
@@ -804,6 +833,7 @@ window.CURSO = [
   {
     n: 27, nivel: "A2", estado: "borrador",
     titulo: "Pretérito indefinido vs. imperfecto",
+    sugerencias: { parte1: ["¿Qué pasó?", "Hacía sol cuando me caí", "Me torcí el tobillo"], parte2: ["Mientras caminaba…", "De pronto…", "Por suerte, el médico…"] },
     parte1: { gramatica: ["Contraste indefinido vs. imperfecto: ¿qué pasó? (indefinido) vs. ¿cómo era la situación? (imperfecto)"], vocabulario: ["Accidentes y emergencias (caerse, torcerse el tobillo, quemarse, cortarse)", "Me duele"] },
     parte2: { gramatica: ["Conectores avanzados de narración (mientras, al mismo tiempo, de pronto, por suerte, por desgracia)"], vocabulario: ["Partes del cuerpo", "En el médico (el médico, las radiografías, las pastillas, la receta)"] },
     preguntas: [], cultura: [], notas: [],
@@ -814,6 +844,7 @@ window.CURSO = [
   {
     n: 28, nivel: "A2", estado: "borrador",
     titulo: "verbos con preposicion y pronombre de objeto preposicional",
+    sugerencias: { parte1: ["Cuento contigo", "Estoy de acuerdo contigo", "Confío en ti"], parte2: ["Con mi equipo", "Para el cliente", "A, de, en, con, por, para"] },
     parte1: { gramatica: ["verbos con preposicion y pronombre de objeto preposicional", "Los Pronombres de Objeto Preposicional (O tónicos)"], vocabulario: ["Networking, dinámicas de trabajo en equipo y relaciones interpersonales", "depender de, confiar en, contar con, colaborar con, estar de acuerdo con, hablar de"] },
     parte2: { gramatica: ["preposiciones (a, de, en, con, por, para)."], vocabulario: ["el colega, el jefe, el equipo, el socio, el cliente"] },
     preguntas: [], cultura: [], notas: [],
@@ -824,6 +855,7 @@ window.CURSO = [
   {
     n: 29, nivel: "A2", estado: "borrador",
     titulo: "Verbos Auxiliares + Verbos infinitivo",
+    sugerencias: { parte1: ["Acabo de llegar", "Vuelvo a empezar", "Hay que descansar"], parte2: ["¿Para qué?", "Para dormir mejor", "Es para ti"] },
     parte1: { gramatica: ["Verbos Auxiliares + Verbos infinitivo"], vocabulario: ["Preparativos, bienestar y cuidado personal en viajes de trabajo"] },
     parte2: { gramatica: ["para"], vocabulario: [] },
     preguntas: ["¿Por qué quieres aprender español?"], cultura: [], notas: [],
@@ -834,6 +866,7 @@ window.CURSO = [
   {
     n: 30, nivel: "A2", estado: "borrador",
     titulo: "comparativos",
+    sugerencias: { parte1: ["Más grande que…", "Tan bonita como…", "Menos ruido, más calma"], parte2: ["La ciudad más bonita", "El mejor restaurante", "Lo mejor de la ciudad"] },
     parte1: { gramatica: ["comparativos"], vocabulario: ["adjetivos de descripcion urbana", "y geografica"] },
     parte2: { gramatica: ["superlativos"], vocabulario: ["lugares de ocio", "actividades culturales", "transportes de una ciudad"] },
     preguntas: ["¿que piensas?", "¿Cuál ciudad es más tranquila México o Monterrey?"], cultura: [], notas: [],
@@ -844,6 +877,7 @@ window.CURSO = [
   {
     n: 31, nivel: "A2", estado: "borrador",
     titulo: "Imperativo Afirmativo Regular e Irregular",
+    sugerencias: { parte1: ["Pon un poco de sal", "Mezcla y sirve", "Toma agua"], parte2: ["Gira a la derecha", "Sígueme", "Cómpralo aquí"] },
     parte1: { gramatica: ["Imperativo Afirmativo Regular e Irregular"], vocabulario: ["Recetas y recomendaciones de bienestar", "verbos y complementos como sal, azúcar, nuez"] },
     parte2: { gramatica: ["pronombres enclíticos"], vocabulario: ["Dar indicaciones de dirección (Superviviencia en la calle)"] },
     preguntas: ["Categoría de Vocabulario: Expresiones de liderazgo, trabajo en equipo y toma de decisiones corporativas (ej. ¡Resolvamos este problema!, ¡Vayamos a la junta!)."], cultura: [], notas: [],
@@ -854,6 +888,7 @@ window.CURSO = [
   {
     n: 32, nivel: "A2", estado: "borrador",
     titulo: "Pronombres Posesivos con artículo:",
+    sugerencias: { parte1: ["¿Es tuya? Sí, es mía", "La mía es azul", "¿De quién es esta chamarra?"], parte2: ["Un amigo mío", "Esos lentes son suyos", "¿Es tuyo este reloj?"] },
     parte1: { gramatica: ["Pronombres Posesivos con artículo:"], vocabulario: ["ropa"] },
     parte2: { gramatica: ["Posesivos Tónicos posnominales de énfasis"], vocabulario: ["accesorios"] },
     preguntas: ["Mi blusa es más pequeña que la tuya."], cultura: [], notas: [],
@@ -864,6 +899,7 @@ window.CURSO = [
   {
     n: 33, nivel: "A2", estado: "borrador",
     titulo: "El \"Se\" impersonal para entender reglas y letreros",
+    sugerencias: { parte1: ["Se habla inglés", "No se permite fumar", "¿Cómo se dice…?"], parte2: ["Hace calor", "Está nublado", "¿Qué tiempo hace?"] },
     parte1: { gramatica: ["El \"Se\" impersonal para entender reglas y letreros"], vocabulario: [] },
     parte2: { gramatica: ["hace vs esta"], vocabulario: ["Tipos de clima, geografía y meteorología para la planificación de vacaciones", "hace frío, esta frío"] },
     preguntas: [], cultura: [], notas: [],
@@ -874,6 +910,7 @@ window.CURSO = [
   {
     n: 34, nivel: "B1", estado: "borrador",
     titulo: "Cortesía: me gustaría y ¿podría…?",
+    sugerencias: { parte1: ["Me gustaría reservar una mesa", "¿Qué te gustaría?", "Me gustaría ir a Oaxaca"], parte2: ["¿Podría traerme la cuenta?", "¿Podrías ayudarme?", "Muy amable"] },
     parte1: { gramatica: ["Me gustaría + infinitivo / sustantivo (la tabla de gustar con -ía: me gustaría, te gustaría, le gustaría…)"], vocabulario: ["Peticiones en restaurantes, hoteles y tiendas («Me gustaría reservar una mesa»)"] },
     parte2: { gramatica: ["¿Podría…? / ¿Podrías…? + infinitivo para pedir con cortesía («¿Podría traerme la cuenta?»)"], vocabulario: ["Fórmulas de cortesía (por favor, disculpe, muy amable, con permiso)"] },
     preguntas: ["¿Qué te gustaría hacer en tu próximo viaje?", "¿Podría repetir, por favor?"], cultura: [], notas: ["Viene de la semana 45 (antes «el condicional como fórmula de cortesía»). Es la semana que quedó libre al pasar gustar a la 18."],
@@ -884,6 +921,7 @@ window.CURSO = [
   {
     n: 35, nivel: "B1", estado: "borrador",
     titulo: "Objeto indirecto con verbos de acción",
+    sugerencias: { parte1: ["Te mando un correo", "Le doy las llaves", "¿Me pasas la sal?"], parte2: ["Le escribo a mi jefe", "Les llamo a mis papás", "Le doy el libro a María"] },
     parte1: { gramatica: ["Pronombres de objeto indirecto con verbos de acción (le doy, te mando, les escribo)"], vocabulario: [] },
     parte2: { gramatica: ["El objeto indirecto repetido: le / les + a + persona (le doy el libro a María, les escribo a mis papás)"], vocabulario: [] },
     preguntas: [], cultura: [], notas: ["Gustar, encantar, interesar, fascinar, «a Juan le…», «a mí también» y el vocabulario de pasatiempos se pasaron a la semana 18. «Me duele» ya está en el vocabulario de la semana del cuerpo y el médico."],
@@ -894,6 +932,7 @@ window.CURSO = [
   {
     n: 36, nivel: "B1", estado: "borrador",
     titulo: "Apariencia física II: parecer, parecerse a y llevar",
+    sugerencias: { parte1: ["Te pareces a tu mamá", "Parece cansado", "¿A quién te pareces?"], parte2: ["Lleva lentes", "¿Qué lleva puesto?", "El señor de barba"] },
     parte1: { gramatica: ["Parecer / parecerse a (se parece a su mamá, parece cansado)"], vocabulario: ["Apariencia física II"] },
     parte2: { gramatica: ["Llevar + ropa o accesorios (lleva lentes, lleva un vestido rojo)"], vocabulario: ["Accesorios y rasgos (lentes, barba, bigote, tatuaje, aretes…)"] },
     preguntas: ["¿A quién te pareces?", "¿Qué lleva puesto?"], cultura: [], notas: [],
@@ -904,6 +943,7 @@ window.CURSO = [
   {
     n: 37, nivel: "B1", estado: "borrador",
     titulo: "adverbios de modo",
+    sugerencias: { parte1: ["Habla despacio, por favor", "Rápidamente", "Lento como tortuga"], parte2: ["Más rápido que tú", "Lo mejor posible", "Cada vez mejor"] },
     parte1: { gramatica: ["adverbios de modo"], vocabulario: ["animales", "adverbios de modo"] },
     parte2: { gramatica: ["adverbios de modo comparativo y superlativo"], vocabulario: ["acciones comunes de rendimiento y estilo"] },
     preguntas: [], cultura: [], notas: [],
@@ -914,6 +954,7 @@ window.CURSO = [
   {
     n: 38, nivel: "B1", estado: "borrador",
     titulo: "conectores",
+    sugerencias: { parte1: ["Pero, sin embargo…", "Aunque está lejos", "Incluso los lunes"], parte2: ["¿Té o te?", "Él, el, tú, tu", "Agudas, graves y esdrújulas"] },
     parte1: { gramatica: ["conectores"], vocabulario: ["pero, sin embargo, y, ya, aunque, incluso, por , para"] },
     parte2: { gramatica: ["tilde, aguda, grave, esdrujula, sobresdrujula"], vocabulario: ["palabras homófonoas con tilde diacrítica"] },
     preguntas: [], cultura: [], notas: [],
@@ -924,6 +965,7 @@ window.CURSO = [
   {
     n: 39, nivel: "B1", estado: "borrador",
     titulo: "El Pretérito Pluscuamperfecto de Indicativo:",
+    sugerencias: { parte1: ["Ya había salido", "El avión ya había despegado", "No lo había visto"], parte2: ["Ya lo había hecho", "Antes de eso…", "En ese momento"] },
     parte1: { gramatica: ["El Pretérito Pluscuamperfecto de Indicativo:", "formación regular e irregular con el auxiliar Haber en imperfecto"], vocabulario: ["Excusas, malentendidos y aclaraciones de situaciones en el pasado"] },
     parte2: { gramatica: ["La posición invariable de los pronombres con tiempos compuestos"], vocabulario: ["Conectores de anterioridad temporal (ya, antes de, en ese momento"] },
     preguntas: [], cultura: [], notas: [],
@@ -934,6 +976,7 @@ window.CURSO = [
   {
     n: 40, nivel: "B1", estado: "borrador",
     titulo: "Relativos «donde» y «lo que»",
+    sugerencias: { parte1: ["La ciudad donde nací", "El lugar donde…", "Donde comimos ayer"], parte2: ["Lo que quiero decir es…", "Lo que pasa es que…", "Lo que necesito"] },
     parte1: { gramatica: ["Relativo «donde» (el lugar donde…, la ciudad donde nací)"], vocabulario: ["Fórmulas conversacionales para definir y aclarar palabras"] },
     parte2: { gramatica: ["Relativo «lo que» (lo que necesito…, lo que pasa es que…)"], vocabulario: ["lo que quiero decir, lo que pasa"] },
     preguntas: [], cultura: [], notas: ["El relativo «que» se pasó al A2 (semana del imperfecto)."],
@@ -944,6 +987,7 @@ window.CURSO = [
   {
     n: 41, nivel: "B1", estado: "borrador",
     titulo: "imperativo negativo",
+    sugerencias: { parte1: ["No estaciones aquí", "No fumes", "Prohibido el paso"], parte2: ["No te preocupes", "No lo abras", "No me digas"] },
     parte1: { gramatica: ["imperativo negativo", "mostrando de forma clara el cambio vocálico característico (-ar → -es / -er, -ir → -as)"], vocabulario: ["Señales de tránsito y normas de convivencia urbana", "Reglas comunitarias y de manejo", "(prohibido estacionarse, no fumar, respetar el límite de velocidad, no hacer ruido)."] },
     parte2: { gramatica: ["pronombres con el imperativo negativo", "los pronombres van obligatoriamente antes del verbo"], vocabulario: ["Advertencias y consejos de seguridad", "Frases de cuidado cotidiano", "(no abras la puerta a desconocidos, no camines de noche por ahí, ten cuidado)."] },
     preguntas: [], cultura: [], notas: [],
@@ -954,6 +998,7 @@ window.CURSO = [
   {
     n: 42, nivel: "B1", estado: "borrador",
     titulo: "Pronombres Indefinidos invariables (alguien, nadie, algo, nada)",
+    sugerencias: { parte1: ["¿Hay alguien?", "Alguien, nadie, algo, nada", "Demasiado tiempo, poco dinero"], parte2: ["No vino nadie", "No tengo nada", "Nunca pasa nada"] },
     parte1: { gramatica: ["Pronombres Indefinidos invariables (alguien, nadie, algo, nada)", "y variables de cantidad (alguno, ninguno, demasiado, bastante)."], vocabulario: ["Sustantivos de cantidad imprecisa: Expresiones para medir abundancia o escasez", "(el dinero, el tiempo, el espacio, las ganas, las opciones)."] },
     parte2: { gramatica: ["Doble Negación en español y la posición del adverbio \"no\" en la frase", "(\"Nadie vino\" frente a \"No vino nadie\")."], vocabulario: ["Expresiones cotidianas de queja o reclamo en presente", "Frases reales para justificar la falta de algo", "(\"No tengo ninguna opción\", \"Aquí nunca hay nada\", \"Nadie me ayuda\")."] },
     preguntas: [], cultura: [], notas: [],
@@ -964,6 +1009,7 @@ window.CURSO = [
   {
     n: 43, nivel: "B1", estado: "borrador",
     titulo: "Futuro Simple / Imperfecto",
+    sugerencias: { parte1: ["Mañana lloverá", "Tendrás suerte", "¿Qué harás?"], parte2: ["Serán las cuatro", "Estará trabajando", "¿Dónde estará?"] },
     parte1: { gramatica: ["Futuro Simple / Imperfecto", "morfología de la conjugación regular (-ré, -rás, -rá, -remos, -réis, -rán)", "e irregulares de alta frecuencia en la raíz (tendré, haré, podré, sabré, vendré)."], vocabulario: ["Horóscopos, predicciones del futuro, el destino,", "las profecías y proyectos personales a largo plazo"] },
     parte2: { gramatica: ["El uso del futuro para expresar probabilidad o hipótesis en el presente", "(\"—¿Qué hora es? —No sé, serán las 4:00\", \"—¿Dónde está María? —Estará trabajando\")."], vocabulario: ["Ciencia, tecnología del mañana, inteligencia artificial,", "el avance de la medicina y el medio ambiente futuro."] },
     preguntas: [], cultura: [], notas: [],
@@ -974,6 +1020,7 @@ window.CURSO = [
   {
     n: 44, nivel: "B1", estado: "borrador",
     titulo: "Condicional Simple",
+    sugerencias: { parte1: ["¿Qué harías tú?", "Sería increíble", "Yo lo haría"], parte2: ["Viajaría a Europa, pero…", "Me encantaría, pero…", "Haría de todo"] },
     parte1: { gramatica: ["Condicional Simple", "morfología de la conjugación regular (-ría, -rías, -ría, -ríamos, -ríais, -rían)", "y sus raíces irregulares (que son exactamente las mismas que las del", "Futuro Simple: tendría, haría, podría)."], vocabulario: ["Dilemas morales, toma de decisiones y situaciones hipotéticas extravagantes", "(\"¿Qué harías con un millón de dólares?\", \"Si fueras invisible por un día...\")."] },
     parte2: { gramatica: ["Estructuras de deseos y situaciones imaginarias o realizables en el presente", "(\"Yo viajaría a Europa, pero no tengo dinero\", \"¿Qué harías tú en esa situación"], vocabulario: ["Planes frustrados o excusas justificadas en presente: Vocabulario para explicar por qué", "no se puede hacer una acción (por falta de tiempo, por cuestiones de dinero, debido al trabajo)."] },
     preguntas: [], cultura: [], notas: [],
@@ -984,6 +1031,7 @@ window.CURSO = [
   {
     n: 45, nivel: "B1", estado: "borrador",
     titulo: "Consejos con el condicional",
+    sugerencias: { parte1: ["Deberías ahorrar", "Podrías intentarlo", "Tendrías que ir al médico"], parte2: ["Yo que tú…", "Yo en tu lugar…", "Te recomendaría…"] },
     parte1: { gramatica: ["Deberías / podrías / tendrías que + infinitivo"], vocabulario: ["Fórmulas y frases hechas para dar consejos financieros,", "de salud, profesionales o amorosos."] },
     parte2: { gramatica: ["Estructuras fijas para dar consejos o", "sugerencias de forma empática usando el condicional"], vocabulario: ["Vocabulario avanzado de atención al cliente,", "modales formales en hoteles, restaurantes o citas de negocios"] },
     preguntas: [], cultura: [], notas: ["«Me gustaría» y «¿podría…?» se pasaron a la semana 34 (cortesía).", "«Deberías» ya se vio como frase en la semana 14; aquí se entiende de dónde viene."],
@@ -994,6 +1042,7 @@ window.CURSO = [
   {
     n: 46, nivel: "B2", estado: "borrador",
     titulo: "Presente de Subjuntivo",
+    sugerencias: { parte1: ["¡Que te vaya bien!", "¡Que tengas buen viaje!", "Espero que estés bien"], parte2: ["Quiero viajar / Quiero que viajes", "Ojalá vengas", "Espero que…"] },
     parte1: { gramatica: ["Presente de Subjuntivo", "Morfología regular y su detonante principal a través de estructuras de deseo", "(\"Quiero que...\" / \"Espero que...\" + Subjuntivo)."], vocabulario: ["Felicitaciones, buenos deseos y rituales sociales:", "Frases hechas de cortesía hispana", "(¡Que tengas un buen día!, ¡Que te recuperes pronto!,", "¡Que cumplas muchos más!, ¡Buen provecho!)."] },
     parte2: { gramatica: ["\"Quiero viajar\") frente a usar Subjuntivo (dos sujetos diferentes: \"Quiero que tú viajes\").", "Planes e ideales de vida para otras personas:", "La diferencia fundamental entre usar Infinitivo (mismo sujeto: \"Quiero viajar\")"], vocabulario: ["Expresar deseos para la familia o amigos", "(desear que consigan trabajo, esperar que sean felices, querer que viajen)."] },
     preguntas: [], cultura: [], notas: [],
@@ -1004,6 +1053,7 @@ window.CURSO = [
   {
     n: 47, nivel: "B2", estado: "borrador",
     titulo: "La Voz Pasiva con el verbo Ser + Participio y",
+    sugerencias: { parte1: ["Fue construido en 1500", "Fue escrito por…", "Fue pintado por Frida"], parte2: ["Se venden libros", "Se renta departamento", "Se busca…"] },
     parte1: { gramatica: ["La Voz Pasiva con el verbo Ser + Participio y"], vocabulario: ["el uso de la preposición Por para introducir al agente"] },
     parte2: { gramatica: ["La pasiva refleja con el pronombre \"SE\" para acciones donde el agente no importa.", "(\"Se venden libros\", \"Se arrienda casa\")"], vocabulario: ["Vocabulario de la literatura, redacción de ensayos e historia"] },
     preguntas: [], cultura: [], notas: [],
@@ -1014,6 +1064,7 @@ window.CURSO = [
   {
     n: 48, nivel: "B2", estado: "borrador",
     titulo: "Combinación de Pronombres de Objeto Directo e Indirecto",
+    sugerencias: { parte1: ["Me lo das", "Se lo digo", "Te la presto"], parte2: ["Dámelo", "Tengo que enviárselo", "Se lo voy a mandar"] },
     parte1: { gramatica: ["Combinación de Pronombres de Objeto Directo e Indirecto", "Reglas de colocación (\"Indirecto + Directo\": me lo, te la, nos los", "el cambio obligatorio de le/les por \"SE\" frente a lo/la/los/las."], vocabulario: ["Verbos de transferencia e intercambio de información", "dar, regalar, prestar, enviar, entregar, vender, contar una historia)."] },
     parte2: { gramatica: ["infinitivos, gerundios e imperativos", "(\"Se lo tengo que enviar\" frente a \"Tengo que enviárselo\", o ¡Dámelo!).", "Objetos cotidianos y de oficina comunes para sustituir", "La doble posición de los pronombres combinados"], vocabulario: ["Sustantivos que servirán como objeto directo en las dinámicas", "(el paquete, el regalo, las llaves, el secreto, el dinero)."] },
     preguntas: [], cultura: [], notas: [],
@@ -1024,6 +1075,7 @@ window.CURSO = [
   {
     n: 49, nivel: "B2", estado: "borrador",
     titulo: "El Subjuntivo en estructuras de sentimiento de tipo invertido",
+    sugerencias: { parte1: ["Me alegra que vengas", "Me molesta que…", "Me sorprende que…"], parte2: ["Que sea, que vaya, que sepa", "Me molesta que haya ruido", "Ojalá sepa la respuesta"] },
     parte1: { gramatica: ["El Subjuntivo en estructuras de sentimiento de tipo invertido", "(\"Me alegra que...\", \"Me molesta que...\")."], vocabulario: ["Estados de ánimo avanzados y respuestas psicológicas", "(la frustración, el enfado/enojo, la sorpresa, la decepción, el alivio)."] },
     parte2: { gramatica: ["Verbos de irregularidad fuerte en Presente de Subjuntivo", "(Sea, Vaya, Sepa, Haya)."], vocabulario: ["Convivencia y relaciones interpersonales: acciones comunes de la gente que generan roces", "(llegar tarde, mentir, hacer ruido, olvidar cosas)."] },
     preguntas: [], cultura: [], notas: [],
@@ -1034,6 +1086,7 @@ window.CURSO = [
   {
     n: 50, nivel: "B2", estado: "borrador",
     titulo: "Estructuras de valoración con construcciones impersonales",
+    sugerencias: { parte1: ["Es importante que…", "Es una lástima que…", "Es bueno que…"], parte2: ["Creo que sí, no creo que…", "Desde mi punto de vista", "No estoy seguro de que…"] },
     parte1: { gramatica: ["Estructuras de valoración con construcciones impersonales", "Es bueno que...\" / \"Es importante que...\" / \"Es una lástima que...\" + Subjuntivo."], vocabulario: ["Problemáticas urbanas y sociales del mundo actual ideales para debatir", "(el tráfico, la contaminación, la seguridad, el costo de la vida)."] },
     parte2: { gramatica: ["El contraste definitivo de opinión y certeza: Indicativo frente a Subjuntivo", "Indicativo frente a Subjuntivo (\"Creo que...\" [Indicativo] frente a \"No creo que...\" [Subjuntivo])."], vocabulario: ["Fórmulas discursivas de argumentación para defender un punto de vista", "(desde mi punto de vista, opino que, es fundamental considerar...)."] },
     preguntas: [], cultura: [], notas: [],
@@ -1044,6 +1097,7 @@ window.CURSO = [
   {
     n: 51, nivel: "B2", estado: "borrador",
     titulo: "Revisión global de la alternancia de modos",
+    sugerencias: { parte1: ["¿Indicativo o subjuntivo?", "Cuando llegues…", "Todo junto"], parte2: ["En resumen", "Por lo tanto", "Hasta pronto"] },
     parte1: { gramatica: ["Revisión global de la alternancia de modos", "(Cuándo usar Indicativo, Infinitivo o Subjuntivo dentro de una misma conversación)."], vocabulario: ["Expresiones idiomáticas de nivel avanzado y modismos del lenguaje coloquial real"] },
     parte2: { gramatica: ["Marcadores discursivos avanzados de cohesión y conectores textuales", "(en resumen, por lo tanto, en primer lugar)."], vocabulario: ["Fórmulas de despedida formal e informal para cartas,", "correos electrónicos o discursos de cierre de curso."] },
     preguntas: [], cultura: [], notas: [],
@@ -1054,6 +1108,7 @@ window.CURSO = [
   {
     n: 52, nivel: "B2", estado: "borrador",
     titulo: "Estilo Indirecto en Presente para reportar",
+    sugerencias: { parte1: ["Dice que viene", "Pregunta si…", "Te manda decir que…"], parte2: ["Dice que su casa es grande", "Un recado para ti", "Dice que lo llames"] },
     parte1: { gramatica: ["Estilo Indirecto en Presente para reportar", "discursos y peticiones de otros (\"Dice que...\")."], vocabulario: ["Verbos de habla, reporte y transmisión comunicativa (comentar, asegurar, negar, explicar)."] },
     parte2: { gramatica: ["Modificaciones obligatorias de los pronombres personales posesivos al transmitir un mensaje", "(\"—Mi casa es grande\" \\(\\rightarrow \\) \"Él dice que su casa es grande\")."], vocabulario: ["Fórmulas para transmitir recados telefónicos o mensajes pendientes en la oficina"] },
     preguntas: [], cultura: [], notas: [],
@@ -1064,6 +1119,7 @@ window.CURSO = [
   {
     n: 53, nivel: "B2", estado: "borrador",
     titulo: "Introducción al Pretérito Imperfecto de Subjuntivo: morfología de la conjugación regular",
+    sugerencias: { parte1: ["Quisiera que…", "Hablara, comiera, viviera", "Me gustaría que cambiara…"], parte2: ["¡Ojalá tuviera más tiempo!", "¡Quién fuera rico!", "Ojalá hiciera calor"] },
     parte1: { gramatica: ["Introducción al Pretérito Imperfecto de Subjuntivo: morfología de la conjugación regular", "(-ara / -iera: hablara, comiera) basada en la tercera persona plural del pasado (hablaron \\(\\rightarrow \\) hablara)."], vocabulario: ["Sueños frustrados, utopías y deseos de cambios globales (acabar con la pobreza, viajar al espacio)"] },
     parte2: { gramatica: ["Expresión de deseos imposibles o improbables en el presente mediante la partícula \"Ojalá", "(\"¡Ojalá tuviera más dinero!\", \"¡Ojalá hiciera calor!\")."], vocabulario: ["Expresiones idiomáticas basadas en la nostalgia y el anhelo (\"¡Quién fuera rico!\", \"A buenas horas\")."] },
     preguntas: [], cultura: [], notas: [],
@@ -1074,6 +1130,7 @@ window.CURSO = [
   {
     n: 54, nivel: "B2", estado: "borrador",
     titulo: "Oraciones condicionales improbables o imaginarias en presente mediante la estructura",
+    sugerencias: { parte1: ["Si tuviera tiempo…", "Si ganara la lotería…", "¿Qué harías si…?"], parte2: ["Si fuera, si tuviera, si hiciera", "Si pudiera…", "Si estuviera allí…"] },
     parte1: { gramatica: ["Oraciones condicionales improbables o imaginarias en presente mediante la estructura", "Si + Imperfecto de Subjuntivo + Condicional Simple (\"Si tuviera tiempo, viajaría a la playa\")."], vocabulario: ["Dilemas éticos avanzados, toma de decisiones críticas en empresas o situaciones límite de supervivencia."] },
     parte2: { gramatica: ["Las irregularidades de la raíz en Imperfecto de Subjuntivo", "(que provienen de tus pasados de la Semana 21 tuviera, hiciera, fuera, estuviera)."], vocabulario: ["Planes alternativos y justificaciones hipotéticas ante imprevistos cotidianos"] },
     preguntas: [], cultura: [], notas: [],
@@ -1084,6 +1141,7 @@ window.CURSO = [
   {
     n: 55, nivel: "B2", estado: "borrador",
     titulo: "Tiempos Compuestos del Indicativo",
+    sugerencias: { parte1: ["Para el 2030 habremos…", "Ya habré terminado", "¿Habrá llegado?"], parte2: ["Yo habría ido", "Habría sido mejor", "Lo habría hecho"] },
     parte1: { gramatica: ["Futuro perfecto (habré terminado)"], vocabulario: ["Proyecciones a largo plazo y evaluación de proyectos (ej. Para el 2030, habremos expandido el mercado)"] },
     parte2: { gramatica: ["Condicional compuesto (habría ido)"], vocabulario: ["Arrepentimientos financieros o personales (ej. Yo habría invertido en esa empresa, pero no tenía presupuesto)"] },
     preguntas: [], cultura: [], notas: [],
@@ -1094,6 +1152,7 @@ window.CURSO = [
   {
     n: 56, nivel: "B2", estado: "borrador",
     titulo: "Tiempos Compuestos del Subjuntivo",
+    sugerencias: { parte1: ["Me alegra que hayas venido", "Espero que hayas descansado", "Ojalá haya llegado bien"], parte2: ["Si hubiera sabido…", "Ojalá hubiera ido", "Si lo hubiéramos lanzado antes…"] },
     parte1: { gramatica: ["Pretérito perfecto de subjuntivo (haya terminado)"], vocabulario: ["Evaluaciones de desempeño y feedback laboral (ej. Me alegra que hayamos cerrado el trato)"] },
     parte2: { gramatica: ["Pretérito pluscuamperfecto de subjuntivo (hubiera / hubiese terminado)"], vocabulario: ["Condicionales irreales del pasado (ej. Si hubiéramos lanzado el producto antes, tendríamos más clientes)"] },
     preguntas: [], cultura: [], notas: [],

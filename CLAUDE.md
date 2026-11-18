@@ -145,6 +145,8 @@ _(se irá llenando)_
 - 2026-11-16: **Curso reacomodado (56 semanas): A1 = 1–18, A2 = 19–32, B1 = 33–45, B2 = 46–56.** Semana 18 nueva = *gustar / encantar* + infinitivo + ser + adjetivo (viene de las antiguas 30 y 29). Todo lo que estaba de la 18 en adelante se recorrió (+1). **David ahora está en la semana 20** (pasado regular; la versión del UNO conserva su id `uno-s19-preterito` para no romper links). Movidos al A2: participio como adjetivo (24, justo después del perfecto), posesivos *el mío* + ropa (31), *se* impersonal + clima (32), relativo *que* (26, parte 2). *donde / lo que* se quedan en B1 (39); *-mente* en B1 (36). Extras: ordinales en la semana 5, *¿algo más? / nada más* en la 6. Semana 33 quedó libre; la 34 (objeto indirecto con verbos de acción) tiene una sola gramática.
 - 2026-11-16 (2.º ajuste): **A2 = 19–33, B1 = 34–45.** Imperativo afirmativo + direcciones pasó al A2 (31, después de comparativos). Semana 34 = cortesía: *me gustaría* (parte 1) + *¿podría…?* (parte 2), tomado de la antigua 45, que se quedó solo con «consejos con el condicional». Semana 36 = apariencia física II: *parecer / parecerse a* + *llevar* + ropa/accesorios. *poder* agregado a los irregulares de la semana 12 (con «pagar con tarjeta»). **Regla de Anita: las 2 gramáticas de cada semana deben estar relacionadas entre sí.**
 - 2026-11-17: **Panel: pestañas nuevas por semana "Plan" (cuadro: 2 gramáticas + vocabulario) y "Gramática" (explicación con la fórmula de 6 pasos, base de las presentaciones)**, y "Plan de estudios" en el menú abre el cuadro de todo el curso. Las explicaciones se escriben en `datos/curso.js`, campo `explicacion` (estado: Por escribir / Por revisar / Revisada). Antes Anita hacía la explicación con ChatGPT y la presentación con Gemini Canvas; propuesta: Claude escribe la explicación, Anita la revisa en el panel y después un solo "motor de presentaciones" (como el Yostin de Israel) las muestra a los alumnos.
+- 2026-11-17: **Títulos por parte:** cada semana tiene `sugerencias` (3 ideas de título por parte, en la pestaña Plan). Estilo que le gusta a Anita: título corto con la estructura de la semana ("Hola, soy…", "Soy estudiante") y de subtítulo la gramática + el vocabulario. Cuando elija uno, va en `titulos: { parte1, parte2 }`.
+- 2026-11-17: **Libros de referencia (PDF):** van en la carpeta `libros/` (en `.gitignore` y `.vercelignore`: nunca se suben, tienen derechos de autor y el repo es público). Usarlos para rescatar ideas y reescribirlas con palabras de Anita, no copiar textos.
 
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 
@@ -188,6 +190,7 @@ _(se irá llenando)_
 - `datos/versiones.js`: el stock de versiones de juegos (motor + contenido).
 - `datos/firebase.js`: configuración web de Firebase (pública por diseño).
 - `juegos/uno/`: motor del UNO. `juegos/originales-gemini/`: códigos originales de Gemini (no se publican).
+- `libros/`: PDFs de referencia de Anita (solo en su computadora, no se suben).
 - `abrir-sitio.cmd`: doble clic → abre el sitio en `http://localhost:8080/panel/` (usa `herramientas/servidor.ps1`).
 - Colores (en `:root` del panel): papel `#F4ECDF`, hoja `#FBF7F0`, tinta `#3A2A1F`, terracota `#B4532F`, ocre `#B97D22`, olivo `#5B6A36`. Letras: **Fraunces** (títulos) y **Source Sans 3** (texto).
 

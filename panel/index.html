@@ -354,21 +354,36 @@
         <div className="tarjeta overflow-hidden">
           <div className="p-5 pb-3">
             <p className="font-titulo text-lg">Plan de la semana {s.n}</p>
-            <p className="text-sm text-suave">Las 2 gramáticas y el vocabulario que se enseñan esta semana.</p>
+            <p className="text-sm text-suave">Las 2 gramáticas y el vocabulario que se enseñan esta semana, con ideas de título para cada parte.</p>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full min-w-[640px] text-left">
               <thead className="bg-papel text-xs uppercase tracking-wide text-suave">
-                <tr><th className="px-5 py-2 w-24"></th><th className="px-5 py-2">Gramática</th><th className="px-5 py-2">Vocabulario</th></tr>
+                <tr><th className="px-5 py-2 w-24"></th><th className="px-5 py-2 w-[25%]">Gramática</th><th className="px-5 py-2 w-[28%]">Vocabulario</th><th className="px-5 py-2 w-[34%]">Ideas de título</th></tr>
               </thead>
               <tbody>
-                {['parte1', 'parte2'].map((p, i) => (
-                  <tr key={p} className="border-t border-linea align-top">
-                    <td className="px-5 py-3 font-titulo whitespace-nowrap">Parte {i + 1}</td>
-                    <td className="px-5 py-3 font-semibold"><Celda texto={unir(s[p].gramatica)} /></td>
-                    <td className="px-5 py-3"><Celda texto={unir(s[p].vocabulario)} /></td>
-                  </tr>
-                ))}
+                {['parte1', 'parte2'].map((p, i) => {
+                  const ideas = (s.sugerencias && s.sugerencias[p]) || [];
+                  const elegido = s.titulos && s.titulos[p];
+                  return (
+                    <tr key={p} className="border-t border-linea align-top">
+                      <td className="px-5 py-3 font-titulo whitespace-nowrap">Parte {i + 1}</td>
+                      <td className="px-5 py-3 font-semibold"><Celda texto={unir(s[p].gramatica)} /></td>
+                      <td className="px-5 py-3"><Celda texto={unir(s[p].vocabulario)} /></td>
+                      <td className="px-5 py-3">
+                        {elegido && <p className="mb-2"><Etiqueta color="olivo">Elegido</Etiqueta> <span className="font-titulo text-lg">{elegido}</span></p>}
+                        {ideas.length ? (
+                          <ul className="space-y-1.5">
+                            {ideas.map(t => (
+                              <li key={t} className={`font-titulo ${t === elegido ? 'text-olivo' : ''}`}>«{t}»</li>
+                            ))}
+                          </ul>
+                        ) : <span className="text-suave italic">Sin ideas todavía</span>}
+                        <p className="text-xs text-suave mt-2">Subtítulo: la gramática + el vocabulario</p>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

@@ -134,3 +134,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (1) Semana 35 completa (objeto indirecto repetido) y semana 45 completa (deberías / podrías / tendrías que).
 - **2026-11-16** · (1) Partes 2 completas: 21 (conectores de narración), 40 (donde / lo que separados), 55 y 56 (tiempos compuestos separados). Semana 27 ordenada (contraste indefinido vs. imperfecto + conectores avanzados; cuerpo y médico como vocabulario).
 - **2026-11-17** · (2) Panel: pestañas Plan y Gramática en cada semana; cuadro de todo el curso en «Plan de estudios».
+- **2026-11-17** · (1, 2) 3 ideas de título por parte en las 56 semanas (pestaña Plan). Carpeta privada `libros/` para los PDF de Anita.
