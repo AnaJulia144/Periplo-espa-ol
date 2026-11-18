@@ -171,7 +171,7 @@
             <Item id="inicio" icono={I.inicio}>Inicio</Item>
 
             <div className="pt-2">
-              <p className="flex items-center gap-3 px-3 py-2 font-medium"><Icono d={I.plan} /> Plan de estudios</p>
+              <Item id="plan" icono={I.plan}>Plan de estudios</Item>
               {NIVELES.map(nv => {
                 const semanas = PLAN.filter(s => s.nivel === nv.id);
                 const abiertoNv = !!abiertos[nv.id];
@@ -275,6 +275,8 @@
     // =================================================================
     const PESTANAS = [
       { id: 'contenido', nombre: 'Contenido', ayuda: 'Lo que lee antes de la semana' },
+      { id: 'plan', nombre: 'Plan', ayuda: 'Resumen de la semana' },
+      { id: 'gramatica', nombre: 'Gramática', ayuda: 'Explicación para la presentación' },
       { id: 'practica', nombre: 'Práctica', ayuda: 'Juegos de la semana' },
       { id: 'evaluacion', nombre: 'Evaluación', ayuda: 'Al final de la semana' },
       { id: 'publicar', nombre: 'Publicar', ayuda: 'Quién la ve y cuándo' },
@@ -316,6 +318,8 @@
 
             <div className="flex-1 min-w-0">
               {pestana === 'contenido' && <Contenido s={s} />}
+              {pestana === 'plan' && <PlanSemana s={s} />}
+              {pestana === 'gramatica' && <Gramatica s={s} />}
               {pestana === 'practica' && <Practica s={s} />}
               {pestana === 'evaluacion' && (
                 <Vacio titulo="Evaluación de la semana">
@@ -338,6 +342,153 @@
         ) : <p className="text-suave italic text-sm">Por definir</p>}
       </div>
     );
+
+    // ---------- Plan: cuadro resumido (2 gramáticas + vocabulario) ----------
+    const unir = arr => (arr && arr.length ? arr.join(' · ') : '');
+    const Celda = ({ texto }) => texto
+      ? <span className="first-letter:uppercase inline-block">{texto}</span>
+      : <span className="text-suave italic">Por definir</span>;
+
+    function PlanSemana({ s }) {
+      return (
+        <div className="tarjeta overflow-hidden">
+          <div className="p-5 pb-3">
+            <p className="font-titulo text-lg">Plan de la semana {s.n}</p>
+            <p className="text-sm text-suave">Las 2 gramáticas y el vocabulario que se enseñan esta semana.</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead className="bg-papel text-xs uppercase tracking-wide text-suave">
+                <tr><th className="px-5 py-2 w-24"></th><th className="px-5 py-2">Gramática</th><th className="px-5 py-2">Vocabulario</th></tr>
+              </thead>
+              <tbody>
+                {['parte1', 'parte2'].map((p, i) => (
+                  <tr key={p} className="border-t border-linea align-top">
+                    <td className="px-5 py-3 font-titulo whitespace-nowrap">Parte {i + 1}</td>
+                    <td className="px-5 py-3 font-semibold"><Celda texto={unir(s[p].gramatica)} /></td>
+                    <td className="px-5 py-3"><Celda texto={unir(s[p].vocabulario)} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    function PlanCompleto() {
+      const david = ALUMNOS.find(a => a.id === 'david');
+      return (
+        <div className="space-y-6">
+          <header>
+            <p className="text-sm text-suave">Plan de estudios</p>
+            <h1 className="font-titulo text-3xl font-semibold">Todo el curso de un vistazo</h1>
+            <p className="text-suave">Las 2 gramáticas y el vocabulario de cada semana. Toca una semana para abrirla.</p>
+          </header>
+          {NIVELES.map(nv => (
+            <section key={nv.id} className="tarjeta overflow-hidden">
+              <div className="px-5 py-3 flex items-baseline gap-3">
+                <p className="font-titulo text-xl font-semibold">{nv.nombre}</p>
+                <p className="text-sm text-suave">{nv.rango}</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[760px] text-left text-sm">
+                  <thead className="bg-papel text-xs uppercase tracking-wide text-suave">
+                    <tr>
+                      <th className="px-4 py-2 w-16">Sem.</th>
+                      <th className="px-4 py-2">Gramática 1</th><th className="px-4 py-2">Vocabulario 1</th>
+                      <th className="px-4 py-2">Gramática 2</th><th className="px-4 py-2">Vocabulario 2</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {PLAN.filter(s => s.nivel === nv.id).map(s => (
+                      <tr key={s.n} onClick={() => ir(`semana/${s.n}/plan`)}
+                          className={`border-t border-linea align-top cursor-pointer hover:bg-papel/70 ${s.estado === 'borrador' ? 'text-suave' : ''}`}>
+                        <td className="px-4 py-2.5 font-titulo text-base whitespace-nowrap">
+                          {s.n}
+                          {david?.semanaActual === s.n && <span className="block text-[10px] font-sans font-bold uppercase text-olivo">David</span>}
+                        </td>
+                        <td className="px-4 py-2.5 font-semibold text-tinta"><Celda texto={unir(s.parte1.gramatica)} /></td>
+                        <td className="px-4 py-2.5"><Celda texto={unir(s.parte1.vocabulario)} /></td>
+                        <td className="px-4 py-2.5 font-semibold text-tinta"><Celda texto={unir(s.parte2.gramatica)} /></td>
+                        <td className="px-4 py-2.5"><Celda texto={unir(s.parte2.vocabulario)} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          ))}
+        </div>
+      );
+    }
+
+    // ---------- Gramática: la explicación que luego será la presentación ----------
+    // Sigue la fórmula de Anita. Se escribe en datos/curso.js, en "explicacion".
+    const PASOS_FORMULA = [
+      { id: 'funcion', nombre: 'Función', ayuda: 'Para qué sirve' },
+      { id: 'ejemplos', nombre: 'Ejemplos', ayuda: 'Un par, con el vocabulario de la semana' },
+      { id: 'afirmacion', nombre: 'Afirmación', ayuda: 'Fórmula para afirmar' },
+      { id: 'negacion', nombre: 'Negación', ayuda: 'Fórmula para negar' },
+      { id: 'preguntaCerrada', nombre: 'Pregunta cerrada', ayuda: 'Se responde con sí o no' },
+      { id: 'preguntaInterrogativa', nombre: 'Pregunta con interrogativos', ayuda: 'Las palabras que se desbloquean esta semana' },
+    ];
+    const Texto = ({ valor }) => Array.isArray(valor)
+      ? <ul className="space-y-1">{valor.map((t, i) => <li key={i}>{t}</li>)}</ul>
+      : <p className="whitespace-pre-line">{valor}</p>;
+
+    function Gramatica({ s }) {
+      const exp = s.explicacion || {};
+      return (
+        <div className="space-y-5">
+          <div className="tarjeta p-5 bg-ocre-claro/60 border-ocre/30">
+            <p className="font-semibold mb-1">Aquí vive la explicación de la gramática</p>
+            <p className="text-sm text-suave">
+              Sigue tu fórmula: título → función y ejemplos → afirmación → negación → pregunta cerrada → pregunta con interrogativos.
+              Con esto se arma después la presentación que ve el alumno. Para escribir o corregir una explicación, díselo a Claude.
+            </p>
+          </div>
+          {['parte1', 'parte2'].map((p, i) => {
+            const titulo = unir(s[p].gramatica);
+            const e = exp[p] || {};
+            const pasos = e.formula === false ? (e.pasos || []) : PASOS_FORMULA.map(x => ({ ...x, texto: e[x.id] }));
+            const escritos = pasos.filter(x => x.texto && x.texto.length).length;
+            return (
+              <div key={p} className="tarjeta overflow-hidden">
+                <div className="p-5 border-b border-linea">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <p className="text-xs font-bold uppercase tracking-wide text-suave">Parte {i + 1} · 1. Título</p>
+                    {e.revisada ? <Etiqueta color="olivo">Revisada</Etiqueta>
+                      : escritos ? <Etiqueta color="ocre">Por revisar</Etiqueta>
+                      : <Etiqueta color="terracota">Por escribir</Etiqueta>}
+                  </div>
+                  <p className="font-titulo text-xl first-letter:uppercase">{e.titulo || titulo || 'Sin gramática esta parte'}</p>
+                </div>
+                {(titulo || e.titulo) && (
+                  <ol className="divide-y divide-linea">
+                    {pasos.map((x, k) => (
+                      <li key={k} className="px-5 py-3 grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4">
+                        <div>
+                          <p className="font-semibold">{e.formula === false ? x.titulo : `${k < 2 ? 2 : k + 1}. ${x.nombre}`}</p>
+                          {x.ayuda && <p className="text-xs text-suave">{x.ayuda}</p>}
+                        </div>
+                        <div>{x.texto && x.texto.length ? <Texto valor={x.texto} /> : <span className="text-suave italic text-sm">Por escribir</span>}</div>
+                      </li>
+                    ))}
+                    {e.interrogativos && e.interrogativos.length > 0 && (
+                      <li className="px-5 py-3 grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4">
+                        <p className="font-semibold">Interrogativos nuevos</p>
+                        <div className="flex flex-wrap gap-1.5">{e.interrogativos.map(q => <span key={q} className="px-2.5 py-1 rounded-md bg-papel border border-linea text-sm">{q}</span>)}</div>
+                      </li>
+                    )}
+                  </ol>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
 
     function Contenido({ s }) {
       const extras = [
@@ -556,6 +707,7 @@
 
       let pagina;
       if (ruta.seccion === 'semana') pagina = <Semana ruta={ruta} />;
+      else if (ruta.seccion === 'plan') pagina = <PlanCompleto />;
       else if (ruta.seccion === 'juegos') pagina = <Juegos />;
       else if (ruta.seccion === 'alumnos') pagina = <Alumnos />;
       else if (ruta.seccion === 'calendario') pagina = <Calendario />;

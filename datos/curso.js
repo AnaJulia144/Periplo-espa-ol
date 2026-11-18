@@ -15,6 +15,12 @@
 //    cultura      notas de cultura (México)
 //    notas        recordatorios para Anita
 //    actividades  ideas de actividades y juegos
+//    explicacion  (opcional) la explicación de cada gramática con la fórmula de Anita,
+//                 para la pestaña "Gramática" y las presentaciones:
+//                 explicacion: { parte1: { funcion, ejemplos: [], afirmacion, negacion,
+//                   preguntaCerrada, preguntaInterrogativa, interrogativos: [], revisada },
+//                   parte2: {...} }.  Si una gramática no usa la fórmula (p. ej.
+//                 preposiciones): { formula: false, pasos: [{ titulo, texto }] }
 //    palabras     listas de vocabulario. Cada palabra puede llevar su
 //                 traducción después de " = "  (ej. "boda = wedding")
 // =====================================================================
