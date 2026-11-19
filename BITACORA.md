@@ -135,3 +135,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-16** · (1) Partes 2 completas: 21 (conectores de narración), 40 (donde / lo que separados), 55 y 56 (tiempos compuestos separados). Semana 27 ordenada (contraste indefinido vs. imperfecto + conectores avanzados; cuerpo y médico como vocabulario).
 - **2026-11-17** · (2) Panel: pestañas Plan y Gramática en cada semana; cuadro de todo el curso en «Plan de estudios».
 - **2026-11-17** · (1, 2) 3 ideas de título por parte en las 56 semanas (pestaña Plan). Carpeta privada `libros/` para los PDF de Anita.
+- **2026-11-18** · (1) Anita explicó su dinámica de ciclos de 4 semanas (entrada en cualquier semana, corte mensual, repaso acumulado). Sus 4 libros «Aprender a enseñar español» ya están en `libros/`.
