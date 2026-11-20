@@ -168,7 +168,8 @@ _(se irá llenando)_
 3. **Al final:** **actividades de evaluación** → si avanza, pasa a la semana siguiente.
 ### Ciclos de 4 semanas (2026-11-18)
 - **Cada mes = 4 semanas** (56 semanas = 14 meses). Las semanas de un mes deben ser **independientes entre sí**: un alumno nuevo puede entrar en cualquier semana y empieza junto con el grupo desde cero esa semana.
-- La semana que se perdió la **recupera cuando el ciclo vuelve a pasar por ella**.
+- La semana que se perdió la **recupera cuando el ciclo del mes vuelve a pasar por ella**: si entra en la semana 2, hace 2 → 3 → 4 → 1 y luego pasa al mes 2. El orden dentro del mes no importa; por eso las semanas del mes deben ser independientes.
+- **Kit de bienvenida** (idea aprobada 2026-11-19): lo básico de la semana 1 para el alumno que entra a medio mes (la semana 1 le tocaría al final de su vuelta).
 - **Corte cada mes:** el mes nuevo trae vocabulario nuevo; lecturas y actividades **retoman lo de meses anteriores** (aprendizaje acumulado / en espiral).
 - Regla de diseño que sale de esto: una semana puede depender de meses anteriores, **no de otra semana del mismo mes**. Meses con cadenas internas hoy: 1, 3, 6, 7, 13, 14 (leves: 5 y 11).
 
