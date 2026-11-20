@@ -139,3 +139,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-19** · (1) Análisis de los libros 2–4 contra el plan: gramáticas que faltan + temas de México/turismo. Libro 1 pendiente (no se pudo leer).
 - **2026-11-19** · (1, 2) Curso a 60 semanas en 15 meses con lo de los libros (4 semanas nuevas) y kit de bienvenida en el panel.
 - **2026-11-19** · (1) Niveles C1 y C2: 24 semanas nuevas (84 en total, 21 meses).
+- **2026-11-19** · (1) «Se» de los accidentes en la semana 37.
