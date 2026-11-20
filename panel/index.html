@@ -82,10 +82,10 @@
     const IDEAS = window.IDEAS_JUEGOS || [];
 
     const NIVELES = [
-      { id: 'A1', nombre: 'A1', rango: 'Semanas 1–18' },
-      { id: 'A2', nombre: 'A2', rango: 'Semanas 19–33' },
-      { id: 'B1', nombre: 'B1', rango: 'Semanas 34–45' },
-      { id: 'B2', nombre: 'B2', rango: 'Semanas 46–56' },
+      { id: 'A1', nombre: 'A1', rango: 'Semanas 1–20' },
+      { id: 'A2', nombre: 'A2', rango: 'Semanas 21–36' },
+      { id: 'B1', nombre: 'B1', rango: 'Semanas 37–48' },
+      { id: 'B2', nombre: 'B2', rango: 'Semanas 49–60' },
     ];
 
     // ---------- Vocabulario ----------
@@ -99,7 +99,7 @@
     // ---------- Navegación por la dirección (#/semana/19/contenido) ----------
     function leerRuta() {
       const partes = (location.hash.replace(/^#\/?/, '') || 'inicio').split('/');
-      return { seccion: partes[0], semana: partes[1] ? Number(partes[1]) : null, pestana: partes[2] || 'contenido' };
+      return { seccion: partes[0], semana: partes[1] ? Number(partes[1]) : null, pestana: partes[2] || 'contenido', subpestana: partes[1] || null };
     }
     function ir(ruta) { location.hash = '#/' + ruta; }
 
@@ -172,6 +172,10 @@
 
             <div className="pt-2">
               <Item id="plan" icono={I.plan}>Plan de estudios</Item>
+              <a href="#/kit" onClick={cerrar}
+                 className={`ml-3 flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold ${ruta.seccion === 'kit' ? 'bg-hoja text-terracota shadow-sm' : 'hover:bg-hoja/60'}`}>
+                <span className="w-4 text-center">★</span> Kit de bienvenida
+              </a>
               {NIVELES.map(nv => {
                 const semanas = PLAN.filter(s => s.nivel === nv.id);
                 const abiertoNv = !!abiertos[nv.id];
@@ -185,13 +189,15 @@
                     </button>
                     {abiertoNv && (
                       <ul className="ml-5 border-l border-linea">
-                        {semanas.map(s => {
+                        {semanas.map((s, k) => {
                           const activo = ruta.seccion === 'semana' && ruta.semana === s.n;
                           const n = totalPalabras(s);
                           const esDavid = david && david.semanaActual === s.n;
                           const borrador = s.estado === 'borrador';
+                          const nuevoMes = k === 0 || semanas[k - 1].mes !== s.mes;
                           return (
                             <li key={s.n}>
+                              {nuevoMes && s.mes && <p className="pl-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-ocre">Mes {s.mes}</p>}
                               <a href={`#/semana/${s.n}`} onClick={cerrar} title={s.titulo + (borrador ? ' (borrador)' : '')}
                                  className={`flex items-center gap-2 pl-3 pr-2 py-1.5 -ml-px border-l-2 text-sm ${activo ? 'border-terracota bg-hoja text-terracota font-semibold' : 'border-transparent hover:bg-hoja/60'} ${borrador && !activo ? 'text-suave italic' : ''}`}>
                                 <span className="w-7 shrink-0 text-suave tabular-nums">S{s.n}</span>
@@ -349,12 +355,12 @@
       ? <span className="first-letter:uppercase inline-block">{texto}</span>
       : <span className="text-suave italic">Por definir</span>;
 
-    function PlanSemana({ s }) {
+    function PlanSemana({ s, titulo }) {
       return (
         <div className="tarjeta overflow-hidden">
           <div className="p-5 pb-3">
-            <p className="font-titulo text-lg">Plan de la semana {s.n}</p>
-            <p className="text-sm text-suave">Las 2 gramáticas y el vocabulario que se enseñan esta semana, con ideas de título para cada parte.</p>
+            <p className="font-titulo text-lg">{titulo || `Plan de la semana ${s.n}`}</p>
+            <p className="text-sm text-suave">Las 2 gramáticas y el vocabulario que se enseñan, con ideas de título para cada parte.</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] text-left">
@@ -391,6 +397,83 @@
       );
     }
 
+    // ---------- Kit de bienvenida (alumno que entra a medio mes) ----------
+    const KIT = window.KIT_BIENVENIDA;
+    const PESTANAS_KIT = [
+      { id: 'plan', nombre: 'Plan', ayuda: 'Qué aprende' },
+      { id: 'guia', nombre: 'Guía de la sesión', ayuda: '30–45 min contigo' },
+      { id: 'gramatica', nombre: 'Gramática', ayuda: 'Para la presentación' },
+      { id: 'palabras', nombre: 'Palabras', ayuda: 'Con traducción' },
+      { id: 'diagnostico', nombre: 'Diagnóstico', ayuda: 'Si ya sabe algo' },
+    ];
+
+    function Kit({ ruta }) {
+      if (!KIT) return <Vacio titulo="Kit de bienvenida">Todavía no está en datos/curso.js.</Vacio>;
+      const pestana = PESTANAS_KIT.some(p => p.id === ruta.subpestana) ? ruta.subpestana : 'plan';
+      return (
+        <div className="space-y-5">
+          <header>
+            <p className="text-sm text-suave">Plan de estudios › Kit de bienvenida</p>
+            <h1 className="font-titulo text-3xl font-semibold">{KIT.titulo}</h1>
+            <p className="text-suave">{KIT.para}</p>
+          </header>
+          <div className="flex flex-col lg:flex-row gap-5">
+            <div className="lg:w-52 shrink-0 flex lg:flex-col gap-1 overflow-x-auto">
+              {PESTANAS_KIT.map(p => {
+                const activa = p.id === pestana;
+                return (
+                  <a key={p.id} href={`#/kit/${p.id}`}
+                     className={`px-4 py-2.5 rounded-lg border-l-4 whitespace-nowrap ${activa ? 'bg-hoja border-terracota shadow-sm' : 'border-transparent hover:bg-hoja/60'}`}>
+                    <span className={`block font-semibold ${activa ? 'text-terracota' : ''}`}>{p.nombre}</span>
+                    <span className="hidden lg:block text-xs text-suave">{p.ayuda}</span>
+                  </a>
+                );
+              })}
+            </div>
+            <div className="flex-1 min-w-0 space-y-5">
+              {pestana === 'plan' && <>
+                <PlanSemana s={KIT} titulo="Plan del kit" />
+                {KIT.notas?.length > 0 && <div className="tarjeta p-5"><Lista titulo="Notas para ti" items={KIT.notas} /></div>}
+              </>}
+              {pestana === 'guia' && (
+                <div className="space-y-4">
+                  {KIT.guia.map(g => (
+                    <div key={g.momento} className="tarjeta p-5">
+                      <div className="flex items-baseline gap-3 mb-2">
+                        <p className="font-titulo text-xl">{g.momento}</p>
+                        <span className="text-sm text-suave">{g.minutos} min</span>
+                      </div>
+                      <ol className="list-decimal pl-5 space-y-1.5">{g.pasos.map((t, i) => <li key={i}>{t}</li>)}</ol>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {pestana === 'gramatica' && <Gramatica s={KIT} />}
+              {pestana === 'palabras' && <Vocabulario s={KIT} />}
+              {pestana === 'diagnostico' && (
+                <div className="tarjeta overflow-hidden">
+                  <div className="p-5 pb-3">
+                    <p className="font-titulo text-lg">¿En qué nivel entra?</p>
+                    <p className="text-sm text-suave">Si el alumno ya sabe algo de español, platica con estas preguntas. Donde empiece a batallar, ese es su nivel de entrada.</p>
+                  </div>
+                  <table className="w-full text-left">
+                    <tbody>
+                      {KIT.diagnostico.map(d => (
+                        <tr key={d.nivel} className="border-t border-linea align-top">
+                          <td className="px-5 py-3 font-titulo whitespace-nowrap w-32">{d.nivel}</td>
+                          <td className="px-5 py-3"><ul className="space-y-1">{d.preguntas.map(q => <li key={q}>{q}</li>)}</ul></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     function PlanCompleto() {
       const david = ALUMNOS.find(a => a.id === 'david');
       return (
@@ -398,8 +481,12 @@
           <header>
             <p className="text-sm text-suave">Plan de estudios</p>
             <h1 className="font-titulo text-3xl font-semibold">Todo el curso de un vistazo</h1>
-            <p className="text-suave">Las 2 gramáticas y el vocabulario de cada semana. Toca una semana para abrirla.</p>
+            <p className="text-suave">Las 2 gramáticas y el vocabulario de cada semana, agrupadas por mes (ciclos de 4 semanas). Toca una semana para abrirla.</p>
           </header>
+          <a href="#/kit" className="tarjeta p-4 flex items-center gap-3 bg-ocre-claro/60 border-ocre/30 hover:opacity-90">
+            <span className="font-titulo text-2xl text-ocre">★</span>
+            <span><span className="font-semibold">Kit de bienvenida</span><span className="block text-sm text-suave">Para el alumno que entra a medio mes: lo básico de la semana 1.</span></span>
+          </a>
           {NIVELES.map(nv => (
             <section key={nv.id} className="tarjeta overflow-hidden">
               <div className="px-5 py-3 flex items-baseline gap-3">
@@ -416,8 +503,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {PLAN.filter(s => s.nivel === nv.id).map(s => (
-                      <tr key={s.n} onClick={() => ir(`semana/${s.n}/plan`)}
+                    {PLAN.filter(s => s.nivel === nv.id).map((s, k, arr) => (
+                      <React.Fragment key={s.n}>
+                      {(k === 0 || arr[k - 1].mes !== s.mes) && s.mes && (
+                        <tr className="border-t border-linea bg-ocre-claro/50">
+                          <td colSpan={5} className="px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-ocre">Mes {s.mes}</td>
+                        </tr>
+                      )}
+                      <tr onClick={() => ir(`semana/${s.n}/plan`)}
                           className={`border-t border-linea align-top cursor-pointer hover:bg-papel/70 ${s.estado === 'borrador' ? 'text-suave' : ''}`}>
                         <td className="px-4 py-2.5 font-titulo text-base whitespace-nowrap">
                           {s.n}
@@ -428,6 +521,7 @@
                         <td className="px-4 py-2.5 font-semibold text-tinta"><Celda texto={unir(s.parte2.gramatica)} /></td>
                         <td className="px-4 py-2.5"><Celda texto={unir(s.parte2.vocabulario)} /></td>
                       </tr>
+                      </React.Fragment>
                     ))}
                   </tbody>
                 </table>
@@ -723,6 +817,7 @@
       let pagina;
       if (ruta.seccion === 'semana') pagina = <Semana ruta={ruta} />;
       else if (ruta.seccion === 'plan') pagina = <PlanCompleto />;
+      else if (ruta.seccion === 'kit') pagina = <Kit ruta={ruta} />;
       else if (ruta.seccion === 'juegos') pagina = <Juegos />;
       else if (ruta.seccion === 'alumnos') pagina = <Alumnos />;
       else if (ruta.seccion === 'calendario') pagina = <Calendario />;

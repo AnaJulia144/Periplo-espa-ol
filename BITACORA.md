@@ -29,7 +29,7 @@
 - Todo el vocabulario de las semanas 1–19 ya tiene **traducción al inglés** (1,101 palabras). Los números ahora van escritos con letra (`veintiuno = 21`).
 - Semanas 20–56 están como **borrador**.
 
-**Siguiente paso:** armar con Anita la semana 18 (gustar) con su fórmula de 6 pasos y ~30 palabras.
+**Siguiente paso:** que Anita revise el reacomodo por meses y el kit; leer el libro 1 (foto del índice o instalar lector); armar la semana 18 (gustar) con su fórmula y ~30 palabras.
 
 **Temas para debatir (los que el Cervantes pone antes que tu plan):**
 - *gustar / encantar* (hoy en la semana 30)
@@ -137,3 +137,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-17** · (1, 2) 3 ideas de título por parte en las 56 semanas (pestaña Plan). Carpeta privada `libros/` para los PDF de Anita.
 - **2026-11-18** · (1) Anita explicó su dinámica de ciclos de 4 semanas (entrada en cualquier semana, corte mensual, repaso acumulado). Sus 4 libros «Aprender a enseñar español» ya están en `libros/`.
 - **2026-11-19** · (1) Análisis de los libros 2–4 contra el plan: gramáticas que faltan + temas de México/turismo. Libro 1 pendiente (no se pudo leer).
+- **2026-11-19** · (1, 2) Curso a 60 semanas en 15 meses con lo de los libros (4 semanas nuevas) y kit de bienvenida en el panel.
