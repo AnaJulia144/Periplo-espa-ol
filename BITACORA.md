@@ -11,7 +11,7 @@
 
 | # | Proyecto | Estado | Última vez |
 |---|----------|--------|------------|
-| 1 | Plan de estudios oficial | Reacomodado con el Cervantes (A1 1–18 · A2 19–33 · B1 34–45 · B2 46–56); falta reinventar 21 en adelante | 2026-11-16 |
+| 1 | Plan de estudios oficial | 60 semanas en 15 meses (A1 1–20 · A2 21–36 · B1 37–48 · B2 49–60), con lo de los libros; falta reinventar 21 en adelante | 2026-11-19 |
 | 2 | Hub de la maestra y portal del alumno | Hub listo y publicado en Vercel | 2026-11-16 |
 | 3 | Código de los juegos (los "motores") | UNO funcionando en línea; falta probarlo en clase | 2026-11-16 |
 | 4 | Versiones de los juegos (bibliotecas de contenido) | Idea definida, sin empezar | 2026-11-16 |
