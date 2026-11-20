@@ -969,7 +969,7 @@ window.CURSO = [
     sugerencias: { parte1: ["Te mando un correo", "Le doy las llaves a María", "¿Me pasas la sal?"], parte2: ["Se me olvidó", "Se me perdió el pasaporte", "Se le descompuso el carro"] },
     parte1: { gramatica: ["Objeto indirecto con verbos de acción y el pronombre repetido (le doy, te mando; le doy el libro a María, les escribo a mis papás)"], vocabulario: ["Verbos para dar y comunicar (dar, mandar, prestar, decir, escribir, pasar)"] },
     parte2: { gramatica: ["El «se» de los accidentes: se + me / te / le + verbo, cuando algo pasa sin querer (se me olvidó, se me cayó, se le descompuso el carro)"], vocabulario: ["Objetos que se pierden, se caen o se descomponen (el pasaporte, las llaves, el celular, la batería, el carro)"] },
-preguntas: ["¿Qué se te olvidó en tu último viaje?"], cultura: [], notas: ["El «se» de los accidentes (B1 en el Cervantes) se agregó el 2026-11-19. Usa los mismos pronombres de la parte 1; por eso el objeto indirecto repetido ahora va dentro de la parte 1.", "Gustar, encantar, interesar, fascinar, «a Juan le…», «a mí también» y el vocabulario de pasatiempos se pasaron a la semana 18. «Me duele» ya está en el vocabulario de la semana del cuerpo y el médico."],
+    preguntas: ["¿Qué se te olvidó en tu último viaje?"], cultura: [], notas: ["El «se» de los accidentes (B1 en el Cervantes) se agregó el 2026-11-19. Usa los mismos pronombres de la parte 1; por eso el objeto indirecto repetido ahora va dentro de la parte 1.", "Gustar, encantar, interesar, fascinar, «a Juan le…», «a mí también» y el vocabulario de pasatiempos se pasaron a la semana 18. «Me duele» ya está en el vocabulario de la semana del cuerpo y el médico."],
     actividades: [],
     palabras: [],
   },
