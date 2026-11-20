@@ -11,7 +11,7 @@
 
 | # | Proyecto | Estado | Última vez |
 |---|----------|--------|------------|
-| 1 | Plan de estudios oficial | 60 semanas en 15 meses (A1 1–20 · A2 21–36 · B1 37–48 · B2 49–60), con lo de los libros; falta reinventar 21 en adelante | 2026-11-19 |
+| 1 | Plan de estudios oficial | 84 semanas en 21 meses (A1 1–20 · A2 21–36 · B1 37–48 · B2 49–60 · C1 61–72 · C2 73–84), con lo de los libros; falta reinventar 21 en adelante | 2026-11-19 |
 | 2 | Hub de la maestra y portal del alumno | Hub listo y publicado en Vercel | 2026-11-16 |
 | 3 | Código de los juegos (los "motores") | UNO funcionando en línea; falta probarlo en clase | 2026-11-16 |
 | 4 | Versiones de los juegos (bibliotecas de contenido) | Idea definida, sin empezar | 2026-11-16 |
@@ -138,3 +138,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-18** · (1) Anita explicó su dinámica de ciclos de 4 semanas (entrada en cualquier semana, corte mensual, repaso acumulado). Sus 4 libros «Aprender a enseñar español» ya están en `libros/`.
 - **2026-11-19** · (1) Análisis de los libros 2–4 contra el plan: gramáticas que faltan + temas de México/turismo. Libro 1 pendiente (no se pudo leer).
 - **2026-11-19** · (1, 2) Curso a 60 semanas en 15 meses con lo de los libros (4 semanas nuevas) y kit de bienvenida en el panel.
+- **2026-11-19** · (1) Niveles C1 y C2: 24 semanas nuevas (84 en total, 21 meses).

@@ -7,9 +7,9 @@
 //
 //  Cómo está escrito cada semana:
 //    n            número de semana
-//    mes          ciclo de 4 semanas (60 semanas = 15 meses). Las semanas de un mes
+//    mes          ciclo de 4 semanas (84 semanas = 21 meses). Las semanas de un mes
 //                 no dependen entre sí: un alumno nuevo puede entrar en cualquiera.
-//    nivel        A1 (1–20), A2 (21–36), B1 (37–48), B2 (49–60) — comparado con el Instituto Cervantes
+//    nivel        A1 (1–20), A2 (21–36), B1 (37–48), B2 (49–60), C1 (61–72), C2 (73–84) — Cervantes
 //                 No se enseña «vosotros» (curso de español de México).
 //    estado       "listo" (ya revisada) o "borrador"
 //    titulo       el tema principal
@@ -1235,6 +1235,282 @@ window.CURSO = [
     parte1: { gramatica: ["Pretérito perfecto de subjuntivo (haya terminado)"], vocabulario: ["Evaluaciones de desempeño y feedback laboral (ej. Me alegra que hayamos cerrado el trato)"] },
     parte2: { gramatica: ["Pretérito pluscuamperfecto de subjuntivo (hubiera / hubiese terminado)"], vocabulario: ["Condicionales irreales del pasado (ej. Si hubiéramos lanzado el producto antes, tendríamos más clientes)"] },
     preguntas: [], cultura: [], notas: [],
+    actividades: [],
+    palabras: [],
+  },
+  // ==================================================================
+  //  MES 16
+  // ==================================================================
+  {
+    n: 61, mes: 16, nivel: "C1", estado: "borrador",
+    titulo: "Aunque + indicativo o subjuntivo",
+    sugerencias: { parte1: ["Aunque está lejos, vale la pena", "Aunque es caro, lo compro", "Aunque llueve…"], parte2: ["Aunque llueva, iremos", "Aunque no te guste…", "Pase lo que pase"] },
+    parte1: { gramatica: ["Aunque + indicativo para un hecho real (aunque llueve, salgo a caminar)"], vocabulario: ["Negociación y objeciones"] },
+    parte2: { gramatica: ["Aunque + subjuntivo cuando no importa o no se sabe (aunque llueva, saldré)"], vocabulario: ["Responder a una objeción con cortesía"] },
+    preguntas: ["¿Viajarías aunque fuera temporada de lluvias?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 62, mes: 16, nivel: "C1", estado: "borrador",
+    titulo: "Para que + subjuntivo",
+    sugerencias: { parte1: ["Te lo mando para que lo revises", "Para que no se te olvide", "¿Para qué lo quieres?"], parte2: ["A fin de que…", "Con el objetivo de que…", "Quedo atento"] },
+    parte1: { gramatica: ["Para que + subjuntivo cuando cambia la persona (te lo mando para que lo revises)"], vocabulario: ["Correos y solicitudes formales"] },
+    parte2: { gramatica: ["A fin de que / con el objetivo de que (registro formal)"], vocabulario: ["Lenguaje de oficina (adjunto, quedo atento, en seguimiento a)"] },
+    preguntas: ["¿Qué haces para que tu equipo trabaje mejor?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 63, mes: 16, nivel: "C1", estado: "borrador",
+    titulo: "Verbos de cambio: ponerse, quedarse, volverse",
+    sugerencias: { parte1: ["Me puse nervioso", "Se quedó callado", "Se puso rojo"], parte2: ["Se hizo famoso", "Se volvió más serio", "Se convirtió en gerente"] },
+    parte1: { gramatica: ["Ponerse y quedarse para cambios rápidos o resultados (se puso nervioso, se quedó sorprendido)"], vocabulario: ["Emociones y reacciones en el trabajo"] },
+    parte2: { gramatica: ["Volverse, hacerse y convertirse en para cambios profundos (se hizo rico, se volvió famoso)"], vocabulario: ["Cambios en la vida y en la carrera"] },
+    preguntas: ["¿Cómo te pones cuando hablas en público?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 64, mes: 16, nivel: "C1", estado: "borrador",
+    titulo: "Ser y estar: matices",
+    sugerencias: { parte1: ["¡Está riquísimo!", "Ya estoy listo", "Es muy listo"], parte2: ["Está cerrado", "Fue cerrado por obras", "Está agotado"] },
+    parte1: { gramatica: ["Adjetivos que cambian de significado con ser o estar (ser listo / estar listo, ser rico / estar rico, ser aburrido / estar aburrido)"], vocabulario: ["Describir productos, comida y servicios"] },
+    parte2: { gramatica: ["Estar + participio (resultado) frente a ser + participio (acción): la tienda está cerrada / fue cerrada"], vocabulario: ["Avisos y estados de un servicio (abierto, cerrado, suspendido, agotado)"] },
+    preguntas: ["¿Qué platillo mexicano está más rico?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ==================================================================
+  //  MES 17
+  // ==================================================================
+  {
+    n: 65, mes: 17, nivel: "C1", estado: "borrador",
+    titulo: "En cuanto, antes de que + subjuntivo",
+    sugerencias: { parte1: ["En cuanto llegue, te aviso", "Tan pronto como pueda…", "En cuanto sepa algo"], parte2: ["Antes de que se vaya…", "Después de que firmen", "Antes de que sea tarde"] },
+    parte1: { gramatica: ["En cuanto / tan pronto como + subjuntivo (en cuanto llegue, te aviso)"], vocabulario: ["Logística de un viaje de trabajo"] },
+    parte2: { gramatica: ["Antes de que / después de que + subjuntivo (antes de que salga el vuelo)"], vocabulario: ["Agenda, itinerario y horarios"] },
+    preguntas: ["¿Qué haces en cuanto llegas a un hotel?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 66, mes: 17, nivel: "C1", estado: "borrador",
+    titulo: "Condiciones con otros nexos",
+    sugerencias: { parte1: ["Siempre que avise antes", "Con tal de que llegues", "Trato hecho"], parte2: ["En caso de que llueva…", "A menos que cambie el precio", "Por si acaso"] },
+    parte1: { gramatica: ["Siempre que / con tal de que + subjuntivo (te lo presto con tal de que me lo devuelvas)"], vocabulario: ["Contratos, reservas y garantías"] },
+    parte2: { gramatica: ["A menos que / en caso de que + subjuntivo (en caso de que se cancele el vuelo…)"], vocabulario: ["Políticas de cancelación y reembolso"] },
+    preguntas: ["¿Qué haces en caso de que pierdas tu vuelo?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 67, mes: 17, nivel: "C1", estado: "borrador",
+    titulo: "Relativos: el que, el cual, cuyo, quien",
+    sugerencias: { parte1: ["El hotel en el que me quedé", "La empresa con la que trabajo", "El día en que llegué"], parte2: ["La persona con quien hablé", "Un pueblo cuyo nombre…", "Quien quiera puede venir"] },
+    parte1: { gramatica: ["Preposición + el que / el cual (el hotel en el que me quedé, la empresa con la cual trabajo)"], vocabulario: ["Presentar una empresa"] },
+    parte2: { gramatica: ["Cuyo y quien (el cliente cuyo pedido llegó tarde, la persona con quien hablé)"], vocabulario: ["Folletos y descripciones de lugares turísticos"] },
+    preguntas: ["¿Cuál es la ciudad en la que te gustaría vivir?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 68, mes: 17, nivel: "C1", estado: "borrador",
+    titulo: "Causa y consecuencia",
+    sugerencias: { parte1: ["Como no había mesa…", "Ya que estás aquí…", "Dado que el vuelo se retrasó"], parte2: ["Así que nos fuimos", "Por eso llegué tarde", "De modo que…"] },
+    parte1: { gramatica: ["Causa: como, ya que, puesto que, dado que (como no había vuelos, tomamos el autobús)"], vocabulario: ["Explicar un problema"] },
+    parte2: { gramatica: ["Consecuencia: así que, por eso, de modo que, por lo tanto"], vocabulario: ["Proponer soluciones en el trabajo"] },
+    preguntas: ["¿Por qué elegiste aprender español?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ==================================================================
+  //  MES 18
+  // ==================================================================
+  {
+    n: 69, mes: 18, nivel: "C1", estado: "borrador",
+    titulo: "Me pidió que viniera: tiempos en pasado",
+    sugerencias: { parte1: ["Me pidió que llegara temprano", "Quería que vinieras", "Me recomendó que…"], parte2: ["Me molestó que no avisaran", "Me sorprendió que…", "Fue una lástima que…"] },
+    parte1: { gramatica: ["Pedir, querer y recomendar en pasado + imperfecto de subjuntivo (me pidió que llegara temprano)"], vocabulario: ["Quejas y reclamaciones (hotel, aerolínea, restaurante)"] },
+    parte2: { gramatica: ["Sentimientos en pasado + imperfecto de subjuntivo (me molestó que no avisaran)"], vocabulario: ["Pedir una compensación con cortesía"] },
+    preguntas: ["¿Qué te pidió tu jefe la semana pasada?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 70, mes: 18, nivel: "C1", estado: "borrador",
+    titulo: "Condiciones mixtas y como si",
+    sugerencias: { parte1: ["Si hubiera sabido…", "Si me hubiera quedado…", "Ahora estaría…"], parte2: ["Como si nada", "Habla como si fuera de aquí", "Como si no hubiera mañana"] },
+    parte1: { gramatica: ["Condicionales mixtas (si hubiera estudiado más, ahora hablaría mejor)"], vocabulario: ["Arrepentimientos y decisiones de vida"] },
+    parte2: { gramatica: ["Como si + imperfecto o pluscuamperfecto de subjuntivo (habla como si fuera mexicano)"], vocabulario: ["Anécdotas y comparaciones"] },
+    preguntas: ["¿Qué harías hoy si hubieras nacido en México?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 71, mes: 18, nivel: "C1", estado: "borrador",
+    titulo: "Perífrasis de matiz",
+    sugerencias: { parte1: ["Estaba a punto de salir", "Se puso a llover", "Se echó a reír"], parte2: ["Voy mejorando", "Ando buscando trabajo", "Acabé aceptando"] },
+    parte1: { gramatica: ["Estar a punto de, ponerse a, echarse a + infinitivo (se puso a llover, estaba a punto de salir)"], vocabulario: ["Procesos y proyectos"] },
+    parte2: { gramatica: ["Ir, andar y acabar + gerundio (voy mejorando, ando buscando casa, acabé aceptando)"], vocabulario: ["Hablar de avances y resultados"] },
+    preguntas: ["¿Qué andas haciendo últimamente?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 72, mes: 18, nivel: "C1", estado: "borrador",
+    titulo: "Marcadores del discurso formal",
+    sugerencias: { parte1: ["No obstante…", "En cambio…", "Aun así"], parte2: ["Es decir…", "O sea…", "En otras palabras"] },
+    parte1: { gramatica: ["Para contraargumentar: no obstante, sin embargo, en cambio, aun así"], vocabulario: ["Presentaciones y juntas en español"] },
+    parte2: { gramatica: ["Para reformular: es decir, o sea, mejor dicho, en otras palabras"], vocabulario: ["Pedir y ceder la palabra en una junta"] },
+    preguntas: ["¿Cómo presentarías tu empresa en dos minutos?"], cultura: [], notas: ["Semana nueva de nivel C1 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ==================================================================
+  //  MES 19
+  // ==================================================================
+  {
+    n: 73, mes: 19, nivel: "C2", estado: "borrador",
+    titulo: "Por más que, por mucho que",
+    sugerencias: { parte1: ["Por más que lo intento…", "Por mucho que insistas", "Por más que busqué"], parte2: ["Por difícil que sea", "Aun cuando llueva", "Por caro que parezca"] },
+    parte1: { gramatica: ["Por más que / por mucho que + indicativo o subjuntivo (por más que lo intento… / por más que insistas…)"], vocabulario: ["Debates y argumentación"] },
+    parte2: { gramatica: ["Por + adjetivo + que y aun cuando (por difícil que sea, aun cuando llueva)"], vocabulario: ["Defender una postura"] },
+    preguntas: ["¿Qué no harías por mucho dinero que te pagaran?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 74, mes: 19, nivel: "C2", estado: "borrador",
+    titulo: "Condiciones sin «si»",
+    sugerencias: { parte1: ["De haberlo sabido…", "De ser así…", "De no ser por ti"], parte2: ["Como no llegues…", "Como sigas así…", "Siguiendo este camino…"] },
+    parte1: { gramatica: ["De + infinitivo (de haberlo sabido, no habría venido)"], vocabulario: ["Advertencias y negociaciones"] },
+    parte2: { gramatica: ["Como + subjuntivo y el gerundio para condicionar (como no llegues a tiempo, perdemos el vuelo)"], vocabulario: ["Advertencias en la vida diaria"] },
+    preguntas: ["¿Qué habrías hecho de haber sabido español antes?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 75, mes: 19, nivel: "C2", estado: "borrador",
+    titulo: "Lo bueno, lo difícil que es",
+    sugerencias: { parte1: ["Lo mejor de México", "Lo bueno es que…", "Lo malo del tráfico"], parte2: ["No sabes lo difícil que es", "¡Lo bien que habla!", "Lo rápido que pasa el tiempo"] },
+    parte1: { gramatica: ["Lo + adjetivo para hablar de algo en general (lo bueno, lo mejor de México, lo malo del tráfico)"], vocabulario: ["Valorar experiencias culturales"] },
+    parte2: { gramatica: ["Lo + adjetivo o adverbio + que para intensificar (no sabes lo difícil que es, lo bien que habla)"], vocabulario: ["Expresar admiración y sorpresa"] },
+    preguntas: ["¿Qué es lo que más te gusta de viajar?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 76, mes: 19, nivel: "C2", estado: "borrador",
+    titulo: "Construcciones de énfasis",
+    sugerencias: { parte1: ["Lo que necesito es…", "Lo que pasa es que…", "Lo que más me gusta"], parte2: ["Fue ella quien firmó", "Es aquí donde…", "Fue entonces cuando…"] },
+    parte1: { gramatica: ["Lo que + verbo + es (lo que necesito es un taxi)"], vocabulario: ["Presentar propuestas y prioridades"] },
+    parte2: { gramatica: ["Ser + quien / donde / cuando (fue ella quien firmó, es aquí donde nos vemos)"], vocabulario: ["Aclarar malentendidos"] },
+    preguntas: ["¿Qué es lo que más extrañas de tu país?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ==================================================================
+  //  MES 20
+  // ==================================================================
+  {
+    n: 77, mes: 20, nivel: "C2", estado: "borrador",
+    titulo: "Haber terminado, habiendo dicho",
+    sugerencias: { parte1: ["Después de haber terminado", "Siento haberte molestado", "Gracias por haber venido"], parte2: ["Habiendo revisado todo…", "Habiendo dicho esto…", "Una vez terminado"] },
+    parte1: { gramatica: ["Infinitivo compuesto (después de haber terminado, siento haberte molestado)"], vocabulario: ["Informes y redacción profesional"] },
+    parte2: { gramatica: ["Gerundio compuesto (habiendo revisado el contrato, firmamos)"], vocabulario: ["Resumir un proceso terminado"] },
+    preguntas: ["¿Qué haces después de haber llegado a otra ciudad?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 78, mes: 20, nivel: "C2", estado: "borrador",
+    titulo: "Tener + participio y venir + gerundio",
+    sugerencias: { parte1: ["Tengo hechos los informes", "Llevo leídas 50 páginas", "Tengo pensado…"], parte2: ["Vengo diciendo que…", "Se viene hablando de…", "Venimos trabajando"] },
+    parte1: { gramatica: ["Tener y llevar + participio para lo ya hecho (tengo hechos los informes, llevo leídas 50 páginas)"], vocabulario: ["Avances de un proyecto"] },
+    parte2: { gramatica: ["Venir + gerundio para algo que se repite desde antes (vengo diciendo que…)"], vocabulario: ["Seguimiento de pendientes"] },
+    preguntas: ["¿Qué tienes pensado hacer el próximo año?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 79, mes: 20, nivel: "C2", estado: "borrador",
+    titulo: "Quizás, a lo mejor, el hecho de que",
+    sugerencias: { parte1: ["A lo mejor viene", "Quizás venga", "Tal vez sí"], parte2: ["El hecho de que…", "Me preocupa el hecho de que…", "No es que…"] },
+    parte1: { gramatica: ["Quizás, tal vez y a lo mejor con indicativo o subjuntivo (a lo mejor viene / quizás venga)"], vocabulario: ["Hipótesis y matices de opinión"] },
+    parte2: { gramatica: ["El hecho de que + subjuntivo o indicativo (el hecho de que llegue tarde me molesta)"], vocabulario: ["Hablar de causas con matiz"] },
+    preguntas: ["¿Qué crees que pase con el turismo en México?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 80, mes: 20, nivel: "C2", estado: "borrador",
+    titulo: "Cortesía y atenuación",
+    sugerencias: { parte1: ["Yo diría que…", "Quería comentarle…", "¿No le importaría…?"], parte2: ["No es que no quiera…", "Lo veo difícil", "Déjeme ver"] },
+    parte1: { gramatica: ["Suavizar con condicional e imperfecto (yo diría que…, quería comentarle…, ¿no le importaría…?)"], vocabulario: ["Diplomacia en el trabajo"] },
+    parte2: { gramatica: ["No es que + subjuntivo para rechazar con tacto (no es que no quiera, es que no puedo)"], vocabulario: ["Decir que no en México sin decir «no»"] },
+    preguntas: ["¿Cómo dices que no a un cliente sin ofenderlo?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ==================================================================
+  //  MES 21
+  // ==================================================================
+  {
+    n: 81, mes: 21, nivel: "C2", estado: "borrador",
+    titulo: "El español de México",
+    sugerencias: { parte1: ["¡Ándale!", "¡Híjole!", "¡Órale!"], parte2: ["Ahorita vengo", "Está cerquita", "Un carrote"] },
+    parte1: { gramatica: ["El «le» de las expresiones mexicanas (ándale, órale, híjole, córrele)"], vocabulario: ["Mexicanismos y registro coloquial"] },
+    parte2: { gramatica: ["Diminutivos y aumentativos (ahorita, cerquita, tantito; grandote, cansadón)"], vocabulario: ["Hablar como en la calle, con respeto y en su contexto"] },
+    preguntas: ["¿Qué expresiones mexicanas ya usas?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 82, mes: 21, nivel: "C2", estado: "borrador",
+    titulo: "Refranes y expresiones fijas",
+    sugerencias: { parte1: ["Échame la mano", "No me tomes el pelo", "Hazme caso"], parte2: ["Donde fueres…", "Más vale tarde que nunca", "Al que madruga…"] },
+    parte1: { gramatica: ["Expresiones con verbos de apoyo (echar la mano, dar lata, tomar el pelo, hacer caso)"], vocabulario: ["Refranes y dichos mexicanos"] },
+    parte2: { gramatica: ["El futuro de subjuntivo para reconocerlo en refranes y textos legales (donde fueres, haz lo que vieres)"], vocabulario: ["Leer avisos legales y contratos"] },
+    preguntas: ["¿Qué refrán de tu idioma se parece a uno mexicano?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 83, mes: 21, nivel: "C2", estado: "borrador",
+    titulo: "El español formal escrito",
+    sugerencias: { parte1: ["Se informa que…", "Fue aprobado", "Se les recuerda"], parte2: ["Estimado señor…", "Atentamente", "Sin más por el momento"] },
+    parte1: { gramatica: ["Voz pasiva y «se» en textos formales (se informa que…, fue aprobado por…)"], vocabulario: ["Correos, informes y contratos"] },
+    parte2: { gramatica: ["Puntuación y estilo: párrafos, conectores y cartas formales"], vocabulario: ["Fórmulas formales de saludo y despedida (estimado, atentamente, sin más por el momento)"] },
+    preguntas: ["¿Cómo empiezas un correo formal en español?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
+    actividades: [],
+    palabras: [],
+  },
+  // ------------------------------------------------------------------
+  {
+    n: 84, mes: 21, nivel: "C2", estado: "borrador",
+    titulo: "Todo junto: proyecto final",
+    sugerencias: { parte1: ["Mi historia con el español", "Lo que aprendí", "Todo junto"], parte2: ["Mi presentación", "Propuesta final", "¡Lo logré!"] },
+    parte1: { gramatica: ["Repaso de los modos en textos reales (indicativo, subjuntivo e infinitivo)"], vocabulario: ["Proyecto final: tu empresa o tu viaje"] },
+    parte2: { gramatica: ["Presentación oral final: narrar, argumentar y negociar"], vocabulario: ["Preparar y dar una presentación"] },
+    preguntas: ["¿Qué es lo que más te ha servido del curso?"], cultura: [], notas: ["Semana nueva de nivel C2 (2026-11-19)."],
     actividades: [],
     palabras: [],
   },
