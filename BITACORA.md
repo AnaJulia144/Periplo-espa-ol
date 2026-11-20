@@ -136,3 +136,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-17** · (2) Panel: pestañas Plan y Gramática en cada semana; cuadro de todo el curso en «Plan de estudios».
 - **2026-11-17** · (1, 2) 3 ideas de título por parte en las 56 semanas (pestaña Plan). Carpeta privada `libros/` para los PDF de Anita.
 - **2026-11-18** · (1) Anita explicó su dinámica de ciclos de 4 semanas (entrada en cualquier semana, corte mensual, repaso acumulado). Sus 4 libros «Aprender a enseñar español» ya están en `libros/`.
+- **2026-11-19** · (1) Análisis de los libros 2–4 contra el plan: gramáticas que faltan + temas de México/turismo. Libro 1 pendiente (no se pudo leer).
