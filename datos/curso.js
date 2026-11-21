@@ -1526,7 +1526,7 @@ window.KIT_BIENVENIDA = {
   para: "Para el alumno que entra a medio mes: lo mínimo para sobrevivir su primera clase con el grupo. La semana 1 completa (con negaciones, preguntas y todo el vocabulario) la verá al final de su vuelta del mes.",
   sugerencias: { parte1: ["¿Cómo suena el español?", "La h no suena", "¿Cómo lo deletreas?"], parte2: ["Hola, soy…", "Soy de Canadá", "Soy ingeniero"] },
   parte1: {
-    gramatica: ["El alfabeto y la pronunciación del español (las 5 vocales, la h muda, r y rr, ll y y, ñ, j y g, c / z / s, b y v)"],
+    gramatica: ["El alfabeto y la pronunciación: las 5 vocales, las letras que no suenan (h; u en que, qui, gue, gui), la «s» de México (z, c, s), el sonido de «h» (j, g, x), los gemelos (b y v, ll y y), d suave, t y p sin aire, r y rr, la ñ"],
     vocabulario: ["Saludos, presentaciones y frases para la clase", "Deletrear mi nombre"],
   },
   parte2: {
@@ -1536,9 +1536,68 @@ window.KIT_BIENVENIDA = {
   notas: [
     "Regla de la semana 1 y el kit: las frases de supervivencia se aprenden de memoria aunque su gramática se explique después (estar en la semana 7, poder en la 12, llamarse en los reflexivos).",
     "Diferencia con la semana 1: el kit solo tiene afirmaciones de ser. Negaciones, preguntas cerradas e interrogativos se ven en la semana 1 con el grupo.",
-    "Pendiente: Anita tiene material propio de pronunciación (h, rr…) para la parte 1.",
+    "La explicación de la pronunciación (parte 1) es el material de Anita, en 8 diapositivas.",
     "No se enseña «vosotros»: en México se usa «ustedes».",
   ],
+  // Explicación de la gramática (pestaña "Gramática" y futura presentación).
+  // Regla de Anita: títulos en español, explicación en inglés, ejemplos en español.
+  explicacion: {
+    parte1: {
+      formula: false,
+      titulo: "El alfabeto y la pronunciación",
+      revisada: false,
+      pasos: [
+        { titulo: "1. La base: las cinco vocales", texto: [
+          "In English, vowels change their sound constantly. In Spanish, they are your best friends because they never change, no matter where they are in a word!",
+          "A: sounds like the \"a\" in \"father\" → mande",
+          "E: sounds like the \"e\" in \"let\" → bien",
+          "I: sounds like the \"ea\" in \"tea\" → adiós",
+          "O: sounds like the \"o\" in \"more\", short and without gliding into a \"w\" → cómo",
+          "U: sounds like the \"oo\" in \"moon\" → usted",
+        ]},
+        { titulo: "2. Las letras que no suenan", texto: [
+          "H (la hache): it is always 100% silent. Never breathe out an \"h\" sound → hola",
+          "U in QUE and QUI: the \"u\" is silent; it sounds like \"ke\" and \"ki\" → ¿qué?, equipaje",
+          "U in GUE and GUI: the \"u\" is silent, leaving a hard \"g\" sound → juguete, guía",
+        ]},
+        { titulo: "3. Los sonidos de «S» (regla del español de México)", texto: [
+          "In Spain, some of these letters have a \"th\" lisp, but in Mexico they all make a crisp, simple English \"s\" sound.",
+          "Z: always sounds like \"s\" → zócalo",
+          "C (before E or I): sounds like \"s\" → ciudad",
+          "S: sounds exactly like the English \"s\" → semana",
+        ]},
+        { titulo: "4. Los sonidos de «H»", texto: [
+          "J (la jota): always makes a clear English \"h\" sound, like in \"hello\". It never sounds like the English \"j\" in \"jump\" → jueves",
+          "G (before E or I): softens to make that same English \"h\" sound → gente",
+          "X (in some Mexican place names): sounds like an \"h\" → México, Oaxaca",
+        ]},
+        { titulo: "5. Los gemelos idénticos", texto: [
+          "American students often try to make these letters sound different, but in Mexico they are identical pairs!",
+          "B and V: both sound like a soft English \"b\". There is no lip-biting \"v\" sound in Spanish → vaca (sounds like \"baka\"), verdad, bueno",
+          "LL and Y: both sound like the English \"y\" in \"yes\" or \"yellow\" → me llamo, yo",
+        ]},
+        { titulo: "6. Para quitar el acento americano", texto: [
+          "These are the physical adjustments that help you sound less American and more native.",
+          "The soft D: when \"d\" is between two vowels, it softens to sound like the \"th\" in \"the\" or \"this\" → nada, todo, cada",
+          "T and P (no puff of air!): in English we puff out air when saying T and P. In Spanish there is no puff of air. Keep your tongue right behind your front teeth for the T → tú, papá",
+          "Single R in the middle of a word: a quick tap of the tongue, like the soft \"dd\" in \"ladder\" → pero, caro",
+          "Double RR (or a single R at the very beginning of a word): the strong, rolled trill → perro, carro, restaurante",
+        ]},
+        { titulo: "7. El resto de las consonantes", texto: [
+          "C (before A, O, U): hard \"k\" sound → caro",
+          "CH: sounds like the \"ch\" in \"cheers\" → mucho",
+          "CC: only before E or I, sounds like \"ks\" → dirección",
+          "X (standard): usually sounds like \"ks\", just like in English → conexión",
+        ]},
+        { titulo: "8. La letra Ñ", texto: [
+          "The Ñ (called «eñe») looks like an N wearing a little wavy hat, but it is a separate letter of the Spanish alphabet → mañana",
+          "Don't let it intimidate you! Its sound is very familiar to English speakers.",
+          "The shortcut: Ñ sounds like the \"ny\" in \"canyon\" or the \"ni\" in \"onion\".",
+          "The technique: keep the tip of your tongue down, press the middle (flat part) of your tongue against the roof of your mouth, and let the air go through your nose.",
+        ]},
+      ],
+    },
+  },
   palabras: [
     { grupo: "Saludos y frases útiles", lista: [
       "Hola = Hello", "Buenos días = Good morning", "Buenas tardes = Good afternoon", "Buenas noches = Good evening / Good night",
