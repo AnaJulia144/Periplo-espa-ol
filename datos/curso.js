@@ -1523,56 +1523,62 @@ window.CURSO = [
 // =====================================================================
 window.KIT_BIENVENIDA = {
   titulo: "Kit de bienvenida",
-  para: "Para el alumno que entra a medio mes: lo básico de la semana 1 antes de unirse al grupo. La semana 1 completa la verá al final de su vuelta del mes.",
-  sugerencias: { parte1: ["Hola, soy…", "Mucho gusto", "¿Tú o usted?"], parte2: ["Soy de Canadá", "¿Cómo se escribe?", "No entiendo"] },
+  para: "Para el alumno que entra a medio mes: lo mínimo para sobrevivir su primera clase con el grupo. La semana 1 completa (con negaciones, preguntas y todo el vocabulario) la verá al final de su vuelta del mes.",
+  sugerencias: { parte1: ["¿Cómo suena el español?", "La h no suena", "¿Cómo lo deletreas?"], parte2: ["Hola, soy…", "Soy de Canadá", "Soy ingeniero"] },
   parte1: {
-    gramatica: ["El verbo ser con todos sus pronombres (yo soy, tú eres, él / ella / usted es, nosotros somos, ellos / ellas / ustedes son)"],
-    vocabulario: ["Saludos y despedidas", "Tú y usted"],
+    gramatica: ["El alfabeto y la pronunciación del español (las 5 vocales, la h muda, r y rr, ll y y, ñ, j y g, c / z / s, b y v)"],
+    vocabulario: ["Saludos, presentaciones y frases para la clase", "Deletrear mi nombre"],
   },
   parte2: {
-    gramatica: ["Ser de + país y nacionalidad (soy de Canadá, soy canadiense) y el alfabeto para deletrear mi nombre"],
-    vocabulario: ["Países y nacionalidades", "Frases para la clase"],
+    gramatica: ["El verbo ser con todos sus pronombres, solo afirmaciones: ser de + país y ser + profesión (soy de Canadá, soy ingeniero)"],
+    vocabulario: ["Países y nacionalidades", "Profesiones comunes"],
   },
   notas: [
-    "No usa «poder» (llega en la semana 12): por eso «otra vez, por favor» y no «¿puede repetir?».",
+    "Regla de la semana 1 y el kit: las frases de supervivencia se aprenden de memoria aunque su gramática se explique después (estar en la semana 7, poder en la 12, llamarse en los reflexivos).",
+    "Diferencia con la semana 1: el kit solo tiene afirmaciones de ser. Negaciones, preguntas cerradas e interrogativos se ven en la semana 1 con el grupo.",
+    "Pendiente: Anita tiene material propio de pronunciación (h, rr…) para la parte 1.",
     "No se enseña «vosotros»: en México se usa «ustedes».",
   ],
   palabras: [
-    { grupo: "Saludos y despedidas", lista: [
-      "hola = hello", "buenos días = good morning", "buenas tardes = good afternoon", "buenas noches = good evening / good night",
-      "¿Cómo estás? = How are you? (informal)", "¿Cómo está usted? = How are you? (formal)", "bien, gracias = fine, thanks",
-      "mucho gusto = nice to meet you", "adiós = goodbye", "hasta luego = see you later", "hasta mañana = see you tomorrow",
+    { grupo: "Saludos y frases útiles", lista: [
+      "Hola = Hello", "Buenos días = Good morning", "Buenas tardes = Good afternoon", "Buenas noches = Good evening / Good night",
+      "Me llamo… / Mi nombre es… = My name is…", "Mi apellido es… = My last name is…", "Mucho gusto = Nice to meet you", "Estoy bien = I'm fine",
+      "¿Cómo te llamas? / ¿Cuál es tu nombre? = What's your name?", "¿Cómo estás? = How are you?", "¿Cuál es tu apellido? = What's your last name?",
+      "¿Cómo lo deletreas? = How do you spell it?", "¿Y tú? / ¿Y usted? = And you?", "¿Cómo se dice ___ en español? = How do you say ___ in Spanish?",
+      "¿Qué significa ___? = What does ___ mean?", "¿Lo puede repetir, por favor? = Can you repeat that, please?", "Más despacio, por favor = Slower, please",
+      "Un momento, por favor = One moment, please", "Perdón = Sorry / Excuse me", "Gracias = Thank you", "Mande = Pardon? / Yes? (polite, Mexico)",
+      "Hasta luego = See you later", "Hasta mañana = See you tomorrow", "Adiós = Goodbye", "Nos vemos = See you", "Nos vemos luego = See you later",
+      "Tengo que irme = I have to go",
     ]},
     { grupo: "El verbo ser", lista: [
       "yo soy = I am", "tú eres = you are (informal)", "usted es = you are (formal)", "él es = he is", "ella es = she is",
-      "nosotros somos = we are", "ustedes son = you are (plural)", "ellos / ellas son = they are",
+      "nosotros / nosotras somos = we are", "ustedes son = you are (plural)", "ellos / ellas son = they are",
     ]},
     { grupo: "Países y nacionalidades", lista: [
       "Estados Unidos = United States", "estadounidense = American", "Canadá = Canada", "canadiense = Canadian",
-      "Inglaterra = England", "inglés / inglesa = English", "México = Mexico", "mexicano / mexicana = Mexican",
-      "¿De dónde eres? = Where are you from?", "Soy de… = I'm from…",
+      "Reino Unido = United Kingdom", "británico / británica = British", "Australia = Australia", "australiano / australiana = Australian",
+      "México = Mexico", "mexicano / mexicana = Mexican", "¿De dónde eres? = Where are you from?", "Soy de… = I'm from…",
     ]},
-    { grupo: "Frases para la clase", lista: [
-      "No entiendo. = I don't understand.", "¿Cómo se dice ___ en español? = How do you say ___ in Spanish?",
-      "¿Qué significa ___? = What does ___ mean?", "Más despacio, por favor. = Slower, please.", "Otra vez, por favor. = Again, please.",
-      "¿Cómo se escribe? = How do you spell it?", "¿Mande? = Sorry? / Pardon? (México)", "Gracias. = Thank you.",
+    { grupo: "Profesiones comunes", lista: [
+      "ingeniero / ingeniera = engineer", "gerente = manager", "maestro / maestra = teacher", "médico / médica = doctor",
+      "abogado / abogada = lawyer", "vendedor / vendedora = salesperson", "¿A qué te dedicas? = What do you do?",
     ]},
   ],
   // Guía para la sesión individual (30–45 min). Inicio → Desarrollo → Cierre.
   guia: [
     { momento: "Inicio", minutos: 10, pasos: [
-      "Saludo y presentarnos (yo soy…, soy de…).",
+      "Saludo y presentarnos (hola, me llamo…, mucho gusto).",
       "Conocer al alumno (en inglés si hace falta): ¿Para qué estudias español? ¿Viajas por trabajo o por turismo? ¿A qué ciudades de México vas? ¿Has estudiado español antes? ¿Cómo te gusta aprender: leyendo, hablando o escuchando?",
     ]},
     { momento: "Desarrollo", minutos: 25, pasos: [
-      "Saludos y despedidas: practicar una llegada al hotel y una despedida.",
-      "La tabla del verbo ser con todos los pronombres; tú y usted (en México, en hoteles y oficinas se usa usted).",
-      "Soy de… / soy + nacionalidad.",
-      "El alfabeto: deletrear su nombre y su apellido.",
-      "Frases para la clase: no entiendo, ¿cómo se dice…?, más despacio, otra vez, ¿mande?",
+      "Pronunciación: las 5 vocales y los sonidos que más cuestan al angloparlante (h muda, r y rr, ll / y, ñ, j).",
+      "El alfabeto: deletrear su nombre y su apellido (¿Cómo lo deletreas?).",
+      "Frases útiles: saludar, decir su nombre, pedir que repitan, despedirse.",
+      "El verbo ser con todos los pronombres, solo afirmaciones; tú y usted (en México, en hoteles y oficinas se usa usted).",
+      "Soy de… / soy + nacionalidad / soy + profesión.",
     ]},
     { momento: "Cierre", minutos: 10, pasos: [
-      "Mini conversación: «Hola, soy… Soy de… Mucho gusto».",
+      "Mini conversación: «Hola, me llamo… Soy de… Soy ingeniero. Mucho gusto».",
       "Explicarle el ciclo: en qué semana entra, que el orden del mes no importa y que verá la semana 1 completa al final de su vuelta.",
       "Darle el link a sus juegos y presentaciones (cuando esté el portal).",
     ]},
@@ -1584,5 +1590,7 @@ window.KIT_BIENVENIDA = {
     { nivel: "A2", preguntas: ["¿Qué hiciste el fin de semana?", "Cuéntame tu último viaje: ¿a dónde fuiste?, ¿cómo era el lugar?", "¿Cómo llego a tu casa desde el centro?"] },
     { nivel: "B1", preguntas: ["¿Qué harás el próximo año?", "¿Qué harías si tuvieras un mes de vacaciones?", "Dame tres consejos para viajar a tu ciudad."] },
     { nivel: "B2", preguntas: ["¿Qué te recomendaron antes de viajar a México?", "¿Qué habrías hecho diferente en tu último viaje?"] },
+    { nivel: "C1", preguntas: ["¿Qué harías en caso de que se cancelara tu vuelo?", "Aunque te guste México, ¿qué cambiarías?"] },
+    { nivel: "C2", preguntas: ["¿Qué es lo que más te ha costado del español?", "De haber sabido español antes, ¿qué habrías hecho diferente?"] },
   ],
 };

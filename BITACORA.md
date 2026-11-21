@@ -140,3 +140,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-19** · (1, 2) Curso a 60 semanas en 15 meses con lo de los libros (4 semanas nuevas) y kit de bienvenida en el panel.
 - **2026-11-19** · (1) Niveles C1 y C2: 24 semanas nuevas (84 en total, 21 meses).
 - **2026-11-19** · (1) «Se» de los accidentes en la semana 37.
+- **2026-11-20** · (1) Revisión del kit: pronunciación (parte 1) + ser (parte 2), con las frases de la semana 1. Siguiente: material de pronunciación de Anita y luego la semana 1.

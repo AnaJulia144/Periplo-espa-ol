@@ -152,6 +152,7 @@ _(se irá llenando)_
 - 2026-11-19: **Kit de bienvenida** en el panel (`#/kit`; datos en `window.KIT_BIENVENIDA` de `datos/curso.js`): plan, guía de sesión 30–45 min (inicio/desarrollo/cierre), gramática, palabras con traducción y preguntas de diagnóstico de nivel.
 - 2026-11-19: **Niveles C1 y C2 agregados: 84 semanas = 21 meses.** C1 = 61–72 (meses 16–18), C2 = 73–84 (meses 19–21), en borrador, con 2 gramáticas relacionadas e ideas de título por semana. C1: aunque, para que, verbos de cambio, ser/estar con matices, en cuanto / antes de que, siempre que / en caso de que, relativos (el cual, cuyo), causa y consecuencia, tiempos en pasado con subjuntivo, condicionales mixtas y como si, perífrasis de matiz, marcadores formales. C2: por más que, condiciones sin «si», lo + adjetivo, énfasis (lo que…, fue ella quien), infinitivo y gerundio compuestos, tener + participio / venir + gerundio, a lo mejor / el hecho de que, cortesía y decir que no, español de México (ándale, diminutivos), refranes y futuro de subjuntivo (reconocer), español formal escrito, proyecto final.
 - 2026-11-19: **«Se» de los accidentes** (se me olvidó, se me perdió el pasaporte) en la semana 37, parte 2. El objeto indirecto repetido (*le doy el libro a María*) pasó a la parte 1, junto con el objeto indirecto con verbos de acción.
+- 2026-11-20: **Kit revisado con Anita:** parte 1 = alfabeto y pronunciación (h muda, rr, ll/y, ñ…; Anita tiene material propio), parte 2 = ser (solo afirmaciones) + ser de + profesión. Vocabulario = las 27 frases de «Saludos y frases útiles» de la semana 1, + ser, 5 países y 6 profesiones. **Regla: en la semana 1 y el kit sí se permiten frases de supervivencia de memoria** (Me llamo…, ¿Lo puede repetir?), aunque su gramática se explique después. Diferencia kit / semana 1: el kit solo tiene afirmaciones; negación, preguntas e interrogativos van en la semana 1.
 
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 
@@ -172,7 +173,7 @@ _(se irá llenando)_
 2. **Durante la semana:** practica **2 o 3 veces** (juegos).
 3. **Al final:** **actividades de evaluación** → si avanza, pasa a la semana siguiente.
 ### Ciclos de 4 semanas (2026-11-18)
-- **Cada mes = 4 semanas** (56 semanas = 14 meses). Las semanas de un mes deben ser **independientes entre sí**: un alumno nuevo puede entrar en cualquier semana y empieza junto con el grupo desde cero esa semana.
+- **Cada mes = 4 semanas** (84 semanas = 21 meses). Las semanas de un mes deben ser **independientes entre sí**: un alumno nuevo puede entrar en cualquier semana y empieza junto con el grupo desde cero esa semana.
 - La semana que se perdió la **recupera cuando el ciclo del mes vuelve a pasar por ella**: si entra en la semana 2, hace 2 → 3 → 4 → 1 y luego pasa al mes 2. El orden dentro del mes no importa; por eso las semanas del mes deben ser independientes.
 - **Kit de bienvenida** (idea aprobada 2026-11-19): lo básico de la semana 1 para el alumno que entra a medio mes (la semana 1 le tocaría al final de su vuelta).
 - **Corte cada mes:** el mes nuevo trae vocabulario nuevo; lecturas y actividades **retoman lo de meses anteriores** (aprendizaje acumulado / en espiral).
