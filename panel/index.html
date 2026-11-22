@@ -559,7 +559,7 @@
         <li className="px-5 py-4 grid sm:grid-cols-[13rem_1fr] gap-2 sm:gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-wide text-suave">Diapositiva {n}{d.portada ? ' · portada' : ''}</p>
-            <p className="font-titulo text-lg leading-tight">{d.titulo}</p>
+            <p className="font-titulo text-lg leading-tight">{d.emoji ? d.emoji + " " : ""}{d.titulo}</p>
             {d.traduccion && <p className="text-sm italic text-suave">{d.traduccion}</p>}
           </div>
           <div className="space-y-2 min-w-0">

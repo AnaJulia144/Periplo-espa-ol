@@ -4,6 +4,7 @@
 //
 //  La diapositiva 1 siempre es la portada.
 //  Cada diapositiva puede tener:
+//    emoji       un emoji relacionado con el tema (opcional)
 //    titulo      en español (regla de Anita)
 //    traduccion  el título en inglés (al inicio del curso)
 //    subtitulo   solo en la portada: gramática + vocabulario

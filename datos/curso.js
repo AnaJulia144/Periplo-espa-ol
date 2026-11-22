@@ -1549,9 +1549,9 @@ window.KIT_BIENVENIDA = {
       formula: false,
       revisada: false,
       pasos: [
-        { portada: true, titulo: "¿Cómo se deletrea?", traduccion: "How do you spell it?",
+        { portada: true, emoji: "🗣️", titulo: "¿Cómo se deletrea?", traduccion: "How do you spell it?",
           subtitulo: "Gramática: el alfabeto y la pronunciación · Vocabulario: saludos, preguntas, expresiones y despedidas" },
-        { titulo: "La base: las cinco vocales", traduccion: "The foundation: the five vowels", texto: [
+        { emoji: "🔊", titulo: "La base: las cinco vocales", traduccion: "The foundation: the five vowels", texto: [
           "In English, vowels change their sound constantly. In Spanish, they are your best friends because they never change, no matter where they are in a word!",
           "A: sounds like the \"a\" in \"father\" → mande",
           "E: sounds like the \"e\" in \"let\" → bien",
@@ -1559,54 +1559,54 @@ window.KIT_BIENVENIDA = {
           "O: sounds like the \"o\" in \"more\", short and without gliding into a \"w\" → cómo",
           "U: sounds like the \"oo\" in \"moon\" → usted",
         ]},
-        { titulo: "Las letras que no suenan", traduccion: "The silent letters", texto: [
+        { emoji: "🤫", titulo: "Las letras que no suenan", traduccion: "The silent letters", texto: [
           "H (la hache): it is always 100% silent. Never breathe out an \"h\" sound → hola",
           "U in QUE and QUI: the \"u\" is silent; it sounds like \"ke\" and \"ki\" → ¿qué?, equipaje",
           "U in GUE and GUI: the \"u\" is silent, leaving a hard \"g\" sound → juguete, guía",
         ]},
-        { titulo: "Los sonidos de «S»", traduccion: "The \"S\" sounds (Mexican Spanish rule)", texto: [
+        { emoji: "🐍", titulo: "Los sonidos de «S»", traduccion: "The \"S\" sounds (Mexican Spanish rule)", texto: [
           "In Spain, some of these letters have a \"th\" lisp, but in Mexico they all make a crisp, simple English \"s\" sound.",
           "Z: always sounds like \"s\" → zócalo",
           "C (before E or I): sounds like \"s\" → ciudad",
           "S: sounds exactly like the English \"s\" → semana",
         ]},
-        { titulo: "Los sonidos de «H»", traduccion: "The \"H\" sounds", texto: [
+        { emoji: "💨", titulo: "Los sonidos de «H»", traduccion: "The \"H\" sounds", texto: [
           "J (la jota): always makes a clear English \"h\" sound, like in \"hello\". It never sounds like the English \"j\" in \"jump\" → jueves",
           "G (before E or I): softens to make that same English \"h\" sound → gente",
           "X (in some Mexican place names): sounds like an \"h\" → México, Oaxaca",
         ]},
-        { titulo: "Los gemelos idénticos", traduccion: "The identical twins", texto: [
+        { emoji: "👯", titulo: "Los gemelos idénticos", traduccion: "The identical twins", texto: [
           "American students often try to make these letters sound different, but in Mexico they are identical pairs!",
           "B and V: both sound like a soft English \"b\". There is no lip-biting \"v\" sound in Spanish → vaca (sounds like \"baka\"), verdad, bueno",
           "LL and Y: both sound like the English \"y\" in \"yes\" or \"yellow\" → me llamo, yo",
         ]},
-        { titulo: "Para quitar el acento americano", traduccion: "The American accent breakers", texto: [
+        { emoji: "🎯", titulo: "Para quitar el acento americano", traduccion: "The American accent breakers", texto: [
           "These are the physical adjustments that help you sound less American and more native.",
           "The soft D: when \"d\" is between two vowels, it softens to sound like the \"th\" in \"the\" or \"this\" → nada, todo, cada",
           "T and P (no puff of air!): in English we puff out air when saying T and P. In Spanish there is no puff of air. Keep your tongue right behind your front teeth for the T → tú, papá",
           "Single R in the middle of a word: a quick tap of the tongue, like the soft \"dd\" in \"ladder\" → pero, caro",
           "Double RR (or a single R at the very beginning of a word): the strong, rolled trill → perro, carro, restaurante",
         ]},
-        { titulo: "El resto de las consonantes", traduccion: "The rest of the consonants", texto: [
+        { emoji: "🧩", titulo: "El resto de las consonantes", traduccion: "The rest of the consonants", texto: [
           "C (before A, O, U): hard \"k\" sound → caro",
           "CH: sounds like the \"ch\" in \"cheers\" → mucho",
           "CC: only before E or I, sounds like \"ks\" → dirección",
           "X (standard): usually sounds like \"ks\", just like in English → conexión",
         ]},
-        { titulo: "La letra Ñ", traduccion: "The letter Ñ", texto: [
+        { emoji: "🎩", titulo: "La letra Ñ", traduccion: "The letter Ñ", texto: [
           "The Ñ (called «eñe») looks like an N wearing a little wavy hat, but it is a separate letter of the Spanish alphabet → mañana",
           "Don't let it intimidate you! Its sound is very familiar to English speakers.",
           "The shortcut: Ñ sounds like the \"ny\" in \"canyon\" or the \"ni\" in \"onion\".",
           "The technique: keep the tip of your tongue down, press the middle (flat part) of your tongue against the roof of your mouth, and let the air go through your nose.",
         ]},
-        { titulo: "Saludos y afirmaciones", traduccion: "Greetings and statements", tabla: {
+        { emoji: "🤝", titulo: "Saludos y afirmaciones", traduccion: "Greetings and statements", tabla: {
           columnas: ["Español", "English"],
           filas: [
             ["Hola", "Hello"], ["Buenos días", "Good morning"], ["Buenas tardes", "Good afternoon"], ["Buenas noches", "Good evening / Good night"],
             ["Me llamo… / Mi nombre es…", "My name is…"], ["Mi apellido es…", "My last name is…"], ["Mucho gusto", "Nice to meet you"], ["Estoy bien", "I'm fine"],
           ],
         }},
-        { titulo: "Preguntas", traduccion: "Questions", tabla: {
+        { emoji: "❓", titulo: "Preguntas", traduccion: "Questions", tabla: {
           columnas: ["Español", "English"],
           filas: [
             ["¿Cómo te llamas? / ¿Cuál es tu nombre?", "What's your name?"], ["¿Cómo estás?", "How are you?"], ["¿Cuál es tu apellido?", "What's your last name?"],
@@ -1614,26 +1614,26 @@ window.KIT_BIENVENIDA = {
             ["¿Cómo se dice ___ en español?", "How do you say ___ in Spanish?"], ["¿Qué significa ___?", "What does ___ mean?"],
           ],
         }},
-        { titulo: "Expresiones de comunicación", traduccion: "Communication expressions", tabla: {
+        { emoji: "💬", titulo: "Expresiones de comunicación", traduccion: "Communication expressions", tabla: {
           columnas: ["Español", "English"],
           filas: [
             ["¿Lo puede repetir, por favor?", "Can you repeat that, please?"], ["Más despacio, por favor", "Slower, please"], ["Un momento, por favor", "One moment, please"],
             ["Perdón", "Sorry / Excuse me"], ["Gracias", "Thank you"], ["¿Mande?", "Pardon? / Yes? (polite, Mexico)"],
           ],
         }},
-        { titulo: "Despedidas", traduccion: "Goodbyes", tabla: {
+        { emoji: "👋", titulo: "Despedidas", traduccion: "Goodbyes", tabla: {
           columnas: ["Español", "English"],
           filas: [
             ["Hasta luego", "See you later"], ["Hasta mañana", "See you tomorrow"], ["Adiós", "Goodbye"],
             ["Nos vemos", "See you"], ["Nos vemos luego", "See you later"], ["Tengo que irme", "I have to go"],
           ],
         }},
-        { titulo: "El alfabeto", traduccion: "The alphabet", letras: [
+        { emoji: "🔠", titulo: "El alfabeto", traduccion: "The alphabet", letras: [
           "A a (a)", "B b (be)", "C c (ce)", "D d (de)", "E e (e)", "F f (efe)", "G g (ge)", "H h (hache)", "I i (i)",
           "J j (jota)", "K k (ka)", "L l (ele)", "M m (eme)", "N n (ene)", "Ñ ñ (eñe)", "O o (o)", "P p (pe)", "Q q (cu)",
           "R r (erre)", "S s (ese)", "T t (te)", "U u (u)", "V v (ve / uve)", "W w (doble ve)", "X x (equis)", "Y y (ye / i griega)", "Z z (zeta)",
         ], texto: ["In Mexico, people often say «ve chica» for V and «be grande» for B, so nobody gets confused."] },
-        { titulo: "¿Cómo se deletrea…?", traduccion: "How do you spell…?", texto: [
+        { emoji: "✍️", titulo: "¿Cómo se deletrea…?", traduccion: "How do you spell…?", texto: [
           "To spell a word, say the name of each letter. For a letter with an accent mark, add «con acento».",
         ], ejemplos: [
           "hola → hache - o - ele - a",
@@ -1648,9 +1648,9 @@ window.KIT_BIENVENIDA = {
       formula: false,
       revisada: false,
       pasos: [
-        { portada: true, titulo: "Hola. Soy…", traduccion: "Hi. I am…",
+        { portada: true, emoji: "🙋", titulo: "Hola. Soy…", traduccion: "Hi. I am…",
           subtitulo: "Gramática: el verbo ser · Vocabulario: países, nacionalidades, profesiones y roles" },
-        { titulo: "El verbo ser", traduccion: "The verb \"to be\"", texto: [
+        { emoji: "🙂", titulo: "El verbo ser", traduccion: "The verb \"to be\"", texto: [
           "«Ser» means \"to be\". We use it to say who we are: our name, where we are from, our nationality and our job.",
           "It is irregular: each person has its own form, so learn them by heart!",
           "Tip: in Spanish we often drop the pronoun. «Soy Emma» means the same as «Yo soy Emma».",
@@ -1664,7 +1664,7 @@ window.KIT_BIENVENIDA = {
             ["Ellos (They, for males or mixed groups) / Ellas (They, feminine) / Ustedes (You, plural and formal)", "son (are)", "turistas."],
           ],
         }},
-        { titulo: "Reglas de ortografía", traduccion: "Spelling rules", texto: [
+        { emoji: "✏️", titulo: "Reglas de ortografía", traduccion: "Spelling rules", texto: [
           "In Spanish, the rules for capital letters are different from English.",
           "ALWAYS use capital letters for:",
           "Names and last names → Juan Pérez, Sofía Ramírez",
@@ -1676,7 +1676,7 @@ window.KIT_BIENVENIDA = {
           "Days and months → lunes (Monday), martes (Tuesday), enero (January)",
           "Job titles → gerente (manager), director (director)",
         ]},
-        { titulo: "¿De dónde eres?", traduccion: "Where are you from?", texto: [
+        { emoji: "🌎", titulo: "¿De dónde eres?", traduccion: "Where are you from?", texto: [
           "To ask someone where they are from, use «¿De dónde eres?» (informal) or «¿De dónde es usted?» (formal).",
           "To answer, use «soy de» + country, or «soy» + nationality.",
         ], ejemplos: [
@@ -1685,7 +1685,7 @@ window.KIT_BIENVENIDA = {
           "— ¿De dónde es usted?",
           "— Soy de Estados Unidos. Soy estadounidense.",
         ]},
-        { titulo: "¿A qué te dedicas?", traduccion: "What do you do?", texto: [
+        { emoji: "💼", titulo: "¿A qué te dedicas?", traduccion: "What do you do?", texto: [
           "How to ask someone about their job: when we want to open a conversation, we use these common questions.",
           "¿A qué te dedicas? — What it means: \"What do you dedicate yourself to?\" / \"What do you do for a living?\"",
           "Structure: ¿A qué + te / se + dedicas / dedica?",

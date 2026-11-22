@@ -8,7 +8,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* Colores de Anita: cálido y artesanal */
+    /* ============================================================
+       COLORES Y LETRAS DE LAS PRESENTACIONES (cálido y artesanal)
+       Para cambiar un color, cambia el código que va después de los
+       dos puntos. Ejemplo: --terracota: #B4532F;
+         --papel     fondo de la pantalla
+         --hoja      fondo de la diapositiva
+         --linea     bordes y líneas
+         --tinta     texto principal
+         --suave     traducciones y textos secundarios
+         --terracota títulos de portada, ejemplos en español y botones
+         --terracota-claro  fondo de los cuadros de ejemplos
+         --ocre      etiqueta de arriba de la portada
+       Las letras son Fraunces (títulos) y Source Sans 3 (texto).
+       ============================================================ */
     :root {
       --papel: #F4ECDF; --hoja: #FBF7F0; --linea: #E0D1BB; --tinta: #3A2A1F; --suave: #7A6555;
       --terracota: #B4532F; --terracota-claro: #F2DCCF; --ocre: #B97D22; --ocre-claro: #F5E5C4; --olivo: #5B6A36;
@@ -37,6 +50,10 @@
       box-shadow: 0 10px 30px rgba(58,42,31,.08);
       padding: clamp(24px, 5vw, 56px);
     }
+    .diapo { scrollbar-width: thin; scrollbar-color: var(--linea) transparent; }
+    .emoji { font-size: clamp(30px, 4.5vw, 44px); line-height: 1; margin-right: 12px; }
+    .titulo-fila { display: flex; align-items: center; }
+    .portada .emoji { display: block; font-size: clamp(56px, 9vw, 88px); margin: 14px 0 12px; }
     .num { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ocre); margin-bottom: 8px; }
     h1 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(28px, 4.5vw, 44px); line-height: 1.1; margin: 0; }
     .traduccion { font-style: italic; color: var(--suave); font-size: clamp(17px, 2.2vw, 22px); margin-top: 6px; }
@@ -122,13 +139,14 @@
       return m ? '<span><b>' + esc(m[1]) + '</b> ' + esc(m[2]) + '</span>' : '<span>' + esc(l) + '</span>';
     };
 
-    function dibujar(d, n) {
-      const titulo = '<h1>' + esc(d.titulo || '') + '</h1>' + (d.traduccion ? '<div class="traduccion">' + esc(d.traduccion) + '</div>' : '');
+    function dibujar(d) {
+      const emoji = d.emoji ? '<span class="emoji" aria-hidden="true">' + esc(d.emoji) + '</span>' : '';
+      const trad = d.traduccion ? '<div class="traduccion">' + esc(d.traduccion) + '</div>' : '';
       if (d.portada) {
-        return '<div class="portada"><div class="num">' + esc(donde) + '</div>' + titulo +
+        return '<div class="portada"><div class="num">' + esc(donde) + '</div>' + emoji + '<h1>' + esc(d.titulo || '') + '</h1>' + trad +
           (d.subtitulo ? '<div class="subtitulo">' + esc(d.subtitulo) + '</div>' : '') + '</div>';
       }
-      let h = '<div class="num">Diapositiva ' + n + '</div>' + titulo + '<div class="cuerpo">';
+      let h = '<div class="titulo-fila">' + emoji + '<h1>' + esc(d.titulo || '') + '</h1></div>' + trad + '<div class="cuerpo">';
       if (d.texto && d.texto.length) h += '<ul>' + d.texto.map(t => '<li>' + renglon(t) + '</li>').join('') + '</ul>';
       if (d.ejemplos && d.ejemplos.length) h += '<div class="ejemplos">' + d.ejemplos.map(t => '<p>' + esc(t) + '</p>').join('') + '</div>';
       if (d.tabla) {
@@ -139,6 +157,21 @@
       return h + '</div>';
     }
 
+    // Si una diapositiva trae mucho texto, se achica poco a poco hasta que quepa
+    // sin barra para subir y bajar (con un límite para que se siga leyendo bien).
+    function ajustar() {
+      const caja = document.getElementById('diapo');
+      const contenido = document.getElementById('contenido');
+      if (!contenido) return;
+      let escala = 1;
+      contenido.style.zoom = 1;
+      while (caja.scrollHeight > caja.clientHeight + 1 && escala > 0.6) {
+        escala -= 0.04;
+        contenido.style.zoom = escala;
+      }
+    }
+    window.addEventListener('resize', () => ajustar());
+
     let actual = 0;
     function mostrar(i) {
       if (!diapos.length) {
@@ -148,8 +181,9 @@
       }
       actual = Math.max(0, Math.min(diapos.length - 1, i));
       const caja = document.getElementById('diapo');
-      caja.innerHTML = dibujar(diapos[actual], actual + 1);
+      caja.innerHTML = '<div id="contenido">' + dibujar(diapos[actual]) + '</div>';
       caja.scrollTop = 0;
+      ajustar();
       document.getElementById('contador').textContent = (actual + 1) + ' / ' + diapos.length;
       document.getElementById('atras').disabled = actual === 0;
       document.getElementById('adelante').disabled = actual === diapos.length - 1;
