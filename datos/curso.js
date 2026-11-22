@@ -1703,7 +1703,7 @@ window.KIT_BIENVENIDA = {
   },
   // Práctica: cada juego lee sus palabras de los grupos de abajo (si cambia una palabra, cambia en el juego).
   practica: [
-    { juego: "flashcards", titulo: "Flashcards: países, nacionalidades y profesiones", grupos: ["Países", "Nacionalidades", "Profesiones y roles"], listo: false,
+    { juego: "flashcards", titulo: "Flashcards: países, nacionalidades y profesiones", grupos: ["Países", "Nacionalidades", "Profesiones y roles"], listo: true,
       dinamica: "El alumno ve 5 palabras, marca si las aprendió o no y luego hace una mini actividad para reforzarlas." },
   ],
   palabras: [
@@ -1728,13 +1728,13 @@ window.KIT_BIENVENIDA = {
       "yo soy = I am", "tú eres = you are (informal)", "usted es = you are (formal)", "él es = he is", "ella es = she is",
       "nosotros / nosotras somos = we are", "ustedes son = you are (plural)", "ellos / ellas son = they are",
     ]},
-    { grupo: "Países", lista: [
+    { grupo: "Países", emojis: { "Estados Unidos": "🗽", "Canadá": "🍁", "Reino Unido": "💂", "Australia": "🦘", "México": "🌮" }, lista: [
       "Estados Unidos = United States", "Canadá = Canada", "Reino Unido = United Kingdom", "Australia = Australia", "México = Mexico",
     ]},
-    { grupo: "Nacionalidades", lista: [
+    { grupo: "Nacionalidades", emojis: { "estadounidense": "🗽", "canadiense": "🍁", "británico / británica": "💂", "australiano / australiana": "🦘", "mexicano / mexicana": "🌮" }, lista: [
       "estadounidense = American", "canadiense = Canadian", "británico / británica = British", "australiano / australiana = Australian", "mexicano / mexicana = Mexican",
     ]},
-    { grupo: "Profesiones y roles", lista: [
+    { grupo: "Profesiones y roles", emojis: { "ingeniero / ingeniera": "👷", "gerente": "💼", "maestro / maestra": "🧑‍🏫", "médico / médica": "🩺", "abogado / abogada": "⚖️", "vendedor / vendedora": "🛍️", "estudiante": "🎓", "turista": "📸", "extranjero / extranjera": "🧳" }, lista: [
       "ingeniero / ingeniera = engineer", "gerente = manager", "maestro / maestra = teacher", "médico / médica = doctor",
       "abogado / abogada = lawyer", "vendedor / vendedora = salesperson", "estudiante = student", "turista = tourist", "extranjero / extranjera = foreigner",
     ]},

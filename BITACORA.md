@@ -143,3 +143,4 @@ Ejemplo: "UNO – Semana 19 – Verbos en pasado". Se publica en el portal o se 
 - **2026-11-20** · (1) Revisión del kit: pronunciación (parte 1) + ser (parte 2), con las frases de la semana 1. Siguiente: material de pronunciación de Anita y luego la semana 1.
 - **2026-11-21** · (1, 2) Diapositivas del kit (15 + 5) con la portada como n.º 1 y motor de presentaciones funcionando. Siguiente: que Anita revise las presentaciones del kit; luego la semana 1.
 - **2026-11-21** · (2, 3) Pestaña Práctica en el kit, lista para el juego de flashcards (falta el código de Gemini).
+- **2026-11-21** · (3) Flashcards migrado de Gemini y conectado al kit (países, nacionalidades y profesiones).

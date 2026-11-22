@@ -158,6 +158,7 @@ _(se irá llenando)_
 - 2026-11-21: Pruebas en celular: Edge invisible no baja de 504 px de ancho; las capturas más angostas se ven recortadas aunque la página esté bien.
 - 2026-11-21: Presentaciones: sin la etiqueta «Diapositiva N» en las diapositivas (sí queda en el panel); campo `emoji` por diapositiva (20 en el kit); el texto se achica solo (hasta 60 %) para que no salga la barra de desplazamiento. Colores y letras de las presentaciones: bloque comentado al inicio de `presentacion/index.html`.
 - 2026-11-21: Kit: «Países» y «Nacionalidades» separados (5 y 5). Pestaña **Práctica** en el kit (`KIT_BIENVENIDA.practica`): flashcards con las 19 palabras de Países + Nacionalidades + Profesiones y roles; el juego leerá las palabras de `datos/curso.js`, así que si cambia una palabra, cambia sola en el juego. **Falta el código del juego de flashcards de Gemini.**
+- 2026-11-21: **Flashcards migrado** (`juegos/flashcards/index.html`; original de Gemini en `juegos/originales-gemini/flashcards-vocabulario.tsx`). Misma mecánica (voltear, I learned / I didn't learn, contadores, minijuego cada 5 aprendidas: anagrama, ahorcado, letras faltantes, cierto o falso; repaso, pausa, reiniciar), con los colores de Anita. Lee las palabras de `datos/curso.js`: `?kit=1` (grupos de `KIT_BIENVENIDA.practica`) o `?semana=N` (`&grupos=A,B` opcional). Si cambia una palabra en el plan, cambia en el juego. Emoji por palabra: campo `emojis` opcional en cada grupo de palabras. En los minijuegos se usa la primera forma (británico / británica → británico).
 
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 - Títulos en español, explicaciones en inglés, ejemplos en español.
@@ -209,6 +210,7 @@ _(se irá llenando)_
 - `datos/versiones.js`: el stock de versiones de juegos (motor + contenido).
 - `datos/firebase.js`: configuración web de Firebase (pública por diseño).
 - `presentacion/index.html`: motor de presentaciones (lee `datos/curso.js` + `datos/diapositivas.js`).
+- `juegos/flashcards/`: motor de flashcards.
 - `juegos/uno/`: motor del UNO. `juegos/originales-gemini/`: códigos originales de Gemini (no se publican).
 - `libros/`: PDFs de referencia de Anita (solo en su computadora, no se suben).
 - `abrir-sitio.cmd`: doble clic → abre el sitio en `http://localhost:8080/panel/` (usa `herramientas/servidor.ps1`).

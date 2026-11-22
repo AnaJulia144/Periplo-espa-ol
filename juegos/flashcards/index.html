@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flashcards · Periplo-español</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { titulo: ['Fraunces', 'Georgia', 'serif'], sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'] },
+        colors: {
+          papel: '#F4ECDF', hoja: '#FBF7F0', linea: '#E0D1BB', tinta: '#3A2A1F', suave: '#7A6555',
+          terracota: '#B4532F', 'terracota-claro': '#F2DCCF', ocre: '#B97D22', 'ocre-claro': '#F5E5C4', olivo: '#5B6A36', 'olivo-claro': '#E2E6D0',
+        },
+      }},
+    };
+  </script>
+  <style>
+    body { background-color: #F4ECDF; background-image: radial-gradient(rgba(58,42,31,.07) 1px, transparent 1px); background-size: 18px 18px; color: #3A2A1F; }
+    .tarjeta { background: #FBF7F0; border: 1px solid #E0D1BB; border-radius: 18px; }
+    @keyframes temblar { 0%,100% { transform: translateX(0) } 25% { transform: translateX(-8px) } 75% { transform: translateX(8px) } }
+    .temblar { animation: temblar .3s; }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <div id="app"><p style="padding:2rem;font-family:sans-serif">Cargando…</p></div>
+
+  <!-- Las palabras vienen del plan de Anita: si cambia una palabra ahí, cambia aquí -->
+  <script src="../../datos/curso.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect } = React;
+
+    // ---------- De dónde salen las palabras ----------
+    //  ?kit=1          → las listas que el kit de bienvenida marca para flashcards
+    //  ?semana=12      → todas las listas de esa semana
+    //  &grupos=A,B     → (opcional) solo esas listas
+    const params = new URLSearchParams(location.search);
+    function leerMazo() {
+      let fuente = null, nombre = '', grupos = [];
+      if (params.get('kit')) {
+        fuente = window.KIT_BIENVENIDA;
+        nombre = 'Kit de bienvenida';
+        const p = ((fuente && fuente.practica) || []).find(x => x.juego === 'flashcards');
+        grupos = p ? p.grupos : [];
+      } else if (params.get('semana')) {
+        const n = Number(params.get('semana'));
+        fuente = (window.CURSO || []).find(s => s.n === n);
+        nombre = 'Semana ' + n;
+      }
+      if (!fuente) return { nombre, listas: [] };
+      if (params.get('grupos')) grupos = params.get('grupos').split(',');
+      let listas = fuente.palabras || [];
+      if (grupos.length) listas = listas.filter(g => grupos.includes(g.grupo));
+      let id = 0;
+      return {
+        nombre,
+        listas: listas.map(g => ({
+          grupo: g.grupo,
+          cartas: g.lista.map(p => {
+            const i = p.indexOf(' = ');
+            const es = i < 0 ? p : p.slice(0, i);
+            const en = i < 0 ? '' : p.slice(i + 3);
+            // Para los minijuegos se usa la primera forma (británico / británica → británico)
+            const practica = es.split(' / ')[0].replace(/[¿?¡!…]/g, '').trim();
+            return { id: ++id, es, en, practica, emoji: (g.emojis && g.emojis[es]) || '🃏', grupo: g.grupo };
+          }),
+        })),
+      };
+    }
+    const MAZO = leerMazo();
+    const TODAS = MAZO.listas.flatMap(l => l.cartas);
+
+    const quitarAcentos = c => ({ 'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u' }[c] || c);
+    const normalizar = t => t.toLowerCase().split('').map(quitarAcentos).join('').split(/[\s/]+/).filter(Boolean).join(' ');
+    const barajar = arr => [...arr].sort(() => Math.random() - 0.5);
+
+    // ---------- Minijuegos (cada 5 palabras aprendidas) ----------
+    function MiniJuego({ juego, alTerminar }) {
+      const [respuestas, setRespuestas] = useState(juego.cartas.map(() => ''));
+      const [errores, setErrores] = useState(juego.cartas.map(() => false));
+      const [paso, setPaso] = useState(0);
+      const [letras, setLetras] = useState([]);
+      const [temblar, setTemblar] = useState(false);
+      const [repasando, setRepasando] = useState(false);
+
+      const revisarTexto = () => {
+        const nuevos = respuestas.map((r, i) => normalizar(r) !== normalizar(juego.cartas[i].practica));
+        setErrores(nuevos);
+        if (!nuevos.some(Boolean)) alTerminar();
+      };
+      const escribir = (i, v) => {
+        setRespuestas(r => r.map((x, k) => (k === i ? v : x)));
+        setErrores(e => e.map((x, k) => (k === i ? false : x)));
+      };
+      const ciertoFalso = (dijo) => {
+        if (dijo === juego.datos[paso].esCierto) {
+          if (paso + 1 >= juego.cartas.length) alTerminar(); else setPaso(paso + 1);
+        } else { setTemblar(true); setTimeout(() => setTemblar(false), 350); }
+      };
+      const tecla = (t) => {
+        if (letras.includes(t)) return;
+        const nuevas = [...letras, t];
+        setLetras(nuevas);
+        const faltan = juego.cartas[paso].practica.toLowerCase().split('').filter(c => c !== ' ' && c !== '/').map(quitarAcentos);
+        if (faltan.every(c => nuevas.includes(c))) {
+          setTimeout(() => {
+            if (paso + 1 >= juego.cartas.length) alTerminar(); else { setPaso(paso + 1); setLetras([]); }
+          }, 500);
+        }
+      };
+
+      const titulos = { anagrama: '🧩 Anagrama', ahorcado: '⌨️ El ahorcado', faltantes: '🔤 Letras faltantes', ciertofalso: '⚖️ Cierto o falso' };
+      const entrada = (i) => (
+        <input type="text" value={respuestas[i]} onChange={e => escribir(i, e.target.value)}
+               className={`w-full bg-white border-2 ${errores[i] ? 'border-red-500' : 'border-linea focus:border-terracota'} px-4 py-3 rounded-xl text-center text-lg outline-none`}
+               placeholder={`"${juego.cartas[i].en}" en español`} />
+      );
+      const tapar = t => t.split(' ').map(p => p.length <= 2 ? p : p[0] + ' ' + '_ '.repeat(p.length - 2) + p[p.length - 1]).join('   ');
+
+      let cuerpo = null;
+      if (juego.tipo === 'anagrama') cuerpo = (
+        <div className="flex flex-col gap-4">
+          <p className="text-suave text-center">Ordena las letras para formar la palabra.</p>
+          {juego.cartas.map((c, i) => (
+            <div key={c.id} className="flex flex-col gap-2">
+              <div className="text-xl font-bold tracking-widest text-terracota text-center uppercase">{juego.datos[i].revuelta}</div>
+              {entrada(i)}
+            </div>
+          ))}
+          <button onClick={revisarTexto} className="mt-2 w-full bg-terracota py-3 rounded-xl font-bold text-white">Finished</button>
+        </div>
+      );
+      if (juego.tipo === 'faltantes') cuerpo = (
+        <div className="flex flex-col gap-4">
+          <p className="text-suave text-center">Completa la palabra con las letras que faltan.</p>
+          {juego.cartas.map((c, i) => (
+            <div key={c.id} className="flex flex-col gap-1">
+              <div className="text-sm text-suave text-center">({c.en})</div>
+              <div className="text-xl font-bold tracking-[0.25em] text-terracota text-center uppercase">{tapar(c.practica)}</div>
+              {entrada(i)}
+            </div>
+          ))}
+          <button onClick={revisarTexto} className="mt-2 w-full bg-terracota py-3 rounded-xl font-bold text-white">Finished</button>
+        </div>
+      );
+      if (juego.tipo === 'ahorcado') {
+        const c = juego.cartas[paso];
+        const palabra = c.practica.toLowerCase();
+        const sinAcentos = palabra.split('').map(quitarAcentos).join('');
+        const teclas = 'qwertyuiopasdfghjklñzxcvbnm'.split('');
+        cuerpo = (
+          <div className="flex flex-col items-center gap-5">
+            <div className="text-center">
+              <p className="text-suave text-sm">Teclea las letras para descubrir la palabra ({paso + 1}/{juego.cartas.length})</p>
+              <p className="text-xl font-bold text-terracota">Pista: {c.en}</p>
+            </div>
+            <div className="flex gap-1.5 justify-center flex-wrap">
+              {palabra.split('').map((ch, i) => ch === ' ' || ch === '/'
+                ? <span key={i} className="w-4" />
+                : <span key={i} className="border-b-4 border-suave w-7 h-10 flex items-center justify-center text-2xl font-bold uppercase">{letras.includes(quitarAcentos(ch)) ? ch : ''}</span>)}
+            </div>
+            <div className="flex flex-wrap justify-center gap-1.5 max-w-sm">
+              {teclas.map(t => (
+                <button key={t} disabled={letras.includes(t)} onClick={() => tecla(t)}
+                        className={`w-9 h-11 rounded-lg font-bold uppercase ${letras.includes(t) ? (sinAcentos.includes(t) ? 'bg-olivo-claro text-olivo' : 'bg-papel text-linea') : 'bg-white border border-linea hover:bg-ocre-claro active:scale-95'}`}>{t}</button>
+              ))}
+            </div>
+          </div>
+        );
+      }
+      if (juego.tipo === 'ciertofalso') {
+        const c = juego.cartas[paso];
+        cuerpo = (
+          <div className={`flex flex-col items-center gap-5 ${temblar ? 'temblar' : ''}`}>
+            <p className="text-suave text-center">¿Es correcta esta traducción? ({paso + 1}/{juego.cartas.length})</p>
+            <div className="bg-white border border-linea p-6 rounded-2xl w-full text-center">
+              <div className="text-suave text-xs uppercase tracking-wider">En inglés</div>
+              <div className="text-2xl font-bold mb-4">{c.en}</div>
+              <div className="text-suave text-xs uppercase tracking-wider mt-4">En español</div>
+              <div className="text-3xl font-bold text-terracota">{juego.datos[paso].muestra}</div>
+            </div>
+            <div className="flex w-full gap-3">
+              <button onClick={() => ciertoFalso(true)} className="flex-1 bg-olivo text-white font-bold py-3 rounded-xl text-lg active:scale-95">Cierto</button>
+              <button onClick={() => ciertoFalso(false)} className="flex-1 bg-terracota text-white font-bold py-3 rounded-xl text-lg active:scale-95">Falso</button>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="fixed inset-0 bg-tinta/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="tarjeta max-w-md w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div className="flex-1 overflow-y-auto p-6">
+              {repasando ? (
+                <>
+                  <h3 className="font-titulo text-2xl text-center mb-1">Repaso rápido</h3>
+                  <p className="text-suave text-center text-sm mb-4">Tómate un momento para recordar estas palabras:</p>
+                  <div className="flex flex-col gap-2">
+                    {juego.cartas.map(c => (
+                      <div key={c.id} className="bg-white border border-linea p-3 rounded-xl flex items-center gap-3">
+                        <div className="text-3xl">{c.emoji}</div>
+                        <div><div className="text-lg font-bold">{c.es}</div><div className="text-suave text-sm">{c.en}</div></div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="font-titulo text-2xl text-center mb-5">{titulos[juego.tipo]}</h3>
+                  {cuerpo}
+                </>
+              )}
+            </div>
+            <div className="border-t border-linea p-3 flex justify-end bg-papel">
+              {repasando
+                ? <button onClick={() => setRepasando(false)} className="w-full bg-terracota py-3 rounded-xl font-bold text-white">Regresar al ejercicio</button>
+                : <button onClick={() => setRepasando(true)} className="text-suave hover:text-terracota text-sm font-semibold">See the words again ↺</button>}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ---------- Juego principal ----------
+    function App() {
+      const [lista, setLista] = useState('todas');
+      const [pantalla, setPantalla] = useState('inicio');
+      const cartasDe = l => (l === 'todas' ? TODAS : (MAZO.listas.find(x => x.grupo === l) || { cartas: [] }).cartas);
+      const [mazo, setMazo] = useState(barajar(cartasDe('todas')));
+      const [volteada, setVolteada] = useState(false);
+      const [pausa, setPausa] = useState(false);
+      const [recientes, setRecientes] = useState([]);
+      const [aprendidas, setAprendidas] = useState([]);
+      const [mini, setMini] = useState(null);
+      const [cuenta, setCuenta] = useState({ pendientes: TODAS.length, no: 0, si: 0 });
+
+      const reiniciar = (l = lista) => {
+        const m = barajar(cartasDe(l));
+        setMazo(m); setVolteada(false); setRecientes([]); setAprendidas([]); setMini(null);
+        setCuenta({ pendientes: m.length, no: 0, si: 0 });
+      };
+
+      const lanzarMini = (cartas, todasAprendidas) => {
+        const tipos = ['anagrama', 'ahorcado', 'faltantes'];
+        if (todasAprendidas.length > 3) tipos.push('ciertofalso');
+        const tipo = tipos[Math.floor(Math.random() * tipos.length)];
+        let datos = [];
+        if (tipo === 'anagrama') datos = cartas.map(c => {
+          let r = c.practica, n = 0;
+          while (r === c.practica && n++ < 10) r = barajar(c.practica.split('')).join('');
+          return { revuelta: r };
+        });
+        if (tipo === 'ciertofalso') datos = cartas.map(c => {
+          const otras = todasAprendidas.filter(o => o.id !== c.id);
+          const cierto = Math.random() > 0.5 || !otras.length;
+          return { esCierto: cierto, muestra: cierto ? c.es : otras[Math.floor(Math.random() * otras.length)].es };
+        });
+        setMini({ tipo, cartas, datos });
+      };
+
+      const aprendi = (e) => {
+        e.stopPropagation();
+        if (!mazo.length) return;
+        setVolteada(false);
+        setTimeout(() => {
+          const [carta, ...resto] = mazo;
+          const nuevasRecientes = [...recientes, carta];
+          const nuevasAprendidas = [...aprendidas, carta];
+          setAprendidas(nuevasAprendidas);
+          setCuenta(c => ({ ...c, si: c.si + 1, pendientes: c.pendientes - 1 }));
+          setMazo(resto);
+          if (nuevasRecientes.length >= 5 || !resto.length) { lanzarMini(nuevasRecientes, nuevasAprendidas); setRecientes([]); }
+          else setRecientes(nuevasRecientes);
+        }, 200);
+      };
+      const noAprendi = (e) => {
+        e.stopPropagation();
+        if (!mazo.length) return;
+        setVolteada(false);
+        setTimeout(() => {
+          const [carta, ...resto] = mazo;
+          setMazo([...resto, carta]); // se va al final
+          setCuenta(c => ({ ...c, no: c.no + 1 }));
+        }, 200);
+      };
+
+      if (!TODAS.length) return (
+        <div className="min-h-screen flex items-center justify-center p-6">
+          <div className="tarjeta p-8 text-center max-w-md"><p className="font-titulo text-2xl mb-2">No hay palabras</p><p className="text-suave">Revisa el link: debe traer ?kit=1 o ?semana=…</p></div>
+        </div>
+      );
+
+      if (pantalla === 'inicio') return (
+        <div className="min-h-screen flex items-center justify-center p-6">
+          <div className="tarjeta max-w-md w-full p-8 md:p-10 flex flex-col items-center text-center shadow-xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-ocre mb-4">{MAZO.nombre}</p>
+            <div className="text-7xl mb-4">🃏</div>
+            <h1 className="font-titulo text-4xl font-semibold mb-2">Vocabulario</h1>
+            <p className="text-suave mb-8">{TODAS.length} palabras · {MAZO.listas.map(l => l.grupo).join(' · ')}</p>
+            <button onClick={() => { reiniciar(); setPantalla('jugando'); }} className="w-full bg-terracota text-white font-bold py-4 rounded-xl text-lg shadow-lg active:scale-95">▶ Iniciar</button>
+          </div>
+        </div>
+      );
+
+      const carta = mazo[0];
+      return (
+        <div className="min-h-screen flex flex-col items-center p-4 md:p-8">
+          <div className="w-full max-w-4xl flex flex-col gap-4 mb-6">
+            <div className="flex justify-between items-center">
+              <div><p className="text-xs font-bold uppercase tracking-widest text-ocre">{MAZO.nombre}</p><h2 className="font-titulo text-2xl font-semibold">Flashcards</h2></div>
+              <div className="flex gap-2">
+                <button onClick={() => reiniciar()} className="px-3 py-2 bg-hoja border border-linea rounded-xl text-sm font-semibold">↺ Reiniciar</button>
+                <button onClick={() => setPausa(true)} className="px-3 py-2 bg-hoja border border-linea rounded-xl text-sm font-semibold">❚❚</button>
+              </div>
+            </div>
+            {MAZO.listas.length > 1 && (
+              <div className="flex flex-col sm:flex-row gap-3 tarjeta p-3">
+                <select value={lista} onChange={e => setLista(e.target.value)} className="flex-1 bg-white border border-linea py-2.5 px-3 rounded-xl font-medium">
+                  <option value="todas">Todas las listas ({TODAS.length})</option>
+                  {MAZO.listas.map(l => <option key={l.grupo} value={l.grupo}>{l.grupo} ({l.cartas.length})</option>)}
+                </select>
+                <button onClick={() => reiniciar(lista)} className="bg-ocre text-white font-semibold py-2.5 px-6 rounded-xl">Empezar</button>
+              </div>
+            )}
+          </div>
+
+          <div className="w-full max-w-4xl grid grid-cols-3 gap-2 md:gap-6 mb-6">
+            <div className="tarjeta p-3 text-center"><div className="text-3xl font-bold text-ocre">{cuenta.pendientes}</div><div className="text-[11px] md:text-sm text-suave uppercase tracking-wider font-semibold">Pendientes</div></div>
+            <div className="tarjeta p-3 text-center"><div className="text-3xl font-bold text-terracota">{cuenta.no}</div><div className="text-[11px] md:text-sm text-suave uppercase tracking-wider font-semibold">No aprendí</div></div>
+            <div className="tarjeta p-3 text-center"><div className="text-3xl font-bold text-olivo">{cuenta.si}</div><div className="text-[11px] md:text-sm text-suave uppercase tracking-wider font-semibold">Aprendidas</div></div>
+          </div>
+
+          {carta ? (
+            <div className="w-full max-w-4xl flex flex-col md:flex-row gap-6 items-stretch justify-center">
+              <div className="flex-1 w-full max-w-xl mx-auto h-[300px] md:h-[380px] cursor-pointer" style={{ perspective: '1200px' }} onClick={() => setVolteada(!volteada)}>
+                <div className="relative w-full h-full transition-transform duration-500" style={{ transformStyle: 'preserve-3d', transform: volteada ? 'rotateY(180deg)' : 'none' }}>
+                  <div className="absolute inset-0 tarjeta shadow-xl flex flex-col items-center justify-center p-6" style={{ backfaceVisibility: 'hidden' }}>
+                    <span className="absolute top-4 left-4 text-xs font-semibold text-suave">{carta.grupo}</span>
+                    <div className="text-6xl md:text-7xl mb-4">{carta.emoji}</div>
+                    <h3 className="font-titulo text-3xl md:text-5xl font-semibold text-center leading-tight">{carta.es}</h3>
+                    <span className="absolute bottom-4 text-suave text-sm animate-pulse">click to see the meaning</span>
+                  </div>
+                  <div className="absolute inset-0 rounded-[18px] bg-terracota text-white shadow-xl flex flex-col items-center justify-center p-6" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                    <div className="text-4xl mb-3 opacity-70">{carta.emoji}</div>
+                    <p className="text-sm uppercase tracking-widest mb-2 font-semibold opacity-80">Traducción</p>
+                    <h3 className="font-titulo text-3xl md:text-5xl font-semibold text-center leading-tight">{carta.en}</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row md:flex-col gap-3 justify-center">
+                <button onClick={aprendi} className="flex-1 md:flex-none tarjeta hover:bg-olivo-claro p-4 md:p-6 flex flex-col items-center gap-2 font-bold text-olivo">
+                  <span className="text-3xl">✓</span><span className="text-sm leading-tight text-center">I learned<br />the word</span>
+                </button>
+                <button onClick={noAprendi} className="flex-1 md:flex-none tarjeta hover:bg-terracota-claro p-4 md:p-6 flex flex-col items-center gap-2 font-bold text-terracota">
+                  <span className="text-3xl">✗</span><span className="text-sm leading-tight text-center">I didn't learn<br />the word</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="tarjeta p-10 max-w-2xl w-full text-center mt-4">
+              <div className="text-6xl mb-4">🎉</div>
+              <h2 className="font-titulo text-3xl font-semibold mb-2">¡Sesión completada!</h2>
+              <p className="text-suave mb-6">Has repasado todas las palabras de esta lista.</p>
+              <button onClick={() => reiniciar()} className="bg-terracota text-white font-bold py-3 px-8 rounded-xl">Volver a estudiar</button>
+            </div>
+          )}
+
+          {mini && <MiniJuego juego={mini} alTerminar={() => setMini(null)} />}
+
+          {pausa && (
+            <div className="fixed inset-0 bg-tinta/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+              <div className="tarjeta p-8 max-w-sm w-full text-center shadow-2xl">
+                <div className="text-4xl mb-3">❚❚</div>
+                <h3 className="font-titulo text-2xl mb-2">Estudio en pausa</h3>
+                <p className="text-suave mb-6">¿Deseas continuar estudiando o salir a la pantalla principal?</p>
+                <button onClick={() => setPausa(false)} className="w-full bg-terracota text-white font-semibold py-3 rounded-xl mb-3">Regresar al estudio</button>
+                <button onClick={() => { setPausa(false); setPantalla('inicio'); }} className="w-full bg-papel border border-linea font-semibold py-3 rounded-xl">Salir</button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+  </script>
+</body>
+</html>

@@ -16,9 +16,9 @@ window.GRUPOS = [
 
 // Mecánicas de juego. "estado" dice en qué punto está cada una.
 window.JUEGOS = [
-  { id: "uno",        nombre: "UNO",                    estado: "Migrado (falta conectar Firebase)", usa: "frases por grupo" },
+  { id: "uno",        nombre: "UNO",                    estado: "Listo (en línea con Firebase)", listo: true, usa: "frases por grupo" },
   { id: "serpientes", nombre: "Serpientes y escaleras", estado: "En Gemini, por migrar", usa: "preguntas" },
-  { id: "flashcards", nombre: "Flashcards",             estado: "En Gemini, por migrar", usa: "palabras" },
+  { id: "flashcards", nombre: "Flashcards",             estado: "Listo (lee las palabras del plan)", listo: true, usa: "palabras" },
   { id: "match",      nombre: "Match",                  estado: "En Gemini, por migrar", usa: "palabras" },
   { id: "completar",  nombre: "Completar oraciones",    estado: "En Gemini, por migrar", usa: "oraciones" },
 ];
