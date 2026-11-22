@@ -1533,7 +1533,7 @@ window.KIT_BIENVENIDA = {
   },
   parte2: {
     gramatica: ["El verbo ser con todos sus pronombres, solo afirmaciones: ser de + país y ser + profesión (soy de Canadá, soy ingeniero)"],
-    vocabulario: ["Países y nacionalidades", "Profesiones y roles"],
+    vocabulario: ["Países", "Nacionalidades", "Profesiones y roles"],
   },
   notas: [
     "Regla de la semana 1 y el kit: las frases de supervivencia se aprenden de memoria aunque su gramática se explique después (estar en la semana 7, poder en la 12, llamarse en los reflexivos).",
@@ -1701,6 +1701,11 @@ window.KIT_BIENVENIDA = {
       ],
     },
   },
+  // Práctica: cada juego lee sus palabras de los grupos de abajo (si cambia una palabra, cambia en el juego).
+  practica: [
+    { juego: "flashcards", titulo: "Flashcards: países, nacionalidades y profesiones", grupos: ["Países", "Nacionalidades", "Profesiones y roles"], listo: false,
+      dinamica: "El alumno ve 5 palabras, marca si las aprendió o no y luego hace una mini actividad para reforzarlas." },
+  ],
   palabras: [
     { grupo: "Saludos y afirmaciones", lista: [
       "Hola = Hello", "Buenos días = Good morning", "Buenas tardes = Good afternoon", "Buenas noches = Good evening / Good night",
@@ -1723,10 +1728,11 @@ window.KIT_BIENVENIDA = {
       "yo soy = I am", "tú eres = you are (informal)", "usted es = you are (formal)", "él es = he is", "ella es = she is",
       "nosotros / nosotras somos = we are", "ustedes son = you are (plural)", "ellos / ellas son = they are",
     ]},
-    { grupo: "Países y nacionalidades", lista: [
-      "Estados Unidos – estadounidense = United States – American", "Canadá – canadiense = Canada – Canadian",
-      "Reino Unido – británico / británica = United Kingdom – British", "Australia – australiano / australiana = Australia – Australian",
-      "México – mexicano / mexicana = Mexico – Mexican",
+    { grupo: "Países", lista: [
+      "Estados Unidos = United States", "Canadá = Canada", "Reino Unido = United Kingdom", "Australia = Australia", "México = Mexico",
+    ]},
+    { grupo: "Nacionalidades", lista: [
+      "estadounidense = American", "canadiense = Canadian", "británico / británica = British", "australiano / australiana = Australian", "mexicano / mexicana = Mexican",
     ]},
     { grupo: "Profesiones y roles", lista: [
       "ingeniero / ingeniera = engineer", "gerente = manager", "maestro / maestra = teacher", "médico / médica = doctor",

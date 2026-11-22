@@ -406,6 +406,7 @@
       { id: 'plan', nombre: 'Plan', ayuda: 'Qué aprende' },
       { id: 'guia', nombre: 'Guía de la sesión', ayuda: '30–45 min contigo' },
       { id: 'gramatica', nombre: 'Gramática', ayuda: 'Para la presentación' },
+      { id: 'practica', nombre: 'Práctica', ayuda: 'Juegos del kit' },
       { id: 'palabras', nombre: 'Palabras', ayuda: 'Con traducción' },
       { id: 'diagnostico', nombre: 'Diagnóstico', ayuda: 'Si ya sabe algo' },
     ];
@@ -453,6 +454,31 @@
               )}
               {pestana === 'gramatica' && <Gramatica s={KIT} clave="kit=1" />}
               {pestana === 'palabras' && <Vocabulario s={KIT} />}
+              {pestana === 'practica' && (
+                <div className="space-y-4">
+                  {(KIT.practica || []).map(j => {
+                    const grupos = (KIT.palabras || []).filter(g => j.grupos.includes(g.grupo));
+                    const total = grupos.reduce((t, g) => t + g.lista.length, 0);
+                    return (
+                      <div key={j.titulo} className="tarjeta p-5 space-y-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="text-xs font-bold uppercase tracking-wide text-terracota">{j.juego}</p>
+                          {j.listo ? <Etiqueta color="olivo">Listo</Etiqueta> : <Etiqueta color="terracota">Falta el juego</Etiqueta>}
+                        </div>
+                        <p className="font-titulo text-xl">{j.titulo}</p>
+                        <p className="text-sm text-suave">{j.dinamica}</p>
+                        <p className="text-sm"><span className="font-semibold">{total} palabras</span> de: {j.grupos.join(' · ')}. Si cambias una palabra en esas listas, cambia sola en el juego.</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {grupos.flatMap(g => g.lista).map(p => <span key={p} className="px-2.5 py-1 rounded-md bg-papel border border-linea text-sm">{separar(p).es}</span>)}
+                        </div>
+                        {j.listo
+                          ? <a href={`../juegos/${j.juego}/?kit=1`} target="_blank" className="inline-block rounded-lg bg-terracota text-white text-sm font-semibold px-4 py-2">Abrir juego</a>
+                          : <p className="text-sm italic text-suave">Pega en el chat el código del juego de Gemini para conectarlo aquí.</p>}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
               {pestana === 'diagnostico' && (
                 <div className="tarjeta overflow-hidden">
                   <div className="p-5 pb-3">
