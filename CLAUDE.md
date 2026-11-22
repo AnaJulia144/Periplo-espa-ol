@@ -154,6 +154,8 @@ _(se irá llenando)_
 - 2026-11-19: **«Se» de los accidentes** (se me olvidó, se me perdió el pasaporte) en la semana 37, parte 2. El objeto indirecto repetido (*le doy el libro a María*) pasó a la parte 1, junto con el objeto indirecto con verbos de acción.
 - 2026-11-20: **Kit revisado con Anita:** parte 1 = alfabeto y pronunciación (h muda, rr, ll/y, ñ…; Anita tiene material propio), parte 2 = ser (solo afirmaciones) + ser de + profesión. Vocabulario = las 27 frases de «Saludos y frases útiles» de la semana 1, + ser, 5 países y 6 profesiones. **Regla: en la semana 1 y el kit sí se permiten frases de supervivencia de memoria** (Me llamo…, ¿Lo puede repetir?), aunque su gramática se explique después. Diferencia kit / semana 1: el kit solo tiene afirmaciones; negación, preguntas e interrogativos van en la semana 1.
 - 2026-11-20: **Regla de idiomas (Anita):** títulos de cada parte de las semanas y de las diapositivas de las presentaciones **en español**; la explicación **en inglés**; los ejemplos **en español**. Primera explicación guardada: la pronunciación del kit (material de Anita, 8 diapositivas, `explicacion.parte1` con `formula: false`), con 4 correcciones propuestas por Claude (ejemplo de la d suave, la o, la ñ y una errata).
+- 2026-11-21: **Motor de presentaciones** (`presentacion/index.html`): `?kit=1&parte=1` o `?semana=N&parte=2` (`#3` abre la diapositiva 3). Flechas, teclado, deslizar en el celular, pantalla completa. Las explicaciones se convierten en diapositivas con `datos/diapositivas.js` (lo usan el panel y el motor). En el panel, pestaña Gramática: botones «Ver presentación» y «Copiar link». **Numeración: la portada es la diapositiva 1.** Cada diapositiva: titulo (español), traduccion (inglés, al inicio del curso), subtitulo (solo portada: gramática + vocabulario), texto (inglés; lo que va después de « → » es ejemplo en español y se resalta), ejemplos, tabla, letras. **Kit:** parte 1 «¿Cómo se deletrea?» (15 diapositivas: portada, 8 de pronunciación, 4 de frases en tabla español/inglés, alfabeto, deletreo); parte 2 «Hola. Soy…» (5: portada, el verbo ser con tabla, mayúsculas, ¿de dónde eres?, ¿a qué te dedicas?). Títulos elegidos en `titulos`; las `sugerencias` se guardan. Categoría «Profesiones y roles» (con estudiante, turista, extranjero).
+- 2026-11-21: Pruebas en celular: Edge invisible no baja de 504 px de ancho; las capturas más angostas se ven recortadas aunque la página esté bien.
 
 ## 9. Lo que le gusta a Anita (estilo, colores, tono)
 - Títulos en español, explicaciones en inglés, ejemplos en español.
@@ -204,6 +206,7 @@ _(se irá llenando)_
 - `datos/alumnos.js`: alumnos (David), grupos (Curso nuevo), lista de juegos e ideas de juegos.
 - `datos/versiones.js`: el stock de versiones de juegos (motor + contenido).
 - `datos/firebase.js`: configuración web de Firebase (pública por diseño).
+- `presentacion/index.html`: motor de presentaciones (lee `datos/curso.js` + `datos/diapositivas.js`).
 - `juegos/uno/`: motor del UNO. `juegos/originales-gemini/`: códigos originales de Gemini (no se publican).
 - `libros/`: PDFs de referencia de Anita (solo en su computadora, no se suben).
 - `abrir-sitio.cmd`: doble clic → abre el sitio en `http://localhost:8080/panel/` (usa `herramientas/servidor.ps1`).

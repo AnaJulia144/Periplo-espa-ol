@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Presentación · Periplo-español</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Colores de Anita: cálido y artesanal */
+    :root {
+      --papel: #F4ECDF; --hoja: #FBF7F0; --linea: #E0D1BB; --tinta: #3A2A1F; --suave: #7A6555;
+      --terracota: #B4532F; --terracota-claro: #F2DCCF; --ocre: #B97D22; --ocre-claro: #F5E5C4; --olivo: #5B6A36;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background-color: var(--papel);
+      background-image: radial-gradient(rgba(58,42,31,.07) 1px, transparent 1px);
+      background-size: 18px 18px;
+      color: var(--tinta);
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      display: flex; flex-direction: column;
+    }
+    header {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 20px; font-size: 14px; color: var(--suave);
+    }
+    header .marca { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 18px; color: var(--tinta); }
+    header .marca span { color: var(--terracota); }
+    header button { font: inherit; background: none; border: 1px solid var(--linea); border-radius: 8px; padding: 4px 10px; color: var(--tinta); cursor: pointer; }
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px 16px; min-height: 0; width: 100%; min-width: 0; }
+    .diapo {
+      width: 100%; max-width: 960px; max-height: 100%; overflow-y: auto; overflow-x: hidden; min-width: 0; overflow-wrap: break-word;
+      background: var(--hoja); border: 1px solid var(--linea); border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(58,42,31,.08);
+      padding: clamp(24px, 5vw, 56px);
+    }
+    .num { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ocre); margin-bottom: 8px; }
+    h1 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(28px, 4.5vw, 44px); line-height: 1.1; margin: 0; }
+    .traduccion { font-style: italic; color: var(--suave); font-size: clamp(17px, 2.2vw, 22px); margin-top: 6px; }
+    .portada { text-align: center; padding-top: clamp(40px, 10vh, 100px); padding-bottom: clamp(40px, 10vh, 100px); }
+    .portada h1 { font-size: clamp(40px, 7vw, 72px); color: var(--terracota); }
+    .portada .traduccion { font-size: clamp(20px, 3vw, 28px); }
+    .portada .subtitulo { margin: 28px auto 0; max-width: 640px; color: var(--suave); font-size: 16px; border-top: 1px dashed var(--linea); padding-top: 16px; }
+    .cuerpo { margin-top: 24px; font-size: clamp(17px, 2vw, 21px); line-height: 1.5; }
+    .cuerpo ul { margin: 0; padding-left: 1.1em; }
+    .cuerpo li { margin: 6px 0; }
+    .es { color: var(--terracota); font-weight: 700; }
+    .ejemplos { margin-top: 18px; background: var(--terracota-claro); border-radius: 12px; padding: 14px 18px; }
+    .ejemplos p { margin: 4px 0; color: var(--terracota); font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: clamp(15px, 1.8vw, 19px); }
+    th { text-align: left; background: var(--papel); padding: 8px 12px; border-bottom: 2px solid var(--linea); font-size: .85em; text-transform: uppercase; letter-spacing: .04em; color: var(--suave); }
+    td { padding: 8px 12px; border-bottom: 1px solid var(--linea); vertical-align: top; }
+    td:first-child { font-weight: 700; }
+    .tabla-scroll { overflow-x: auto; max-width: 100%; }
+    .letras { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 18px; }
+    .letras span { background: var(--papel); border: 1px solid var(--linea); border-radius: 10px; padding: 8px 10px; text-align: center; font-size: clamp(16px, 1.9vw, 20px); }
+    .letras b { font-family: Fraunces, Georgia, serif; font-size: 1.25em; color: var(--terracota); margin-right: 4px; }
+    footer { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 12px 16px 18px; }
+    footer button {
+      font: inherit; font-weight: 600; border: none; border-radius: 10px; padding: 10px 18px; cursor: pointer;
+      background: var(--terracota); color: white; min-width: 110px;
+    }
+    footer button:disabled { opacity: .35; cursor: default; }
+    .contador { color: var(--suave); font-variant-numeric: tabular-nums; min-width: 64px; text-align: center; }
+    .puntos { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; max-width: 320px; }
+    .puntos i { width: 8px; height: 8px; border-radius: 50%; background: var(--linea); cursor: pointer; }
+    .puntos i.activo { background: var(--terracota); }
+    .aviso { text-align: center; color: var(--suave); }
+    @media (max-width: 560px) {
+      footer button { min-width: 0; padding: 10px 14px; }
+      .puntos { display: none; }
+      #donde { display: none; }
+      header { padding: 10px 16px; }
+      .letras { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="marca">Periplo<span>-español</span></div>
+    <div id="donde"></div>
+    <button id="pantalla" title="Pantalla completa">⛶</button>
+  </header>
+  <main><div class="diapo" id="diapo"><p class="aviso">Cargando…</p></div></main>
+  <footer>
+    <button id="atras">← Anterior</button>
+    <div>
+      <div class="contador" id="contador"></div>
+      <div class="puntos" id="puntos"></div>
+    </div>
+    <button id="adelante">Siguiente →</button>
+  </footer>
+
+  <script src="../datos/curso.js"></script>
+  <script src="../datos/diapositivas.js"></script>
+  <script>
+    // Cómo se abre:  ?kit=1&parte=1   o   ?semana=12&parte=2   (#3 abre la diapositiva 3)
+    const params = new URLSearchParams(location.search);
+    const parte = 'parte' + (params.get('parte') || '1');
+    let fuente = null, donde = '';
+    if (params.get('kit')) { fuente = window.KIT_BIENVENIDA; donde = 'Kit de bienvenida'; }
+    else if (params.get('semana')) {
+      const n = Number(params.get('semana'));
+      fuente = (window.CURSO || []).find(s => s.n === n);
+      donde = 'Semana ' + n;
+    }
+    const diapos = fuente ? window.armarDiapositivas(fuente, parte).filter(window.diapositivaConContenido) : [];
+    document.getElementById('donde').textContent = donde ? donde + ' · Parte ' + parte.replace('parte', '') : '';
+    if (diapos[0]) document.title = diapos[0].titulo + ' · Periplo-español';
+
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    // Lo que va después de " → " es un ejemplo en español: se resalta.
+    const renglon = t => {
+      const i = t.indexOf(' → ');
+      return i < 0 ? esc(t) : esc(t.slice(0, i)) + ' → <span class="es">' + esc(t.slice(i + 3)) + '</span>';
+    };
+    const letra = l => {
+      const m = l.match(/^(\S+\s\S+)\s(.*)$/);
+      return m ? '<span><b>' + esc(m[1]) + '</b> ' + esc(m[2]) + '</span>' : '<span>' + esc(l) + '</span>';
+    };
+
+    function dibujar(d, n) {
+      const titulo = '<h1>' + esc(d.titulo || '') + '</h1>' + (d.traduccion ? '<div class="traduccion">' + esc(d.traduccion) + '</div>' : '');
+      if (d.portada) {
+        return '<div class="portada"><div class="num">' + esc(donde) + '</div>' + titulo +
+          (d.subtitulo ? '<div class="subtitulo">' + esc(d.subtitulo) + '</div>' : '') + '</div>';
+      }
+      let h = '<div class="num">Diapositiva ' + n + '</div>' + titulo + '<div class="cuerpo">';
+      if (d.texto && d.texto.length) h += '<ul>' + d.texto.map(t => '<li>' + renglon(t) + '</li>').join('') + '</ul>';
+      if (d.ejemplos && d.ejemplos.length) h += '<div class="ejemplos">' + d.ejemplos.map(t => '<p>' + esc(t) + '</p>').join('') + '</div>';
+      if (d.tabla) {
+        h += '<div class="tabla-scroll"><table><thead><tr>' + d.tabla.columnas.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead><tbody>' +
+          d.tabla.filas.map(f => '<tr>' + f.map(c => '<td>' + esc(c) + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
+      }
+      if (d.letras && d.letras.length) h += '<div class="letras">' + d.letras.map(letra).join('') + '</div>';
+      return h + '</div>';
+    }
+
+    let actual = 0;
+    function mostrar(i) {
+      if (!diapos.length) {
+        document.getElementById('diapo').innerHTML = '<p class="aviso">Esta presentación todavía no está lista.</p>';
+        document.querySelector('footer').style.display = 'none';
+        return;
+      }
+      actual = Math.max(0, Math.min(diapos.length - 1, i));
+      const caja = document.getElementById('diapo');
+      caja.innerHTML = dibujar(diapos[actual], actual + 1);
+      caja.scrollTop = 0;
+      document.getElementById('contador').textContent = (actual + 1) + ' / ' + diapos.length;
+      document.getElementById('atras').disabled = actual === 0;
+      document.getElementById('adelante').disabled = actual === diapos.length - 1;
+      document.getElementById('puntos').innerHTML = diapos.map((_, k) => '<i data-k="' + k + '" class="' + (k === actual ? 'activo' : '') + '"></i>').join('');
+      history.replaceState(null, '', '#' + (actual + 1));
+    }
+
+    document.getElementById('atras').onclick = () => mostrar(actual - 1);
+    document.getElementById('adelante').onclick = () => mostrar(actual + 1);
+    document.getElementById('puntos').onclick = e => { if (e.target.dataset.k) mostrar(Number(e.target.dataset.k)); };
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); mostrar(actual + 1); }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); mostrar(actual - 1); }
+    });
+    // Deslizar con el dedo en el celular
+    let x0 = null;
+    document.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 60) mostrar(actual + (dx < 0 ? 1 : -1));
+      x0 = null;
+    });
+    document.getElementById('pantalla').onclick = () => {
+      if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.();
+    };
+
+    mostrar((Number(location.hash.slice(1)) || 1) - 1);
+  </script>
+</body>
+</html>

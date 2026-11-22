@@ -1524,30 +1524,34 @@ window.CURSO = [
 window.KIT_BIENVENIDA = {
   titulo: "Kit de bienvenida",
   para: "Para el alumno que entra a medio mes: lo mínimo para sobrevivir su primera clase con el grupo. La semana 1 completa (con negaciones, preguntas y todo el vocabulario) la verá al final de su vuelta del mes.",
+  // Título elegido por Anita para cada parte (las ideas de abajo se guardan por si cambia de opinión).
+  titulos: { parte1: "¿Cómo se deletrea?", parte2: "Hola. Soy…" },
   sugerencias: { parte1: ["¿Cómo suena el español?", "La h no suena", "¿Cómo lo deletreas?"], parte2: ["Hola, soy…", "Soy de Canadá", "Soy ingeniero"] },
   parte1: {
     gramatica: ["El alfabeto y la pronunciación: las 5 vocales, las letras que no suenan (h; u en que, qui, gue, gui), la «s» de México (z, c, s), el sonido de «h» (j, g, x), los gemelos (b y v, ll y y), d suave, t y p sin aire, r y rr, la ñ"],
-    vocabulario: ["Saludos, presentaciones y frases para la clase", "Deletrear mi nombre"],
+    vocabulario: ["Saludos y afirmaciones", "Preguntas", "Expresiones de comunicación", "Despedidas", "El alfabeto"],
   },
   parte2: {
     gramatica: ["El verbo ser con todos sus pronombres, solo afirmaciones: ser de + país y ser + profesión (soy de Canadá, soy ingeniero)"],
-    vocabulario: ["Países y nacionalidades", "Profesiones comunes"],
+    vocabulario: ["Países y nacionalidades", "Profesiones y roles"],
   },
   notas: [
     "Regla de la semana 1 y el kit: las frases de supervivencia se aprenden de memoria aunque su gramática se explique después (estar en la semana 7, poder en la 12, llamarse en los reflexivos).",
     "Diferencia con la semana 1: el kit solo tiene afirmaciones de ser. Negaciones, preguntas cerradas e interrogativos se ven en la semana 1 con el grupo.",
-    "La explicación de la pronunciación (parte 1) es el material de Anita, en 8 diapositivas.",
+    "Las diapositivas se cuentan desde la portada (la portada es la diapositiva 1).",
     "No se enseña «vosotros»: en México se usa «ustedes».",
   ],
-  // Explicación de la gramática (pestaña "Gramática" y futura presentación).
-  // Regla de Anita: títulos en español, explicación en inglés, ejemplos en español.
+  // Explicación de la gramática = las diapositivas de la presentación.
+  // Regla de Anita: títulos en español (con traducción al inicio del curso), explicación en inglés, ejemplos en español.
+  // Cada diapositiva puede tener: titulo, traduccion, subtitulo, texto (inglés), ejemplos (español), tabla, letras.
   explicacion: {
     parte1: {
       formula: false,
-      titulo: "El alfabeto y la pronunciación",
       revisada: false,
       pasos: [
-        { titulo: "1. La base: las cinco vocales", texto: [
+        { portada: true, titulo: "¿Cómo se deletrea?", traduccion: "How do you spell it?",
+          subtitulo: "Gramática: el alfabeto y la pronunciación · Vocabulario: saludos, preguntas, expresiones y despedidas" },
+        { titulo: "La base: las cinco vocales", traduccion: "The foundation: the five vowels", texto: [
           "In English, vowels change their sound constantly. In Spanish, they are your best friends because they never change, no matter where they are in a word!",
           "A: sounds like the \"a\" in \"father\" → mande",
           "E: sounds like the \"e\" in \"let\" → bien",
@@ -1555,72 +1559,182 @@ window.KIT_BIENVENIDA = {
           "O: sounds like the \"o\" in \"more\", short and without gliding into a \"w\" → cómo",
           "U: sounds like the \"oo\" in \"moon\" → usted",
         ]},
-        { titulo: "2. Las letras que no suenan", texto: [
+        { titulo: "Las letras que no suenan", traduccion: "The silent letters", texto: [
           "H (la hache): it is always 100% silent. Never breathe out an \"h\" sound → hola",
           "U in QUE and QUI: the \"u\" is silent; it sounds like \"ke\" and \"ki\" → ¿qué?, equipaje",
           "U in GUE and GUI: the \"u\" is silent, leaving a hard \"g\" sound → juguete, guía",
         ]},
-        { titulo: "3. Los sonidos de «S» (regla del español de México)", texto: [
+        { titulo: "Los sonidos de «S»", traduccion: "The \"S\" sounds (Mexican Spanish rule)", texto: [
           "In Spain, some of these letters have a \"th\" lisp, but in Mexico they all make a crisp, simple English \"s\" sound.",
           "Z: always sounds like \"s\" → zócalo",
           "C (before E or I): sounds like \"s\" → ciudad",
           "S: sounds exactly like the English \"s\" → semana",
         ]},
-        { titulo: "4. Los sonidos de «H»", texto: [
+        { titulo: "Los sonidos de «H»", traduccion: "The \"H\" sounds", texto: [
           "J (la jota): always makes a clear English \"h\" sound, like in \"hello\". It never sounds like the English \"j\" in \"jump\" → jueves",
           "G (before E or I): softens to make that same English \"h\" sound → gente",
           "X (in some Mexican place names): sounds like an \"h\" → México, Oaxaca",
         ]},
-        { titulo: "5. Los gemelos idénticos", texto: [
+        { titulo: "Los gemelos idénticos", traduccion: "The identical twins", texto: [
           "American students often try to make these letters sound different, but in Mexico they are identical pairs!",
           "B and V: both sound like a soft English \"b\". There is no lip-biting \"v\" sound in Spanish → vaca (sounds like \"baka\"), verdad, bueno",
           "LL and Y: both sound like the English \"y\" in \"yes\" or \"yellow\" → me llamo, yo",
         ]},
-        { titulo: "6. Para quitar el acento americano", texto: [
+        { titulo: "Para quitar el acento americano", traduccion: "The American accent breakers", texto: [
           "These are the physical adjustments that help you sound less American and more native.",
           "The soft D: when \"d\" is between two vowels, it softens to sound like the \"th\" in \"the\" or \"this\" → nada, todo, cada",
           "T and P (no puff of air!): in English we puff out air when saying T and P. In Spanish there is no puff of air. Keep your tongue right behind your front teeth for the T → tú, papá",
           "Single R in the middle of a word: a quick tap of the tongue, like the soft \"dd\" in \"ladder\" → pero, caro",
           "Double RR (or a single R at the very beginning of a word): the strong, rolled trill → perro, carro, restaurante",
         ]},
-        { titulo: "7. El resto de las consonantes", texto: [
+        { titulo: "El resto de las consonantes", traduccion: "The rest of the consonants", texto: [
           "C (before A, O, U): hard \"k\" sound → caro",
           "CH: sounds like the \"ch\" in \"cheers\" → mucho",
           "CC: only before E or I, sounds like \"ks\" → dirección",
           "X (standard): usually sounds like \"ks\", just like in English → conexión",
         ]},
-        { titulo: "8. La letra Ñ", texto: [
+        { titulo: "La letra Ñ", traduccion: "The letter Ñ", texto: [
           "The Ñ (called «eñe») looks like an N wearing a little wavy hat, but it is a separate letter of the Spanish alphabet → mañana",
           "Don't let it intimidate you! Its sound is very familiar to English speakers.",
           "The shortcut: Ñ sounds like the \"ny\" in \"canyon\" or the \"ni\" in \"onion\".",
           "The technique: keep the tip of your tongue down, press the middle (flat part) of your tongue against the roof of your mouth, and let the air go through your nose.",
         ]},
+        { titulo: "Saludos y afirmaciones", traduccion: "Greetings and statements", tabla: {
+          columnas: ["Español", "English"],
+          filas: [
+            ["Hola", "Hello"], ["Buenos días", "Good morning"], ["Buenas tardes", "Good afternoon"], ["Buenas noches", "Good evening / Good night"],
+            ["Me llamo… / Mi nombre es…", "My name is…"], ["Mi apellido es…", "My last name is…"], ["Mucho gusto", "Nice to meet you"], ["Estoy bien", "I'm fine"],
+          ],
+        }},
+        { titulo: "Preguntas", traduccion: "Questions", tabla: {
+          columnas: ["Español", "English"],
+          filas: [
+            ["¿Cómo te llamas? / ¿Cuál es tu nombre?", "What's your name?"], ["¿Cómo estás?", "How are you?"], ["¿Cuál es tu apellido?", "What's your last name?"],
+            ["¿Cómo se deletrea?", "How do you spell it?"], ["¿Y tú? / ¿Y usted?", "And you? (informal / formal)"],
+            ["¿Cómo se dice ___ en español?", "How do you say ___ in Spanish?"], ["¿Qué significa ___?", "What does ___ mean?"],
+          ],
+        }},
+        { titulo: "Expresiones de comunicación", traduccion: "Communication expressions", tabla: {
+          columnas: ["Español", "English"],
+          filas: [
+            ["¿Lo puede repetir, por favor?", "Can you repeat that, please?"], ["Más despacio, por favor", "Slower, please"], ["Un momento, por favor", "One moment, please"],
+            ["Perdón", "Sorry / Excuse me"], ["Gracias", "Thank you"], ["¿Mande?", "Pardon? / Yes? (polite, Mexico)"],
+          ],
+        }},
+        { titulo: "Despedidas", traduccion: "Goodbyes", tabla: {
+          columnas: ["Español", "English"],
+          filas: [
+            ["Hasta luego", "See you later"], ["Hasta mañana", "See you tomorrow"], ["Adiós", "Goodbye"],
+            ["Nos vemos", "See you"], ["Nos vemos luego", "See you later"], ["Tengo que irme", "I have to go"],
+          ],
+        }},
+        { titulo: "El alfabeto", traduccion: "The alphabet", letras: [
+          "A a (a)", "B b (be)", "C c (ce)", "D d (de)", "E e (e)", "F f (efe)", "G g (ge)", "H h (hache)", "I i (i)",
+          "J j (jota)", "K k (ka)", "L l (ele)", "M m (eme)", "N n (ene)", "Ñ ñ (eñe)", "O o (o)", "P p (pe)", "Q q (cu)",
+          "R r (erre)", "S s (ese)", "T t (te)", "U u (u)", "V v (ve / uve)", "W w (doble ve)", "X x (equis)", "Y y (ye / i griega)", "Z z (zeta)",
+        ], texto: ["In Mexico, people often say «ve chica» for V and «be grande» for B, so nobody gets confused."] },
+        { titulo: "¿Cómo se deletrea…?", traduccion: "How do you spell…?", texto: [
+          "To spell a word, say the name of each letter. For a letter with an accent mark, add «con acento».",
+        ], ejemplos: [
+          "hola → hache - o - ele - a",
+          "gracias → ge - erre - a - ce - i - a - ese",
+          "perdón → pe - e - erre - de - o con acento - ene",
+          "por favor → pe - o - erre / efe - a - ve - o - erre",
+          "mande → eme - a - ene - de - e",
+        ]},
+      ],
+    },
+    parte2: {
+      formula: false,
+      revisada: false,
+      pasos: [
+        { portada: true, titulo: "Hola. Soy…", traduccion: "Hi. I am…",
+          subtitulo: "Gramática: el verbo ser · Vocabulario: países, nacionalidades, profesiones y roles" },
+        { titulo: "El verbo ser", traduccion: "The verb \"to be\"", texto: [
+          "«Ser» means \"to be\". We use it to say who we are: our name, where we are from, our nationality and our job.",
+          "It is irregular: each person has its own form, so learn them by heart!",
+          "Tip: in Spanish we often drop the pronoun. «Soy Emma» means the same as «Yo soy Emma».",
+        ], tabla: {
+          columnas: ["Pronombre", "Verbo", "Sustantivo (Noun)"],
+          filas: [
+            ["Yo (I)", "soy (am)", "Emma."],
+            ["Tú (You)", "eres (are)", "extranjero."],
+            ["Él (He) / Ella (She) / Usted (You, formal)", "es (is)", "de Canadá (from Canada)."],
+            ["Nosotros (We, for males or mixed groups) / Nosotras (We, feminine)", "somos (are)", "estadounidenses."],
+            ["Ellos (They, for males or mixed groups) / Ellas (They, feminine) / Ustedes (You, plural and formal)", "son (are)", "turistas."],
+          ],
+        }},
+        { titulo: "Reglas de ortografía", traduccion: "Spelling rules", texto: [
+          "In Spanish, the rules for capital letters are different from English.",
+          "ALWAYS use capital letters for:",
+          "Names and last names → Juan Pérez, Sofía Ramírez",
+          "Countries and cities → México, Monterrey, Cancún",
+          "Companies and brands → Aeroméxico, Toyota",
+          "The first word of any sentence.",
+          "Unlike English, these words always start with a lowercase letter in Spanish:",
+          "Languages and nationalities → inglés (English), español (Spanish), mexicano (Mexican)",
+          "Days and months → lunes (Monday), martes (Tuesday), enero (January)",
+          "Job titles → gerente (manager), director (director)",
+        ]},
+        { titulo: "¿De dónde eres?", traduccion: "Where are you from?", texto: [
+          "To ask someone where they are from, use «¿De dónde eres?» (informal) or «¿De dónde es usted?» (formal).",
+          "To answer, use «soy de» + country, or «soy» + nationality.",
+        ], ejemplos: [
+          "— ¿De dónde eres?",
+          "— Soy de Canadá. Soy canadiense.",
+          "— ¿De dónde es usted?",
+          "— Soy de Estados Unidos. Soy estadounidense.",
+        ]},
+        { titulo: "¿A qué te dedicas?", traduccion: "What do you do?", texto: [
+          "How to ask someone about their job: when we want to open a conversation, we use these common questions.",
+          "¿A qué te dedicas? — What it means: \"What do you dedicate yourself to?\" / \"What do you do for a living?\"",
+          "Structure: ¿A qué + te / se + dedicas / dedica?",
+          "¿Cuál es tu ocupación / profesión? — What it means: \"What is your occupation / profession?\"",
+          "Structure: ¿Cuál es + possessive word + ocupación / profesión?",
+          "How to answer both: use the structure from slide 2 (El verbo ser): «Soy» + profession.",
+        ], ejemplos: [
+          "— ¿A qué te dedicas?",
+          "— Soy maestra.",
+          "— ¿Cuál es su profesión?",
+          "— Soy ingeniero.",
+        ]},
       ],
     },
   },
   palabras: [
-    { grupo: "Saludos y frases útiles", lista: [
+    { grupo: "Saludos y afirmaciones", lista: [
       "Hola = Hello", "Buenos días = Good morning", "Buenas tardes = Good afternoon", "Buenas noches = Good evening / Good night",
       "Me llamo… / Mi nombre es… = My name is…", "Mi apellido es… = My last name is…", "Mucho gusto = Nice to meet you", "Estoy bien = I'm fine",
+    ]},
+    { grupo: "Preguntas", lista: [
       "¿Cómo te llamas? / ¿Cuál es tu nombre? = What's your name?", "¿Cómo estás? = How are you?", "¿Cuál es tu apellido? = What's your last name?",
-      "¿Cómo lo deletreas? = How do you spell it?", "¿Y tú? / ¿Y usted? = And you?", "¿Cómo se dice ___ en español? = How do you say ___ in Spanish?",
-      "¿Qué significa ___? = What does ___ mean?", "¿Lo puede repetir, por favor? = Can you repeat that, please?", "Más despacio, por favor = Slower, please",
-      "Un momento, por favor = One moment, please", "Perdón = Sorry / Excuse me", "Gracias = Thank you", "Mande = Pardon? / Yes? (polite, Mexico)",
-      "Hasta luego = See you later", "Hasta mañana = See you tomorrow", "Adiós = Goodbye", "Nos vemos = See you", "Nos vemos luego = See you later",
-      "Tengo que irme = I have to go",
+      "¿Cómo se deletrea? = How do you spell it?", "¿Y tú? / ¿Y usted? = And you?", "¿Cómo se dice ___ en español? = How do you say ___ in Spanish?",
+      "¿Qué significa ___? = What does ___ mean?",
+    ]},
+    { grupo: "Expresiones de comunicación", lista: [
+      "¿Lo puede repetir, por favor? = Can you repeat that, please?", "Más despacio, por favor = Slower, please", "Un momento, por favor = One moment, please",
+      "Perdón = Sorry / Excuse me", "Gracias = Thank you", "Mande = Pardon? / Yes? (polite, Mexico)",
+    ]},
+    { grupo: "Despedidas", lista: [
+      "Hasta luego = See you later", "Hasta mañana = See you tomorrow", "Adiós = Goodbye", "Nos vemos = See you",
+      "Nos vemos luego = See you later", "Tengo que irme = I have to go",
     ]},
     { grupo: "El verbo ser", lista: [
       "yo soy = I am", "tú eres = you are (informal)", "usted es = you are (formal)", "él es = he is", "ella es = she is",
       "nosotros / nosotras somos = we are", "ustedes son = you are (plural)", "ellos / ellas son = they are",
     ]},
     { grupo: "Países y nacionalidades", lista: [
-      "Estados Unidos = United States", "estadounidense = American", "Canadá = Canada", "canadiense = Canadian",
-      "Reino Unido = United Kingdom", "británico / británica = British", "Australia = Australia", "australiano / australiana = Australian",
-      "México = Mexico", "mexicano / mexicana = Mexican", "¿De dónde eres? = Where are you from?", "Soy de… = I'm from…",
+      "Estados Unidos – estadounidense = United States – American", "Canadá – canadiense = Canada – Canadian",
+      "Reino Unido – británico / británica = United Kingdom – British", "Australia – australiano / australiana = Australia – Australian",
+      "México – mexicano / mexicana = Mexico – Mexican",
     ]},
-    { grupo: "Profesiones comunes", lista: [
+    { grupo: "Profesiones y roles", lista: [
       "ingeniero / ingeniera = engineer", "gerente = manager", "maestro / maestra = teacher", "médico / médica = doctor",
-      "abogado / abogada = lawyer", "vendedor / vendedora = salesperson", "¿A qué te dedicas? = What do you do?",
+      "abogado / abogada = lawyer", "vendedor / vendedora = salesperson", "estudiante = student", "turista = tourist", "extranjero / extranjera = foreigner",
+    ]},
+    { grupo: "Preguntas para presentarse", lista: [
+      "¿De dónde eres? / ¿De dónde es usted? = Where are you from?", "Soy de… = I'm from…",
+      "¿A qué te dedicas? / ¿A qué se dedica? = What do you do?", "¿Cuál es tu profesión? = What is your profession?",
     ]},
   ],
   // Guía para la sesión individual (30–45 min). Inicio → Desarrollo → Cierre.
@@ -1630,16 +1744,15 @@ window.KIT_BIENVENIDA = {
       "Conocer al alumno (en inglés si hace falta): ¿Para qué estudias español? ¿Viajas por trabajo o por turismo? ¿A qué ciudades de México vas? ¿Has estudiado español antes? ¿Cómo te gusta aprender: leyendo, hablando o escuchando?",
     ]},
     { momento: "Desarrollo", minutos: 25, pasos: [
-      "Pronunciación: las 5 vocales y los sonidos que más cuestan al angloparlante (h muda, r y rr, ll / y, ñ, j).",
-      "El alfabeto: deletrear su nombre y su apellido (¿Cómo lo deletreas?).",
-      "Frases útiles: saludar, decir su nombre, pedir que repitan, despedirse.",
-      "El verbo ser con todos los pronombres, solo afirmaciones; tú y usted (en México, en hoteles y oficinas se usa usted).",
-      "Soy de… / soy + nacionalidad / soy + profesión.",
+      "Presentación de la parte 1 (¿Cómo se deletrea?): pronunciación, frases útiles y el alfabeto.",
+      "Deletrear su nombre y su apellido.",
+      "Presentación de la parte 2 (Hola. Soy…): el verbo ser, mayúsculas, ¿de dónde eres? y ¿a qué te dedicas?",
+      "Tú y usted (en México, en hoteles y oficinas se usa usted).",
     ]},
     { momento: "Cierre", minutos: 10, pasos: [
       "Mini conversación: «Hola, me llamo… Soy de… Soy ingeniero. Mucho gusto».",
       "Explicarle el ciclo: en qué semana entra, que el orden del mes no importa y que verá la semana 1 completa al final de su vuelta.",
-      "Darle el link a sus juegos y presentaciones (cuando esté el portal).",
+      "Darle el link de las dos presentaciones para que las repase.",
     ]},
   ],
   // Si el alumno ya sabe algo de español: preguntas para saber en qué nivel entra.
